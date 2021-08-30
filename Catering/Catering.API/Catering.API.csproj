@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Catering.BLL\Catering.BLL.csproj" />
+    <ProjectReference Include="..\Catering.Common\Catering.Common.csproj" />
+    <ProjectReference Include="..\Catering.DAL\Catering.DAL.csproj" />
+  </ItemGroup>
+
+</Project>
