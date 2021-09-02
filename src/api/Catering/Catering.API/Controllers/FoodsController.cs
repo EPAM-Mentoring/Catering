@@ -2,6 +2,7 @@
 using Catering.API.Dtos;
 using Catering.BLL.Interfaces;
 using Catering.DAL.Entities.FoodShops;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -39,6 +40,7 @@ namespace Catering.API.Controllers
         }
 
         [HttpPost]
+        [Authorize("Admin")]
         public async Task<ActionResult<FoodDto>> CreateFood(int shopId, FoodCreateDto createDto)
         {
             var foodEntity =  _mapper.Map<Food>(createDto);
@@ -50,6 +52,7 @@ namespace Catering.API.Controllers
         
 
         [HttpPut("{foodId}")]
+        [Authorize("Admin")]
         public async Task<IActionResult> UpdateFood(int foodId, FoodCreateDto createDto)
         {
             var food = await _service.GetFood(foodId);
@@ -60,6 +63,7 @@ namespace Catering.API.Controllers
         }
 
         [HttpDelete("{foodId}")]
+        [Authorize("Admin")]
         public async Task<ActionResult> DeleteFood(int foodId)
         {
             var food = await _service.GetFood(foodId);

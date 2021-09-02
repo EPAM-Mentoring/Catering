@@ -1,7 +1,7 @@
 ﻿using Catering.BLL.Interfaces;
 using Catering.DAL;
 using Catering.DAL.DbContexts;
-using Catering.DAL.Entities.FoodShop;
+using Catering.DAL.Entities.FoodShops;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Catering.API.Dtos;
-using Catering.DAL.Entities.Restaurant;
+using Catering.DAL.Entities.Restaurnt;
 using System;
 using System.Collections.Generic;
 using System.Linq;

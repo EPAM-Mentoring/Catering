@@ -4,6 +4,7 @@ using Catering.API.Integrations;
 using Catering.BLL.Contracts.Payment;
 using Catering.BLL.Interfaces;
 using Catering.DAL.Entities.Order;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace Catering.API.Controllers
 {
     [ApiController]
     [Route("api/orders")]
+    [Authorize]
     public class OrdersController : ControllerBase
     {
         private readonly IOrderService _service;

@@ -2,6 +2,7 @@
 using Catering.API.Dtos;
 using Catering.BLL.Interfaces;
 using Catering.DAL.Entities.Restaurnt;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -45,6 +46,7 @@ namespace Catering.API.Controllers
         }
 
         [HttpPost]
+        [Authorize("Admin")]
         public async Task<ActionResult<RestaurantDto>> CreateRestaurant(RestaurantCreateDto createDto)
         {
             var restEntity = _mapper.Map<Restaurant>(createDto);
@@ -56,6 +58,7 @@ namespace Catering.API.Controllers
         }
 
         [HttpDelete("{restaurantId}")]
+        [Authorize("Admin")]
         public async Task<IActionResult> DeleteRestaurant(int restaurantId)
         {
             var restFromRepo = await _service.GetRestaurant(restaurantId);

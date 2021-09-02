@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using Catering.API.Dtos;
 using Catering.BLL.Interfaces;
-using Catering.DAL.Entities.FoodShop;
+using Catering.DAL.Entities.FoodShops;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -45,6 +46,7 @@ namespace Catering.API.Controllers
         }
 
         [HttpPost]
+        [Authorize("Admin")]
         public async Task<ActionResult<FoodShopDto>> CreateFoodShop(FoodShopCreateDto createDto)
         {
             var shopEntity = _mapper.Map<FoodShop>(createDto);
@@ -55,6 +57,7 @@ namespace Catering.API.Controllers
         }
 
         [HttpDelete("{shopId}")]
+        [Authorize("Admin")]
         public async Task<IActionResult> DeleteFoodShop(int shopId)
         {
             var shopFromRepo = await _service.GetFoodShop(shopId);

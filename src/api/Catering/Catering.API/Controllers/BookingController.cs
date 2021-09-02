@@ -3,6 +3,7 @@ using Catering.API.Dtos;
 using Catering.BLL.Contracts.Booking;
 using Catering.BLL.Interfaces;
 using Catering.DAL.Entities.Bookings;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,7 @@ namespace Catering.API.Controllers
             return Ok(_mapper.Map<Booking>(bookingEntity));
         }
 
+        [Authorize]
         [HttpPost("createBooking")]
         public IActionResult CreateBooking([FromBody] BookingDto bookingDto)
         {
