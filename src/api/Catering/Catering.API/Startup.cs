@@ -1,9 +1,12 @@
 using AutoMapper;
+using Catering.API.Configuration;
 using Catering.API.Extensions;
 using Catering.API.Integrations;
 using Catering.API.Settings;
 using Catering.BLL.Interfaces;
+using Catering.BLL.Options;
 using Catering.BLL.Services;
+using Catering.Common.WebClient;
 using Catering.DAL.DbContexts;
 using Catering.DAL.Entities.Auth;
 using Microsoft.AspNetCore.Builder;
@@ -40,11 +43,16 @@ namespace Catering.API
             var jwtSettings = Configuration.GetSection("Jwt").Get<JwtSettings>();
 
             services.AddControllers();
-
-            var dataAssemblyName = typeof(CateringDbContext).Assembly.GetName().Name;
-            services.AddDbContext<CateringDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("Default"), x => x.MigrationsAssembly(dataAssemblyName)));
             
+            services.AddDbContext<CateringDbContext>(options => 
+                   options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddHttpClient();
+            services.AddScoped<IWebApiClient, WebApiClient>();
+            services.ResolveDependencies();
+            services.Configure<PaymentServiceOptions>(Configuration.GetSection(PaymentServiceOptions.Section));
+            services.Configure<ReserveServiceOptions>(Configuration.GetSection(ReserveServiceOptions.Section));
+            services.AddAutoMapper(typeof(Startup));
             services.AddIdentity<User, Role>(options =>
             {
                 options.Password.RequiredLength = 8;
@@ -56,7 +64,6 @@ namespace Catering.API
               .AddEntityFrameworkStores<CateringDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddApplicationServices();
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "Catering", Version = "v1" });
@@ -88,8 +95,8 @@ namespace Catering.API
                 options.AddSecurityRequirement(security);
             });
 
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddAuth(jwtSettings);
+
             services.AddCors(opt =>
             {
                 opt.AddPolicy("CorsPolicy", policy =>
@@ -97,6 +104,7 @@ namespace Catering.API
                     policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
                 });
             });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

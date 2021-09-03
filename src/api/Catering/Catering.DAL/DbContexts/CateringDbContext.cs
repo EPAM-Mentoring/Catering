@@ -1,4 +1,5 @@
-﻿using Catering.DAL.Entities.Auth;
+﻿using Catering.DAL.Configuration;
+using Catering.DAL.Entities.Auth;
 using Catering.DAL.Entities.Bookings;
 using Catering.DAL.Entities.Buildings;
 using Catering.DAL.Entities.FoodShops;
@@ -32,6 +33,12 @@ namespace Catering.DAL.DbContexts
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.ApplyConfiguration(new RestaurantConfiguration());
+            builder.ApplyConfiguration(new FoodShopConfiguration());
+            builder.ApplyConfiguration(new MealConfiguration());
+            builder.ApplyConfiguration(new FoodConfiguration());
+            builder.ApplyConfiguration(new BuildingConfiguration());
         }
     }
 }

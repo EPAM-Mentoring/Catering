@@ -29,11 +29,11 @@ namespace Catering.API.Controllers
             return Ok(_mapper.Map<IEnumerable<BuildingDto>>(buildings));
         }
 
-        public async Task<ActionResult<bool>> GetStatusBuilding(int buildingid)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int buildingId)
         {
-            var result = await _service.GetStatus(buildingId);
-            return Ok(result);
+            var building = await _service.GetById(buildingId);
+            return Ok(_mapper.Map<BuildingDto>(building));
         }
-        
     }
 }

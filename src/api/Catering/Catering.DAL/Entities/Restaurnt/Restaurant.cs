@@ -11,8 +11,10 @@ namespace Catering.DAL.Entities.Restaurnt
     {
         public string Name { get; set; }
 
-        public ICollection<Meal> Foods { get; set; }
+        public ICollection<Meal> Meals { get; set; }
              = new List<Meal>();
+        
+        public string PictureUrl { get; set; }
 
         public DateTimeOffset OpenTime { get; set; }
 

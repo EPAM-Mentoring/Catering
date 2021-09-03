@@ -8,6 +8,6 @@ namespace Catering.BLL.Contracts.Reserve
 {
     public class ReserveResponse
     {
-
+        public bool IsAllowed { get; set; }
     }
 }

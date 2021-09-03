@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="config\" />
+    <ProjectReference Include="..\Catering.Common\Catering.Common.csproj" />
   </ItemGroup>
 
 </Project>

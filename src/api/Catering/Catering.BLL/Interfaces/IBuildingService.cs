@@ -9,10 +9,8 @@ namespace Catering.BLL.Interfaces
 {
     public interface IBuildingService
     {
-        public Task CreateReserve(ReserveRequest reserveRequest);
-
         public Task<ReserveResponse> GetFreeBuildings();
 
-        public Task GetStatus(int buildingId);
+        public Task<ReserveResponse> GetById(int buildingId);
     }
 }

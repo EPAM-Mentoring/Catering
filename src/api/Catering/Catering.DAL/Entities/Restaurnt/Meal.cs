@@ -10,6 +10,8 @@ namespace Catering.DAL.Entities.Restaurnt
 
         public decimal Price { get; set; }
 
+        public string PictureUrl { get; set; }
+
         public Restaurant Restaurant { get; set; }
         public int RestaurantId { get; set; }
     }

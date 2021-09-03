@@ -25,12 +25,6 @@ namespace Catering.BLL.Services
 			_serviceOptions = serviceOptions.Value;
 		}
 
-		public async Task CreateReserve(ReserveRequest reserveRequest)
-        {
-			var uri = new Uri(new Uri(_serviceOptions.Url), _serviceOptions.Action);
-			await _webApiClient.DoRequest(HttpMethod.Post, reserveRequest, uri);
-        }
-
 		public async Task<ReserveResponse> GetFreeBuildings()
 		{
 			var uri = new Uri(new Uri(_serviceOptions.Url), _serviceOptions.Action);
@@ -38,9 +32,12 @@ namespace Catering.BLL.Services
 			return freeBuilds;
 		}
 
-        public async Task GetStatus(int buildingId)
-        {
-            
-        }
-    }
+		public async Task<ReserveResponse> GetById(int buildingId)
+		{
+			var myValue = new ReserveRequest() { BuildingId = buildingId };
+			var uri = new Uri(new Uri(_serviceOptions.Url), _serviceOptions.Action);
+			var build = await _webApiClient.DoRequest<ReserveRequest, ReserveResponse>(HttpMethod.Get, myValue, uri);
+			return build;
+		}
+	}
 }
