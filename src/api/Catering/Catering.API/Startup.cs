@@ -41,7 +41,7 @@ namespace Catering.API
         {
             services.Configure<JwtSettings>(Configuration.GetSection("Jwt"));
             var jwtSettings = Configuration.GetSection("Jwt").Get<JwtSettings>();
-
+            
             services.AddControllers();
             
             services.AddDbContext<CateringDbContext>(options => 
@@ -135,8 +135,8 @@ namespace Catering.API
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.RoutePrefix = "";
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Catering V1");
+                c.RoutePrefix = "swagger";
+                c.SwaggerEndpoint("/swagger/v1/swagger.html", "Catering V1");
             });
         }
     }

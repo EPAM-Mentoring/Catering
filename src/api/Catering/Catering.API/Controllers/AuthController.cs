@@ -4,6 +4,7 @@ using Catering.API.Settings;
 using Catering.DAL.Entities.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -20,16 +21,17 @@ namespace Catering.API.Controllers
     public class AuthController : ControllerBase
     {
         private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
         private readonly RoleManager<Role> _roleManager;
         private readonly JwtSettings _jwtSettings;
         private readonly IMapper _mapper;
 
-        public AuthController(IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager)
+        public AuthController(IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager,
+            RoleManager<Role> roleManager, IOptionsSnapshot<JwtSettings> jwtSettings)
         {
-            _signInManager = signInManager;
+            _jwtSettings = jwtSettings.Value ?? throw new ArgumentException(nameof(jwtSettings));
+            _roleManager = roleManager ?? throw new ArgumentNullException(nameof(roleManager));
             _mapper = mapper;
-            _userManager = userManager;
+            _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         }
 
         [HttpPost("signup")]
