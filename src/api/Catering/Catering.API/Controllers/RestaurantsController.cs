@@ -24,7 +24,7 @@ namespace Catering.API.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
+        [HttpGet("getAll")]
         public async Task<ActionResult<IEnumerable<RestaurantDto>>> GetRestaurants()
         {
             var restaurantsFromRepo = await _service.GetRestaurants();
@@ -32,7 +32,7 @@ namespace Catering.API.Controllers
             return Ok(_mapper.Map<RestaurantDto>(restaurantsFromRepo));
         }
 
-        [HttpGet("{restaurantId}", Name = "GetRestaurant")]
+        [HttpGet("{id}", Name = "GetRestaurant")]
         public async Task<IActionResult> GetRestaurant(int restaurantId)
         {
             var restFromRepo = await  _service.GetRestaurant(restaurantId);
@@ -45,7 +45,7 @@ namespace Catering.API.Controllers
             return Ok(_mapper.Map<RestaurantDto>(restFromRepo));
         }
 
-        [HttpPost]
+        [HttpPost("create")]
         [Authorize("Admin")]
         public async Task<ActionResult<RestaurantDto>> CreateRestaurant(RestaurantCreateDto createDto)
         {
@@ -57,7 +57,7 @@ namespace Catering.API.Controllers
             return CreatedAtRoute("GetRestaurant", new { restaurantId = toReturn.Id }, toReturn);
         }
 
-        [HttpDelete("{restaurantId}")]
+        [HttpDelete("{id}")]
         [Authorize("Admin")]
         public async Task<IActionResult> DeleteRestaurant(int restaurantId)
         {

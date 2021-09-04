@@ -8,8 +8,6 @@ namespace Catering.API.Dtos
     public class FoodShopCreateDto
     {
         public string Name { get; set; }
-
-        public ICollection<FoodCreateDto> Foods { get; set; }
-            = new List<FoodCreateDto>();
+        public string PictureUrl { get; set; } 
     }
 }

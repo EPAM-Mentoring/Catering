@@ -24,7 +24,7 @@ namespace Catering.API.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
+        [HttpGet("getAll")]
         public async Task<ActionResult<IEnumerable<MealDto>>> GetMeals()
         {
             var meals = await _service.GetMeals();
@@ -32,7 +32,7 @@ namespace Catering.API.Controllers
             return Ok(_mapper.Map<IEnumerable<MealDto>>(meals));
         }
 
-        [HttpGet("{mealId}", Name = "GetMeal")]
+        [HttpGet("{id}", Name = "GetMeal")]
         public async Task<ActionResult<MealDto>> GetMeal(int mealId)
         {
             var meal = await _service.GetMeal(mealId);
@@ -44,7 +44,7 @@ namespace Catering.API.Controllers
             return Ok(_mapper.Map<MealDto>(meal));
         }
 
-        [HttpPost]
+        [HttpPost("create")]
         [Authorize("Admin")]
         public async Task<ActionResult<MealDto>> CreateMeal(int restaurantId, MealCreateDto createDto)
         {
@@ -56,7 +56,7 @@ namespace Catering.API.Controllers
 
         }
 
-        [HttpPut("{mealId}")]
+        [HttpPut("{id}")]
         [Authorize("Admin")]
         public async Task<IActionResult> UpdateMeal(int mealId, MealCreateDto createDto)
         {
@@ -69,7 +69,7 @@ namespace Catering.API.Controllers
             return Ok();
         }
 
-        [HttpDelete("{mealId}")]
+        [HttpDelete("{id}")]
         [Authorize("Admin")]
         public async Task<IActionResult> DeleteMeal(int mealId)
         {

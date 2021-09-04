@@ -25,7 +25,7 @@ namespace Catering.API.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("{bookId}", Name = "GetBooking")]
+        [HttpGet("{id}", Name = "GetBooking")]
         public async Task<IActionResult> GetBooking(int bookingId)
         {
             var bookingEntity = await _service.GetAsync(bookingId);
@@ -34,7 +34,7 @@ namespace Catering.API.Controllers
         }
 
         [Authorize]
-        [HttpPost("createBooking")]
+        [HttpPost("")]
         public IActionResult CreateBooking([FromBody] BookingDto bookingDto)
         {
             var bookingEntity = _mapper.Map<Booking>(bookingDto);

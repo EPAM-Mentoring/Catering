@@ -14,6 +14,5 @@ namespace Catering.DAL.Entities.FoodShops
 
         public FoodShop FoodShop { get; set; }
         public int FoodShopId { get; set; }
-
     }
 }

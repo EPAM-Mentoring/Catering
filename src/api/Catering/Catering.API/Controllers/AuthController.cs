@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 namespace Catering.API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/auth")]
     public class AuthController : ControllerBase
     {
         private readonly UserManager<User> _userManager;
@@ -34,7 +34,7 @@ namespace Catering.API.Controllers
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         }
 
-        [HttpPost("signup")]
+        [HttpPost("signUp")]
         public async Task<IActionResult> Signup(UserDto userDto)
         {
             var user = _mapper.Map<UserDto, User>(userDto);
@@ -48,7 +48,7 @@ namespace Catering.API.Controllers
             return Problem(userCreateResult.Errors.First().Description, null, 50);
         }
 
-        [HttpPost("signin")]
+        [HttpPost("signIn")]
         public async Task<IActionResult> SignIn(LoginDto loginDto)
         {
             var user = _userManager.Users.SingleOrDefault(user => user.UserName == loginDto.Email);
@@ -68,7 +68,7 @@ namespace Catering.API.Controllers
             return Ok(GenerateJwt(user, roles));
         }
 
-        [HttpPost("Roles")]
+        [HttpPost("roles")]
         public async Task<IActionResult> CreateRole(string roleName)
         {
             if (string.IsNullOrWhiteSpace(roleName))
@@ -91,7 +91,7 @@ namespace Catering.API.Controllers
             return Problem(roleResult.Errors.First().Description, null, 500);
         }
 
-        [HttpPost("User/{userEmail}/Role")]
+        [HttpPost("user/{userEmail}/role")]
         public async Task<IActionResult> AddUserToRole(string userEmail, [FromBody] string roleName)
         {
             var user = _userManager.Users.SingleOrDefault(u => u.UserName == userEmail);

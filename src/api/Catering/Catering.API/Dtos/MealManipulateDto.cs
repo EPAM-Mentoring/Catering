@@ -18,5 +18,8 @@ namespace Catering.API.Dtos
 
         [Required]
         public decimal Price { get; set; }
+
+        [Required]
+        public string PictureUrl { get; set; }
     }
 }
