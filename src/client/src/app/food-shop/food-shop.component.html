@@ -1,0 +1,9 @@
+<div class="container">
+  <div class="row">
+       <div class="row">
+          <div class="col-4 mb-4" *ngFor="let item of foodShops">
+           <app-food-shop-item  [foodShop]="item"></app-food-shop-item>
+          </div>
+        </div> 
+  </div>
+</div>
