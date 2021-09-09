@@ -9,8 +9,7 @@ import { FoodShopService } from './food-shop.service';
 })
 
 export class FoodShopComponent implements OnInit {
-  foodShops!: IFoodShop[];
-
+  foodShops !: IFoodShop[];
   constructor(private foodShopService: FoodShopService) { }
 
   ngOnInit() {
