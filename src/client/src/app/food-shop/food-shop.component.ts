@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { IFoodShop } from '../shared/models/foodShop';
 import { FoodShopService } from './food-shop.service';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-food-shop',
@@ -9,19 +11,24 @@ import { FoodShopService } from './food-shop.service';
 })
 
 export class FoodShopComponent implements OnInit {
-  foodShops !: IFoodShop[];
-  constructor(private foodShopService: FoodShopService) { }
+  foodShop!: Array<IFoodShop>;
+
+  constructor(private foodShopService: FoodShopService, private router: Router) { }
 
   ngOnInit() {
     this.getFoodShops();
   }
-
+  
   getFoodShops() {
-     this.foodShopService.getFoodShops().subscribe((response: any) => {
-      this.foodShops = response.data;
-    }), (error: any)=> {
-      console.log(error);
-    }
+    this.foodShopService.getFoodShops().subscribe(foodShops => {
+      this.foodShop = foodShops;
+      console.log(this.foodShop);
+    })
   }
   
+  deleteFoodShopById(id:number) {
+    this.foodShopService.deleteFoodShopById(id).subscribe(res => {
+      this.getFoodShops();
+    })
+  }
 }

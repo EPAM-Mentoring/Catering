@@ -3,15 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FoodShopComponent } from './food-shop.component';
 import { FoodShopItemComponent } from './food-shop-item/food-shop-item.component';
 import { SharedModule } from '../shared/shared.module';
-import { FoodComponent } from './food/food.component';
-
 
 
 @NgModule({
   declarations: [
     FoodShopComponent,
-    FoodShopItemComponent,
-    FoodComponent
+    FoodShopItemComponent
   ],
   imports: [
     CommonModule,

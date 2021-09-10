@@ -9,11 +9,16 @@ import { CoreModule } from './core/core.module';
 import { FoodShopModule } from './food-shop/food-shop.module';
 import { FoodComponent } from './food/food.component';
 import { HomeModule } from './home/home.module';
+import { RestaurantComponent } from './restaurant/restaurant.component';
+import { RestaurantItemComponent } from './restaurant/restaurant-item/restaurant-item.component';
+import { RestaurantModule } from './restaurant/restaurant.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    FoodComponent
+    FoodComponent,
+    RestaurantComponent,
+    RestaurantItemComponent
   ],
   imports: [
     BrowserModule,
@@ -22,7 +27,8 @@ import { HomeModule } from './home/home.module';
     HttpClientModule,
     CoreModule,
     FoodShopModule,
-    HomeModule
+    HomeModule,
+    RestaurantModule
   ],
   providers: [],
   bootstrap: [AppComponent]

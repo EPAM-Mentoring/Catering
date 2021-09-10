@@ -2,10 +2,10 @@
   <div class="row">
      <section class="col-12">
        <div class="row">
-          <div class="col-4 mb-4" *ngFor="let foodShop of foodShop">
-           <app-food-shop-item  [foodShop]="foodShop"></app-food-shop-item>
+          <div class="col-4 mb-4" *ngFor="let item of restaurant">
+           <app-restaurant-item [restaurant]="item"></app-restaurant-item> 
           </div>
         </div> 
       </section>
   </div>
-</div>    
+</div> 
