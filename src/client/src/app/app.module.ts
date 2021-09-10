@@ -10,15 +10,12 @@ import { FoodShopModule } from './food-shop/food-shop.module';
 import { FoodComponent } from './food/food.component';
 import { HomeModule } from './home/home.module';
 import { RestaurantComponent } from './restaurant/restaurant.component';
-import { RestaurantItemComponent } from './restaurant/restaurant-item/restaurant-item.component';
 import { RestaurantModule } from './restaurant/restaurant.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    FoodComponent,
-    RestaurantComponent,
-    RestaurantItemComponent
+    FoodComponent
   ],
   imports: [
     BrowserModule,

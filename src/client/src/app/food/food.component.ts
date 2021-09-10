@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./food.component.scss']
 })
 export class FoodComponent implements OnInit {
-
+  food: IFood;
   constructor() { }
 
   ngOnInit(): void {
