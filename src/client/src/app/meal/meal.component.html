@@ -1,24 +1,21 @@
 <div class="container mt-5">
-    <div class="row" *ngFor="let foodItem of food" style="margin: 20px">
+    <div class="row" *ngFor="let mealItem of meal">
         <div class="col-6">
-            <img src="{{foodItem.pictureUrl}}" alt="{{foodItem.foodName}}" class="custom-img w-100">
+            <img src="{{mealItem.pictureUrl}}" alt="{{mealItem.mealName}}" class="img-fluid w-100">
         </div>
         <div class="col-6">
-            <h3>{{foodItem.foodName}}</h3>
-            <p style="font-size: 2em;">{{foodItem.price | currency}}</p>
+            <h3>{{mealItem.mealName}}</h3>
+            <p style="font-size: 2em;">{{mealItem.price | currency}}</p>
             <div class="d-flex justify-content-start align-items-center">
                 <i (click)="decrementQuantity()" class="fa fa-minus-circle text-warning mr-2" style="cursor: pointer; font-size: 2em;"></i>
                 <span class="font-weight-bold" style="font-size: 1.5em;">{{quantity}}</span>
                 <i (click)="incrementQuantity()" class="fa fa-plus-circle text-warning mx-2" style="cursor: pointer; font-size: 2em;"></i>
             </div>
-            
-            <div class="row mt-5">
-                <div class="col-12 ml-3">
-                    <div class="alert alert-primary">
-                        <h4>Description</h4>
-                        <p>{{foodItem.description}}</p>
-                    </div>
-                </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-12 ml-3">
+                <h4>Description</h4>
+                <p>{{mealItem.description}}</p>
             </div>
         </div>
     </div>

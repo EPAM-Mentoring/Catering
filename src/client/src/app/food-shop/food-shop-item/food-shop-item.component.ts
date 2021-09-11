@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { IFood } from 'src/app/shared/models/food';
 import { IFoodShop } from 'src/app/shared/models/foodShop';
 
 @Component({
@@ -8,6 +9,7 @@ import { IFoodShop } from 'src/app/shared/models/foodShop';
 })
 export class FoodShopItemComponent implements OnInit {
   @Input() foodShop!: IFoodShop;
+  @Input() food!: IFood;
   
   constructor() { }
 
