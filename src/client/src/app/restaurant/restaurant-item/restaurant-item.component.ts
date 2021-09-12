@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { IMeal } from 'src/app/shared/models/meal';
 import { IRestaurant } from 'src/app/shared/models/restaurant';
 
 @Component({
@@ -8,10 +9,12 @@ import { IRestaurant } from 'src/app/shared/models/restaurant';
 })
 export class RestaurantItemComponent implements OnInit {
   @Input() restaurant!: IRestaurant;
-  
+  @Input() meal!: IMeal;
+
   constructor() { }
 
   ngOnInit(): void {
   }
+  
 
 }
