@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { IMeal } from 'src/app/shared/models/meal';
 import { IRestaurant } from 'src/app/shared/models/restaurant';
 
@@ -10,11 +11,14 @@ import { IRestaurant } from 'src/app/shared/models/restaurant';
 export class RestaurantItemComponent implements OnInit {
   @Input() restaurant!: IRestaurant;
   @Input() meal!: IMeal;
-
-  constructor() { }
+  
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
   
+  navigate(){
+    this.router.navigate(['foods']);
+  }
 
 }

@@ -5,8 +5,7 @@ import { FoodShopComponent } from './food-shop.component';
 import { FoodComponent } from '../food/food.component';
 
 const routes: Routes = [
-  { path: '', component: FoodShopComponent },
-  { path: '/food', component: FoodComponent },
+  { path: '', component: FoodShopComponent }
 ]
 
 @NgModule({

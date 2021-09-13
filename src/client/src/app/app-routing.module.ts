@@ -7,14 +7,13 @@ import { MealComponent } from './meal/meal.component';
 import { RestaurantComponent } from './restaurant/restaurant.component';
 
 const routes: Routes = [
-  // {path: '', component: HomeComponent, data: {breadcrumb: 'Home'} },
   {path: '', component: HomeComponent, data: {breadcrumb: 'Home'} },
   {path: 'foodShops', component: FoodShopComponent},
   {path: 'foods', component: FoodComponent},
   {path: 'restaurants', component: RestaurantComponent},
   {path: 'meals', component: MealComponent},
+  {path: 'account', loadChildren: () => import('./account/account.module').then(mod => mod.AccountModule) },
   {path: '**', redirectTo: '', pathMatch: 'full'},
-  { path: 'account', loadChildren: () => import('./account/account.module').then(mod => mod.AccountModule) },
 ];
 
 @NgModule({
