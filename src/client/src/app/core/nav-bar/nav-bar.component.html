@@ -12,12 +12,23 @@
     <a class="p-2" routerLink="/contact" routerLinkActive="active">Contact</a>
   </nav>
  <div class="d-flex align-items-center">
-    <a class="position-relative">
-        <i class="fa fa-shopping-cart fa-2x mr-5 text-dark"></i>
-        <div class="cart-no">5</div>
-    </a>
-    <a class="btn btn-outline-secondary nr-2" >Login</a>
-    <a class="btn btn-outline-secondary nr-3">Sign up</a>
+    <ng-container *ngIf="(currentUser$ | async) === null">
+      <a routerLink="/account/login" class="btn btn-outline-secondary mr-2">Login</a> 
+      <a routerLink="/account/register" class="btn btn-outline-secondary mr-3" href="#">Sign up</a>
+    </ng-container>
+    <ng-container *ngIf="(currentUser$ | async) as user">
+      <div class="dropdown ml-3 mr-5" dropdown>
+        <a class="dropdown-toggle" style="cursor: pointer;" dropdownToggle>
+          <strong>Welcome {{(currentUser$ | async).displayName}}</strong>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" style="cursor:pointer" *dropdownMenu>
+          <div class="dropdown-divider"></div>
+          <a (click)="logout()" class="dropdown-item d-flex align-items-center py-2">
+            <i class="fa fa-sign-out mr-3"></i> Logout
+          </a>
+        </div>
+      </div>
+    </ng-container>
   </div>
-
-</div>
+  
+  </div>

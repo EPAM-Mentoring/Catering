@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './login/login.component';
 import { RouterModule, Routes } from '@angular/router';
-import { FoodShopComponent } from './food-shop.component';
-import { FoodComponent } from '../food/food.component';
 
 const routes: Routes = [
-  { path: '', component: FoodShopComponent },
-  { path: '/food', component: FoodComponent },
+  {path: 'login', component: LoginComponent},
+  {path: 'register', component: RegisterComponent}
 ]
 
 @NgModule({
@@ -16,5 +16,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-
-export class FoodShopRoutingModule { }
+export class AccountRoutingModule { }

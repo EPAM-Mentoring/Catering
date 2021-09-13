@@ -1,15 +1,24 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CarouselModule} from 'ngx-bootstrap/carousel';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TextInputComponent } from './components/text-input/text-input.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    TextInputComponent
+  ],
   imports: [
     CommonModule,
-    CarouselModule.forRoot()
+    CarouselModule.forRoot(), 
+    ReactiveFormsModule,
+    RouterModule
   ],
   exports: [
-    CarouselModule
+   ReactiveFormsModule,
+    CarouselModule,
+    TextInputComponent
   ]
 })
 export class SharedModule { }
