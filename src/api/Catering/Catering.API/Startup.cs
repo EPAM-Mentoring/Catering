@@ -23,21 +23,19 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace Catering.API
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+
+        private readonly IConfiguration Configuration;
+
+        public Startup(IConfiguration config)
         {
-            Configuration = configuration;
+            Configuration = config;
         }
-
-        public IConfiguration Configuration { get; }
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -66,47 +64,16 @@ namespace Catering.API
               .AddEntityFrameworkStores<CateringDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddSwaggerGen(options =>
+            services.AddAuth(Configuration);
+            services.AddSwaggerDocumentation();
+
+            services.AddCors(options =>
             {
-                options.SwaggerDoc("v1", new OpenApiInfo { Title = "Catering", Version = "v1" });
-
-                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                {
-                    Description = "JWT containing userid claim",
-                    Name = "Authorization",
-                    In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.ApiKey,
-                });
-
-                var security =
-                    new OpenApiSecurityRequirement
-                    {
-                        {
-                            new OpenApiSecurityScheme
-                            {
-                                Reference = new OpenApiReference
-                                {
-                                    Id = "Bearer",
-                                    Type = ReferenceType.SecurityScheme
-                                },
-                                UnresolvedReference = true
-                            },
-                            new List<string>()
-                        }
-                    };
-                options.AddSecurityRequirement(security);
-            });
-
-            services.AddAuth(jwtSettings);
-
-            services.AddCors(opt =>
-            {
-                opt.AddPolicy("CorsPolicy", policy =>
+                options.AddPolicy("CorsPolicy", policy =>
                 {
                     policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
                 });
             });
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -120,36 +87,26 @@ namespace Catering.API
             {
                 app.UseHsts();
             }
-            
-            app.UseCors("CorsPolicy");
 
             app.UseHttpsRedirection();
+
+            app.UseSwaggerDocumentation();
 
             app.UseRouting();
 
             app.UseStaticFiles();
 
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(
-                    Path.Combine(Directory.GetCurrentDirectory(), "Content")
-                ),
-                RequestPath = "/content"
-            });
+            app.UseCors("CorsPolicy");
 
-            app.UseAuth();
+            app.UseAuthentication();
+
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
 
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.RoutePrefix = "swagger";
-                c.SwaggerEndpoint("/swagger/v1/swagger.html", "Catering V1");
-            });
         }
     }
 }

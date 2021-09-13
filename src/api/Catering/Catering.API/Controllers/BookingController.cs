@@ -26,9 +26,9 @@ namespace Catering.API.Controllers
         }
 
         [HttpGet("{id}", Name = "GetBooking")]
-        public async Task<IActionResult> GetBooking(int bookingId)
+        public async Task<IActionResult> GetBooking(int id)
         {
-            var bookingEntity = await _service.GetAsync(bookingId);
+            var bookingEntity = await _service.GetAsync(id);
 
             return Ok(_mapper.Map<Booking>(bookingEntity));
         }

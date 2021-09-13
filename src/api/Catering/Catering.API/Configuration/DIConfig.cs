@@ -47,6 +47,7 @@ namespace Catering.API.Configuration
 
             services.AddScoped<IBuildingService, BuildingService>();
 
+            services.AddScoped<ITokenService, TokenService>();
             return services;
         }
     }

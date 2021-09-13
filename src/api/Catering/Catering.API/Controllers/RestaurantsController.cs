@@ -29,13 +29,13 @@ namespace Catering.API.Controllers
         {
             var restaurantsFromRepo = await _service.GetRestaurants();
 
-            return Ok(_mapper.Map<RestaurantDto>(restaurantsFromRepo));
+            return Ok(_mapper.Map<IEnumerable<RestaurantDto>>(restaurantsFromRepo));
         }
 
         [HttpGet("{id}", Name = "GetRestaurant")]
-        public async Task<IActionResult> GetRestaurant(int restaurantId)
+        public async Task<IActionResult> GetRestaurant(int id)
         {
-            var restFromRepo = await  _service.GetRestaurant(restaurantId);
+            var restFromRepo = await  _service.GetRestaurant(id);
 
             if(restFromRepo == null)
             {
@@ -54,14 +54,14 @@ namespace Catering.API.Controllers
 
             var toReturn = _mapper.Map<RestaurantDto>(restEntity);
 
-            return CreatedAtRoute("GetRestaurant", new { restaurantId = toReturn.Id }, toReturn);
+            return CreatedAtRoute("GetRestaurant", new { id = toReturn.Id }, toReturn);
         }
 
         [HttpDelete("{id}")]
         [Authorize("Admin")]
-        public async Task<IActionResult> DeleteRestaurant(int restaurantId)
+        public async Task<IActionResult> DeleteRestaurant(int id)
         {
-            var restFromRepo = await _service.GetRestaurant(restaurantId);
+            var restFromRepo = await _service.GetRestaurant(id);
 
             if(restFromRepo == null)
             {

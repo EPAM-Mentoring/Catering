@@ -33,9 +33,9 @@ namespace Catering.API.Controllers
         }
 
         [HttpGet("{id}", Name ="GetFood")]
-        public async Task<IActionResult> GetFood(int foodId)
+        public async Task<IActionResult> GetFood(int id)
         {
-            var foodEntity = await _service.GetFood(foodId);
+            var foodEntity = await _service.GetFood(id);
             return Ok(_mapper.Map<FoodDto>(foodEntity));
         }
 
@@ -47,16 +47,16 @@ namespace Catering.API.Controllers
             await _service.AddFood(shopId, foodEntity);
 
             var toReturn = _mapper.Map<FoodDto>(foodEntity);
-            return CreatedAtRoute("GetFood", new { shopId = shopId, foodId = toReturn.Id}, toReturn);
+            return CreatedAtRoute("GetFood", new { shopId = shopId, id = toReturn.Id}, toReturn);
             //return CreatedAtRoute("GetFood", new { shopId = shopId }, toReturn);
         }
         
 
         [HttpPut("{id}")]
         [Authorize("Admin")]
-        public async Task<IActionResult> UpdateFood(int foodId, FoodUpdateDto createDto)
+        public async Task<IActionResult> UpdateFood(int id, FoodUpdateDto createDto)
         {
-            var food = await _service.GetFood(foodId);
+            var food = await _service.GetFood(id);
             _mapper.Map(createDto, food);
 
            await _service.UpdateFood(food);
@@ -65,9 +65,9 @@ namespace Catering.API.Controllers
 
         [HttpDelete("{id}")]
         [Authorize("Admin")]
-        public async Task<ActionResult> DeleteFood(int foodId)
+        public async Task<ActionResult> DeleteFood(int id)
         {
-            var food = await _service.GetFood(foodId);
+            var food = await _service.GetFood(id);
             if(food == null)
             {
                 return NotFound();

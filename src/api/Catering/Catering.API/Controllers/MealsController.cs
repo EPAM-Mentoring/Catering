@@ -33,9 +33,9 @@ namespace Catering.API.Controllers
         }
 
         [HttpGet("{id}", Name = "GetMeal")]
-        public async Task<ActionResult<MealDto>> GetMeal(int mealId)
+        public async Task<ActionResult<MealDto>> GetMeal(int id)
         {
-            var meal = await _service.GetMeal(mealId);
+            var meal = await _service.GetMeal(id);
             if (meal == null)
             {
                 return NotFound();
@@ -44,7 +44,7 @@ namespace Catering.API.Controllers
             return Ok(_mapper.Map<MealDto>(meal));
         }
 
-        [HttpPost("create")]
+        [HttpPost("create/{restaurantId}")]
         [Authorize("Admin")]
         public async Task<ActionResult<MealDto>> CreateMeal(int restaurantId, MealCreateDto createDto)
         {
@@ -52,15 +52,14 @@ namespace Catering.API.Controllers
             await _service.AddMeal(restaurantId, mealEntity);
             
             var toReturn = _mapper.Map<MealDto>(mealEntity);
-            return CreatedAtRoute("GetMeal", new { restaurantId, mealId = toReturn.Id}, toReturn);
-
+            return CreatedAtRoute("GetMeal", new { restaurantId, id = toReturn.Id}, toReturn);
         }
 
         [HttpPut("{id}")]
         [Authorize("Admin")]
-        public async Task<IActionResult> UpdateMeal(int mealId, MealCreateDto createDto)
+        public async Task<IActionResult> UpdateMeal(int id, MealCreateDto createDto)
         {
-            var meal = await _service.GetMeal(mealId);
+            var meal = await _service.GetMeal(id);
             
             _mapper.Map(createDto, meal);
 
@@ -71,9 +70,9 @@ namespace Catering.API.Controllers
 
         [HttpDelete("{id}")]
         [Authorize("Admin")]
-        public async Task<IActionResult> DeleteMeal(int mealId)
+        public async Task<IActionResult> DeleteMeal(int id)
         {
-            var meal = await _service.GetMeal(mealId);
+            var meal = await _service.GetMeal(id);
 
             if (meal == null)
             {

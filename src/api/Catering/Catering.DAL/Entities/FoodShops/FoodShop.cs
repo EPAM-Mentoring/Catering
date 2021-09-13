@@ -11,7 +11,7 @@ namespace Catering.DAL.Entities.FoodShops
     {
         public string Name { get; set; }
 
-        public string PictureUrl { get; set; } // значение по умолчани. налл
+        public string PictureUrl { get; set; } 
 
         public ICollection<Food> Foods { get; set; }
             = new List<Food>();

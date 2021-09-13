@@ -33,9 +33,9 @@ namespace Catering.API.Controllers
         }
 
         [HttpGet("{id}", Name = "GetFoodShop")]
-        public async Task<IActionResult> GetFoodShop(int shopId)
+        public async Task<IActionResult> GetFoodShop(int id)
         {
-            var shopFromRepo = await _service.GetFoodShop(shopId);
+            var shopFromRepo = await _service.GetFoodShop(id);
 
             if(shopFromRepo == null)
             {
@@ -53,14 +53,14 @@ namespace Catering.API.Controllers
             await _service.AddFoodShop(shopEntity);
             
             var toReturn = _mapper.Map<FoodShopDto>(shopEntity);
-            return CreatedAtRoute("GetFoodShop", new { shopId = toReturn.Id }, toReturn);
+            return CreatedAtRoute("GetFoodShop", new { id = toReturn.Id }, toReturn);
         }
 
         [HttpDelete("{id}")]
         [Authorize("Admin")]
-        public async Task<IActionResult> DeleteFoodShop(int shopId)
+        public async Task<IActionResult> DeleteFoodShop(int id)
         {
-            var shopFromRepo = await _service.GetFoodShop(shopId);
+            var shopFromRepo = await _service.GetFoodShop(id);
            
             if(shopFromRepo == null)
             {
