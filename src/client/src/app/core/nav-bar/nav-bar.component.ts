@@ -10,10 +10,12 @@ import { IUser } from 'src/app/shared/models/user';
 })
 export class NavBarComponent implements OnInit {
 
+  public toggleFlag = false;
+
   currentUser$!: Observable<IUser>;
 
   constructor( private accountService: AccountService) { }
-
+  
   ngOnInit(): void {
     this.currentUser$ = this.accountService.currentUser$;
   }
@@ -22,4 +24,7 @@ export class NavBarComponent implements OnInit {
     this.accountService.logout();
   }
 
+  showDropDown(){
+    this.toggleFlag = !this.toggleFlag;
+  }
 }
