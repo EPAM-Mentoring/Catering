@@ -7,8 +7,8 @@ import { IRestaurant } from '../shared/models/restaurant';
   providedIn: 'root'
 })
 export class RestaurantService {
-  baseUrl = 'https://localhost:5001/api/restaurants/';
-
+  baseUrl = 'https://catering-dev-tsk.azurewebsites.net/api/restaurants/';
+  
   constructor(private httpClient: HttpClient) { }
   
   getRestaurants():Observable<Array<IRestaurant>> {

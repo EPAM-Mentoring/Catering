@@ -8,8 +8,8 @@ import { IFoodShop } from '../shared/models/foodShop';
 })
 
 export class FoodShopService {
-  baseUrl = 'https://localhost:5001/api/foodShops/';
-
+  baseUrl = 'https://catering-dev-tsk.azurewebsites.net/api/foodShops/';
+  
   constructor(private httpClient: HttpClient) { }
   
   getFoodShops():Observable<Array<IFoodShop>> {

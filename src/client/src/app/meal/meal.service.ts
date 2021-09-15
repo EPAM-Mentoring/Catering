@@ -8,8 +8,8 @@ import { IMeal } from '../shared/models/meal';
   providedIn: 'root'
 })
 export class MealService {
-  baseUrl = 'https://localhost:5001/api/meals/';
-
+  baseUrl = 'https://catering-dev-tsk.azurewebsites.net/api/meals/';
+  
   constructor(private httpClient: HttpClient) { }
   
   getMeals():Observable<Array<IMeal>> {
