@@ -12,7 +12,7 @@ const routes: Routes = [
   {path: 'foods', component: FoodComponent},
   {path: 'restaurants', component: RestaurantComponent},
   {path: 'meals', component: MealComponent},
-  {path: 'account', loadChildren: () => import('./account/account.module').then(mod => mod.AccountModule) },
+  { path: 'account', loadChildren: () => import('./account/account.module').then(mod => mod.AccountModule), data: {breadcrumb: {skip: true }} },
   {path: '**', redirectTo: '', pathMatch: 'full'},
 ];
 

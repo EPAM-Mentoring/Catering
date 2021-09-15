@@ -4,30 +4,31 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, of, ReplaySubject } from 'rxjs';
 import { IUser } from '../shared/models/user';
 import { map, take, tap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class AccountService {
-  baseUrl = 'https://localhost:5001/api/';
+  baseUrl = environment.apiUrl;
+ 
   private currentUserSource = new ReplaySubject<IUser>(1);
   currentUser$ = this.currentUserSource.asObservable();
 
   constructor(private http: HttpClient, private router: Router) { }
-  
-  localCurrentUser(token: string) {
-    if(token == null) {
+
+  loadCurrentUser(token: string) {
+    if (token === null) {
       this.currentUserSource.next(null);
       return of(null);
     }
-    
     let headers = new HttpHeaders();
-    headers = headers.set('Authorization', `Bearer ${token}`);
+    headers = headers.set('Authorization', `bearer ${token}`);
 
     return this.http.get(this.baseUrl + 'account', {headers}).pipe(
-      tap((user: IUser) => {
-        if(user) {
+      map((user: IUser) => {
+        if (user) {
           localStorage.setItem('token', user.token);
           this.currentUserSource.next(user);
         }
@@ -37,7 +38,7 @@ export class AccountService {
 
   login(values: any) {
     return this.http.post(this.baseUrl + 'account/login', values).pipe(
-      tap((user: IUser) => {
+      map((user: IUser) => {
         if (user) {
           localStorage.setItem('token', user.token);
           this.currentUserSource.next(user);
@@ -48,7 +49,7 @@ export class AccountService {
 
   register(values: any) {
     return this.http.post(this.baseUrl + 'account/register', values).pipe(
-      tap((user: IUser) => {
+      map((user: IUser) => {
         if (user) {
           localStorage.setItem('token', user.token);
           this.currentUserSource.next(user);

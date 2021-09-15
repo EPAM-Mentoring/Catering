@@ -12,7 +12,7 @@ export class JwtInterceptor implements HttpInterceptor {
 
   constructor() {}
 
-  intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = localStorage.getItem('token');
 
     if (token) {
@@ -22,7 +22,7 @@ export class JwtInterceptor implements HttpInterceptor {
         }
       })
     }
-
+    
     return next.handle(req);
   }
 }
