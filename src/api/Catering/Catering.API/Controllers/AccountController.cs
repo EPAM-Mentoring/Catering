@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Catering.API.Dtos.Auth;
+using Catering.API.Errors;
 using Catering.API.Extensions;
 using Catering.BLL.Interfaces;
 using Catering.DAL.Entities.Auth;
@@ -10,9 +11,7 @@ using System.Threading.Tasks;
 
 namespace Catering.API.Controllers
 {
-    [ApiController]
-    [Route("api/account")]
-    public class AccountController : ControllerBase
+    public class AccountController : BaseApiController
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
@@ -32,7 +31,7 @@ namespace Catering.API.Controllers
         {
             if (CheckEmailExistsAsync(registerDto.Email).Result.Value)
             {
-                return BadRequest("Email address is in use");
+                return new BadRequestObjectResult(new ApiValidationError { Errors = new[] { "Email address is already in use" } });
             }
 
             var user = new User
@@ -48,9 +47,9 @@ namespace Catering.API.Controllers
 
             return new UserDto
             {
-                DisplayName = user.DisplayName,
+                DisplayName = registerDto.DisplayName,
                 Token = _tokenService.CreateToken(user),
-                Email = user.Email
+                Email = registerDto.Email
             };
         }
 
@@ -59,11 +58,11 @@ namespace Catering.API.Controllers
         {
             var user = await _userManager.FindByEmailAsync(loginDto.Email);
 
-            if (user == null) return Unauthorized();
+            if (user == null) return Unauthorized(new ApiResponse(401));
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
 
-            if (!result.Succeeded) return Unauthorized();
+            if (!result.Succeeded) return Unauthorized(new ApiResponse(401));
 
             return new UserDto
             {

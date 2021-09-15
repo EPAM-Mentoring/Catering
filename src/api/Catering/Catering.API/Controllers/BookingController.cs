@@ -12,9 +12,7 @@ using System.Threading.Tasks;
 
 namespace Catering.API.Controllers
 {
-    [ApiController]
-    [Route("api/bookings")]
-    public class BookingController : ControllerBase
+    public class BookingController : BaseApiController
     {
         private readonly IBookingService _service;
         private readonly IMapper _mapper;

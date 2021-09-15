@@ -28,7 +28,6 @@ namespace Catering.API.Configuration
             CreateMap<OrderDto, Order>().ReverseMap();
             CreateMap<Restaurant, RestaurantDto>().ReverseMap();
             CreateMap<RestaurantCreateDto, Restaurant>().ReverseMap();
-            CreateMap<User, UserDto>().ReverseMap();
             CreateMap<UserDto, User>()
                 .ForMember(u => u.UserName, opt => opt.MapFrom(ur => ur.Email));
         }

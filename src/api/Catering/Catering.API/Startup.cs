@@ -41,7 +41,7 @@ namespace Catering.API
         {
             services.Configure<JwtSettings>(Configuration.GetSection("Jwt"));
             var jwtSettings = Configuration.GetSection("Jwt").Get<JwtSettings>();
-            
+            services.AddAutoMapper(typeof(Startup));
             services.AddControllers();
             
             services.AddDbContext<CateringDbContext>(options => 
@@ -52,7 +52,6 @@ namespace Catering.API
             services.ResolveDependencies();
             services.Configure<PaymentServiceOptions>(Configuration.GetSection(PaymentServiceOptions.Section));
             services.Configure<ReserveServiceOptions>(Configuration.GetSection(ReserveServiceOptions.Section));
-            services.AddAutoMapper(typeof(Startup));
             services.AddIdentity<User, Role>(options =>
             {
                 options.Password.RequiredLength = 8;
@@ -90,8 +89,6 @@ namespace Catering.API
 
             app.UseHttpsRedirection();
 
-            app.UseSwaggerDocumentation();
-
             app.UseRouting();
 
             app.UseStaticFiles();
@@ -101,6 +98,8 @@ namespace Catering.API
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+            app.UseSwaggerDocumentation();
 
             app.UseEndpoints(endpoints =>
             {

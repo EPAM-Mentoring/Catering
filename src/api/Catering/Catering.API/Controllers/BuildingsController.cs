@@ -9,9 +9,7 @@ using System.Threading.Tasks;
 
 namespace Catering.API.Controllers
 {
-    [ApiController]
-    [Route("api/buildings")]
-    public class BuildingsController : ControllerBase
+    public class BuildingsController : BaseApiController
     {
         private readonly IBuildingService _service;
         private readonly IMapper _mapper;

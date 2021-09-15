@@ -13,10 +13,8 @@ using System.Threading.Tasks;
 
 namespace Catering.API.Controllers
 {
-    [ApiController]
-    [Route("api/orders")]
     [Authorize]
-    public class OrdersController : ControllerBase
+    public class OrdersController : BaseApiController
     {
         private readonly IOrderService _service;
         private readonly IMapper _mapper;

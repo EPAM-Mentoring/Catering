@@ -20,10 +20,14 @@ namespace Catering.API.Extensions
             services
                 .AddAuthorization(options =>
                 {
-                    options.AddPolicy("User", policy => policy.RequireUserName("test@test.com"));
                     options.AddPolicy("Admin", policy => policy.RequireUserName("admin@test.com"));
                 })
-                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
                 .AddJwtBearer(options =>
                 {
                     options.TokenValidationParameters = new TokenValidationParameters

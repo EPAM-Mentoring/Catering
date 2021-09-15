@@ -11,9 +11,7 @@ using System.Threading.Tasks;
 
 namespace Catering.API.Controllers
 {
-    [ApiController]
-    [Route("api/foods")]
-    public class FoodsController : ControllerBase
+    public class FoodsController : BaseApiController
     {
         private readonly IFoodService _service;
         private readonly IMapper _mapper;
