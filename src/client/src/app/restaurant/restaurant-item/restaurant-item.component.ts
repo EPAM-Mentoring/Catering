@@ -18,7 +18,7 @@ export class RestaurantItemComponent implements OnInit {
   }
   
   navigate(){
-    this.router.navigate(['foods']);
+    this.router.navigate(['meals']);
   }
-
+  
 }

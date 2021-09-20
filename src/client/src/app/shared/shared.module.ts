@@ -4,10 +4,11 @@ import { CarouselModule} from 'ngx-bootstrap/carousel';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TextInputComponent } from './components/text-input/text-input.component';
 import { RouterModule } from '@angular/router';
-
+import { OrderTotalsComponent } from './components/order-totals/order-totals.component';
 @NgModule({
   declarations: [
-    TextInputComponent
+    TextInputComponent,
+    OrderTotalsComponent
   ],
   imports: [
     CommonModule,
@@ -18,7 +19,9 @@ import { RouterModule } from '@angular/router';
   exports: [
    ReactiveFormsModule,
     CarouselModule,
-    TextInputComponent
+    TextInputComponent,
+    OrderTotalsComponent
   ]
 })
+
 export class SharedModule { }

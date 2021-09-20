@@ -7,7 +7,7 @@ import { IRestaurant } from '../shared/models/restaurant';
   providedIn: 'root'
 })
 export class RestaurantService {
-  baseUrl = 'https://catering-dev-tsk.azurewebsites.net/api/restaurants/';
+  baseUrl = 'https://localhost:5001/api/restaurants/';
   
   constructor(private httpClient: HttpClient) { }
   

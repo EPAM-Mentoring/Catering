@@ -8,7 +8,7 @@ import { IFoodShop } from '../shared/models/foodShop';
 })
 
 export class FoodShopService {
-  baseUrl = 'https://catering-dev-tsk.azurewebsites.net/api/foodShops/';
+  baseUrl = 'https://localhost:5001/api/foodShops/';
   
   constructor(private httpClient: HttpClient) { }
   

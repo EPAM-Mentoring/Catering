@@ -8,7 +8,7 @@ import { IMeal } from '../shared/models/meal';
   providedIn: 'root'
 })
 export class MealService {
-  baseUrl = 'https://catering-dev-tsk.azurewebsites.net/api/meals/';
+  baseUrl = 'https://localhost:5001/api/meals/';
   
   constructor(private httpClient: HttpClient) { }
   

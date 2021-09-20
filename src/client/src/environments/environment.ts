@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://catering-dev-tsk.azurewebsites.net/api/',
+  apiUrl: 'https://localhost:5001/api/',
 };
 
 /*
