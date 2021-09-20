@@ -39,7 +39,7 @@ namespace Catering.BLL.Services
             return await _repository.GetAsync(foodId);
         }
 
-        public async  Task UpdateFood(Food food)
+        public async Task UpdateFood(Food food)
         {
             _repository.Update(food);
 

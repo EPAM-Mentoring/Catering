@@ -1,5 +1,6 @@
 ﻿using Catering.DAL.Configuration;
 using Catering.DAL.Entities.Auth;
+using Catering.DAL.Entities.Basket;
 using Catering.DAL.Entities.Bookings;
 using Catering.DAL.Entities.Buildings;
 using Catering.DAL.Entities.FoodShops;
@@ -24,6 +25,8 @@ namespace Catering.DAL.DbContexts
         public DbSet<Order> Orders { get; set; }
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Building> Buildings { get; set; }
+        public DbSet<CustomerBasket> CustomerBaskets { get; set; }
+        public DbSet<BasketItem> BasketItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -34,6 +37,8 @@ namespace Catering.DAL.DbContexts
             builder.ApplyConfiguration(new MealConfiguration());
             builder.ApplyConfiguration(new FoodConfiguration());
             builder.ApplyConfiguration(new BuildingConfiguration());
+            builder.ApplyConfiguration(new BasketItemConfiguration());
+            builder.ApplyConfiguration(new CustomerBasketConfiguration());
         }
     }
 }

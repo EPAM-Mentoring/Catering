@@ -21,6 +21,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 
@@ -28,8 +29,7 @@ using System.Collections.Generic;
 namespace Catering.API
 {
     public class Startup
-    {
-
+    { 
         private readonly IConfiguration Configuration;
 
         public Startup(IConfiguration config)
@@ -42,7 +42,7 @@ namespace Catering.API
             services.Configure<JwtSettings>(Configuration.GetSection("Jwt"));
             var jwtSettings = Configuration.GetSection("Jwt").Get<JwtSettings>();
             services.AddAutoMapper(typeof(Startup));
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
             
             services.AddDbContext<CateringDbContext>(options => 
                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -73,6 +73,16 @@ namespace Catering.API
                     policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
                 });
             });
+
+            services.AddMvc()
+              .AddNewtonsoftJson(options =>
+              {
+                  options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                  options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                  options.SerializerSettings.Culture = System.Globalization.CultureInfo.InvariantCulture;
+                  options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+                  options.SerializerSettings.FloatFormatHandling = Newtonsoft.Json.FloatFormatHandling.String;
+              });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

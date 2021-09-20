@@ -3,16 +3,13 @@ using Catering.BLL.Interfaces;
 using Catering.BLL.Services;
 using Catering.DAL;
 using Catering.DAL.DbContexts;
+using Catering.DAL.Entities.Basket;
 using Catering.DAL.Entities.Bookings;
 using Catering.DAL.Entities.Buildings;
 using Catering.DAL.Entities.FoodShops;
 using Catering.DAL.Entities.Order;
 using Catering.DAL.Entities.Restaurnt;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Catering.API.Configuration
 {
@@ -29,6 +26,7 @@ namespace Catering.API.Configuration
             services.AddScoped<IRepository<Meal>, Repository<Meal>>();
             services.AddScoped<IRepository<Restaurant>, Repository<Restaurant>>();
             services.AddScoped<IRepository<Order>, Repository<Order>>();
+            services.AddScoped<IRepository<CustomerBasket>, Repository<CustomerBasket>>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddScoped<IFoodService, FoodService>();
@@ -48,6 +46,9 @@ namespace Catering.API.Configuration
             services.AddScoped<IBuildingService, BuildingService>();
 
             services.AddScoped<ITokenService, TokenService>();
+
+            services.AddScoped<IBasketService, BasketService>();
+
             return services;
         }
     }
