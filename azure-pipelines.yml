@@ -30,8 +30,9 @@ steps:
     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
     replaceExistingArchive: true
 
-- task: PublishBuildArtifacts@1
+- task: PublishPipelineArtifact@1
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)/**/*.zip'
-    ArtifactName: 'catering-frontend-artifacts'
-    publishLocation: 'Container'
+    targetPath: '$(Build.ArtifactStagingDirectory)/*.zip'
+    artifact: 'catering-frontend-artifacts'
+    publishLocation: 'pipeline'
+
