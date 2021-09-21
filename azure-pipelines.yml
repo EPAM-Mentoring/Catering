@@ -23,16 +23,18 @@ steps:
   workingDirectory: ./src/client
 
 - task: ArchiveFiles@2
+  displayName: Archive artifacts 
   inputs:
     rootFolderOrFile: './src/client/dist/client'
     includeRootFolder: true
     archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/catering-frontend.zip'
     replaceExistingArchive: true
 
 - task: PublishPipelineArtifact@1
+  displayName: Publish Artifacts
   inputs:
-    targetPath: '$(Build.ArtifactStagingDirectory)/*.zip'
+    targetPath: '$(Build.ArtifactStagingDirectory)/catering-frontend.zip'
     artifact: 'catering-frontend-artifacts'
     publishLocation: 'pipeline'
 
