@@ -32,6 +32,6 @@ steps:
 
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)/*.zip'
-    ArtifactName: 'catering-frontend'
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/**/*.zip'
+    ArtifactName: 'catering-frontend-artifacts'
     publishLocation: 'Container'
