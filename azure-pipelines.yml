@@ -22,19 +22,10 @@ steps:
   displayName: 'npm install and build'
   workingDirectory: ./src/client
 
-- task: ArchiveFiles@2
-  displayName: Archive artifacts 
-  inputs:
-    rootFolderOrFile: './src/client/dist/client'
-    includeRootFolder: true
-    archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/catering-frontend.zip'
-    replaceExistingArchive: true
-
 - task: PublishPipelineArtifact@1
   displayName: Publish Artifacts
   inputs:
-    targetPath: '$(Build.ArtifactStagingDirectory)/catering-frontend.zip'
+    targetPath: './src/client/dist/client'
     artifact: 'catering-frontend-artifacts'
     publishLocation: 'pipeline'
 
