@@ -27,9 +27,10 @@ export class BasketService {
        })
      );
   }
-  
+
   setBasket(basket: IBasket) {
     return this.http.post(this.baseUrl + 'basket', basket).subscribe((response: IBasket) => {
+      console.log("returned response", response);
       this.basketSource.next(response);
       this.calculateTotals();
     }, error => {
@@ -37,20 +38,23 @@ export class BasketService {
     })
   }
   
-  getCurrentBasketValue() {
-    return this.basketSource.value;
+  getCurrentBasketValue(): IBasket {
+    return this.basketSource.getValue();
   }
   
   addItemToBasket(item: IFood, quantity=1) {
     const itemToAdd: IBasketItem = this.mapFoodItemToBasketItem(item, quantity);
-    const basket = this.getCurrentBasketValue();
-    console.log(basket);
+    let basket: IBasket;
+    if(this.getCurrentBasketValue() != null) {
+      basket = this.getCurrentBasketValue()
+    } else {
+      basket = new Basket();
+    }
     basket.items = this.addOrUpdateItem(basket.items, itemToAdd, quantity);
     this.setBasket(basket);
   }
   
   private addOrUpdateItem(items: IBasketItem[], itemToAdd: IBasketItem, quantity: number): IBasketItem[] {
-    console.log(items);
     const index = items.findIndex(i => i.id === itemToAdd.id);
     if (index === -1) {
       itemToAdd.quantity = quantity;
