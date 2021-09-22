@@ -40,11 +40,6 @@ namespace Catering.DAL.Configuration
                 .IsRequired();
 
             builder
-               .HasOne(m => m.CustomerBasket)
-               .WithMany(a => a.BasketItems)
-               .HasForeignKey(m => m.CustomerBasketId);
-
-            builder
                 .ToTable("BasketItems");
         }
     }

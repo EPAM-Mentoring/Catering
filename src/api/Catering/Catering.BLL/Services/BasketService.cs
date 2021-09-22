@@ -1,6 +1,7 @@
 ﻿using Catering.BLL.Interfaces;
 using Catering.DAL;
 using Catering.DAL.Entities.Basket;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +28,14 @@ namespace Catering.BLL.Services
         public async Task<CustomerBasket> UpdateBasketAsync(CustomerBasket basket)
         {
             _repository.Update(basket);
-            await UnitOfWork.SaveChangeAsync();
+            try
+            {
+                await UnitOfWork.SaveChangeAsync();
+            }
+            catch (DbUpdateConcurrencyException e)
+            {
+
+            }
 
             return basket;
         }
