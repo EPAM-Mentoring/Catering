@@ -18,6 +18,15 @@ steps:
       projects: '**/*Tests*/*.csproj'
       arguments: '--configuration $(BuildConfiguration) --logger trx --collect "Code coverage"'
 
+  - task: PublishTestResults@2
+    displayName: Publish Code-coverage
+    inputs:
+      testResultsFormat: 'VSTest'
+      testResultsFiles: '*.trx' 
+      searchFolder: '$(Agent.TempDirectory)'
+      failTaskOnFailedTests: true
+      publishRunAttachments: true
+
   - task: DotNetCoreCLI@2
     displayName: Publish
     inputs:
