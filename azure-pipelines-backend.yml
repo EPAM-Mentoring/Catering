@@ -21,7 +21,7 @@ steps:
       
   - task: reportgenerator@4
     inputs:
-      reports: '**/coverage.cobertura.xml'
+      reports: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
       targetdir: $(Pipeline.Workspace)/coveragereport
 
   - task: PublishCodeCoverageResults@1
