@@ -15,7 +15,7 @@ steps:
     displayName: 'Test'
     inputs:
       command: 'test'
-      arguments: '--configuration $(buildConfiguration) --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura --results-directory:"$(Agent.TempDirectory)/coverage"'
+      arguments: ' --results-directory:"$(Agent.TempDirectory)/coverage" --configuration $(buildConfiguration) --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura'
       projects: '**/*Tests*/*.csproj'
     
   - task: PublishCodeCoverageResults@1
