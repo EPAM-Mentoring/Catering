@@ -19,11 +19,16 @@ steps:
       publishTestResults: true
       projects: '**/*Tests*/*.csproj'
       
+  - task: reportgenerator@4
+    inputs:
+    reports: '**/coverage.cobertura.xml;artifact/**/cobertura-coverage.xml'
+    targetdir: $(Pipeline.Workspace)/coveragereport
+
   - task: PublishCodeCoverageResults@1
-    displayName: 'Publish code coverage report'
     inputs:
       codeCoverageTool: 'Cobertura'
-      summaryFileLocation: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
+      summaryFileLocation: $(Pipeline.Workspace)/coveragereport/Cobertura.xml
+
 
   - task: DotNetCoreCLI@2
     displayName: Publish
