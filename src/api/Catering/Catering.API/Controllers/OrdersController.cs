@@ -48,7 +48,8 @@ namespace Catering.API.Controllers
             return Ok(_mapper.Map<OrderDto>(orderFromRepo));
         }
 
-        [HttpPost("createOrder")]
+
+        [HttpPost]
         public IActionResult CreateOrder([FromBody] OrderDto order)
         {
             var orderEntity = _mapper.Map<Order>(order);

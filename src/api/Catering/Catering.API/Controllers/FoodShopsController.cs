@@ -39,7 +39,6 @@ namespace Catering.API.Controllers
             {
                 return NotFound();
             }
-
             return Ok(_mapper.Map<FoodShopDto>(shopFromRepo));
         }
 

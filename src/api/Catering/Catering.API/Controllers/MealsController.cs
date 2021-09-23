@@ -55,7 +55,7 @@ namespace Catering.API.Controllers
 
         [HttpPut("{id}")]
         [Authorize("Admin")]
-        public async Task<IActionResult> UpdateMeal(int id, MealCreateDto createDto)
+        public async Task<IActionResult> UpdateMeal(int id, MealUpdateDto createDto)
         {
             var meal = await _service.GetMeal(id);
             

@@ -46,10 +46,8 @@ namespace Catering.API.Controllers
 
             var toReturn = _mapper.Map<FoodDto>(foodEntity);
             return CreatedAtRoute("GetFood", new { shopId = shopId, id = toReturn.Id}, toReturn);
-            //return CreatedAtRoute("GetFood", new { shopId = shopId }, toReturn);
         }
         
-
         [HttpPut("{id}")]
         [Authorize("Admin")]
         public async Task<IActionResult> UpdateFood(int id, FoodUpdateDto createDto)
