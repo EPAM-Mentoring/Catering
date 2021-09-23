@@ -21,8 +21,8 @@ steps:
       
   - task: reportgenerator@4
     inputs:
-    reports: '**/coverage.cobertura.xml;artifact/**/cobertura-coverage.xml'
-    targetdir: $(Pipeline.Workspace)/coveragereport
+      reports: '**/coverage.cobertura.xml'
+      targetdir: $(Pipeline.Workspace)/coveragereport
 
   - task: PublishCodeCoverageResults@1
     inputs:
