@@ -16,7 +16,7 @@ steps:
     inputs:
       command: test
       projects: '**/*Tests*/*.csproj'
-      arguments: '--configuration $(BuildConfiguration) --logger trx --collect "Code coverage"'
+      arguments: '--configuration $(BuildConfiguration) --logger trx --collect "Code coverage" --results-directory $(Agent.TempDirectory)'
 
   - task: DotNetCoreCLI@2
     displayName: Publish
