@@ -10,13 +10,25 @@ steps:
     inputs:
       command: 'build'
       projects: '**/*.csproj'
-
+  
   - task: DotNetCoreCLI@2
-    displayName: Test
+    displayName: 'Test'
     inputs:
-      command: test
+      command: 'test'
+      arguments: '--configuration $(buildConfiguration) --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura'
+      publishTestResults: true
       projects: '**/*Tests*/*.csproj'
-      arguments: '--configuration $(BuildConfiguration) --logger trx --collect "Code coverage"'
+      
+  - task: reportgenerator@4
+    inputs:
+      reports: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
+      targetdir: $(Pipeline.Workspace)/coveragereport
+
+  - task: PublishCodeCoverageResults@1
+    inputs:
+      codeCoverageTool: 'Cobertura'
+      summaryFileLocation: $(Pipeline.Workspace)/coveragereport/Cobertura.xml
+
 
   - task: DotNetCoreCLI@2
     displayName: Publish
