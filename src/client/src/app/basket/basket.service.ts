@@ -55,6 +55,18 @@ export class BasketService {
     this.setBasket(basket);
   }
   
+  addMealItemToBasket(item: IMeal, quantity=1) {
+    const itemToAdd: IBasketItem = this.mapMealItemToBasketItem(item, quantity);
+    let basket: IBasket;
+    if(this.getCurrentBasketValue() != null) {
+      basket = this.getCurrentBasketValue()
+    } else {
+      basket = new Basket();
+    }
+    basket.items = this.addOrUpdateItem(basket.items, itemToAdd, quantity);
+    this.setBasket(basket);
+  }
+
   private addOrUpdateItem(items: IBasketItem[], itemToAdd: IBasketItem, quantity: number): IBasketItem[] {
     const index = items.findIndex(i => i.id === itemToAdd.id);
     if (index === -1) {

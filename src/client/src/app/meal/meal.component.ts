@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { BasketService } from '../basket/basket.service';
 import { IMeal } from '../shared/models/meal';
 import { MealService } from './meal.service';
 
@@ -9,14 +10,20 @@ import { MealService } from './meal.service';
   styleUrls: ['./meal.component.scss']
 })
 export class MealComponent implements OnInit {
-  
-  meal!: Array<IMeal>;
-  quantity = 1;
 
-  constructor(private mealService: MealService, private router: Router) { }
+  meal: IMeal[] = [];
+  quantity = 1;
+  meal1: IMeal;
+
+  constructor(private mealService: MealService, private basketService: BasketService, private router: Router) { }
 
   ngOnInit() {
     this.getMeals();
+  }
+
+  addMealItemToBasket(id: number) {
+    this.meal1 = this.meal.find(m => m.id == id);
+    this.basketService.addMealItemToBasket(this.meal1, this.quantity);
   }
 
   getMeals() {
