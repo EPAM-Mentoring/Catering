@@ -43,6 +43,34 @@ namespace Catering.API.Tests
         }
 
         [Fact]
+        public async void GetAll_ShouldReturnOk_WhenDoesNotExistAnyFoodShop()
+        {
+            var foodShops = new List<FoodShop>();
+            var dtoExpected = MapModelToFoodShoptListDto(foodShops);
+
+            _foodShopServiceMock.Setup(c => c.GetFoodShops()).ReturnsAsync(foodShops);
+            _mapperMock.Setup(m => m.Map<IEnumerable<FoodShopDto>>(It.IsAny<List<FoodShop>>())).Returns(dtoExpected);
+
+            var result = await _foodShopsController.GetFoodShops();
+
+            Assert.IsType<ActionResult<IEnumerable<FoodShopDto>>>(result);
+        }
+
+        [Fact]
+        public async void GetAll_ShouldCallGetAllFromService_OnlyOnce()
+        {
+            var foodShops = CreateFoodShopList();
+            var dtoExpected = MapModelToFoodShoptListDto(foodShops);
+
+            _foodShopServiceMock.Setup(c => c.GetFoodShops()).ReturnsAsync(foodShops);
+            _mapperMock.Setup(m => m.Map<IEnumerable<FoodShopDto>>(It.IsAny<List<FoodShop>>())).Returns(dtoExpected);
+
+            await _foodShopsController.GetFoodShops();
+
+            _foodShopServiceMock.Verify(mock => mock.GetFoodShops(), Times.Once);
+        }
+
+        [Fact]
         public async void GetById_ShouldReturnOk_WhenFoodShopExist()
         {
             var foodShop = CreateFoodShop();
@@ -64,6 +92,20 @@ namespace Catering.API.Tests
             var result = await _foodShopsController.GetFoodShop(2);
 
             Assert.IsType<NotFoundResult>(result);
+        }
+
+        [Fact]
+        public async void GetById_ShouldCallGetByIdFromService_OnlyOnce()
+        {
+            var foodShop = CreateFoodShop();
+            var dtoExpected = MapModelToFoodShopDto(foodShop);
+
+            _foodShopServiceMock.Setup(c => c.GetFoodShop(2)).ReturnsAsync(foodShop);
+            _mapperMock.Setup(m => m.Map<FoodShopDto>(It.IsAny<FoodShop>())).Returns(dtoExpected);
+
+            await _foodShopsController.GetFoodShop(2);
+
+            _foodShopServiceMock.Verify(mock => mock.GetFoodShop(2), Times.Once);
         }
 
         [Fact]

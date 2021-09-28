@@ -41,6 +41,33 @@ namespace Catering.API.Tests
         }
 
         [Fact]
+        public async void GetAll_ShouldReturnOk_WhenDoesNotExistAnyFood()
+        {
+            var foods = new List<Food>();
+            var dtoExpected = MapModelToFoodListDto(foods);
+
+            _foodServiceMock.Setup(c => c.GetFoods()).ReturnsAsync(foods);
+            _mapperMock.Setup(m => m.Map<IEnumerable<FoodDto>>(It.IsAny<List<Food>>())).Returns(dtoExpected);
+
+            var result = await _foodsController.GetFoods();
+            Assert.IsType<ActionResult<IEnumerable<FoodDto>>>(result);
+        }
+
+        [Fact]
+        public async void GetAll_ShouldCallGetAllFromService_OnlyOnce()
+        {
+            var foods = CreateFoodList();
+            var dtoExpected = MapModelToFoodListDto(foods);
+
+            _foodServiceMock.Setup(c => c.GetFoods()).ReturnsAsync(foods);
+            _mapperMock.Setup(m => m.Map<IEnumerable<FoodDto>>(It.IsAny<List<Food>>())).Returns(dtoExpected);
+
+            await _foodsController.GetFoods();
+
+            _foodServiceMock.Verify(mock => mock.GetFoods(), Times.Once);
+        }
+
+        [Fact]
         public async void GetById_ShouldReturnOk_WhenFoodExist()
         {
             var food = CreateFood();
@@ -52,6 +79,30 @@ namespace Catering.API.Tests
             var result = await _foodsController.GetFood(2);
 
             Assert.IsType<OkObjectResult>(result);
+        }
+
+        [Fact]
+        public async void GetById_ShouldReturnNotFound_WhenFoodDoesNotExist()
+        {
+            _foodServiceMock.Setup(c => c.GetFood(2)).ReturnsAsync((Food)null);
+
+            var result = await _foodsController.GetFood(2);
+
+            Assert.IsType<OkObjectResult>(result);
+        }
+
+        [Fact]
+        public async void GetById_ShouldCallGetByIdFromService_OnlyOnce()
+        {
+            var food = CreateFood();
+            var dtoExpected = MapModelToFoodDto(food);
+
+            _foodServiceMock.Setup(c => c.GetFood(2)).ReturnsAsync(food);
+            _mapperMock.Setup(m => m.Map<FoodDto>(It.IsAny<Food>())).Returns(dtoExpected);
+
+            await _foodsController.GetFood(2);
+
+            _foodServiceMock.Verify(mock => mock.GetFood(2), Times.Once);
         }
 
         [Fact]
@@ -106,6 +157,18 @@ namespace Catering.API.Tests
             var result = await _foodsController.DeleteFood(food.Id);
 
             Assert.IsType<NotFoundResult>(result);
+        }
+
+        [Fact]
+        public async void Remove_ShouldCallRemoveFromService_OnlyOnce()
+        {
+            var food = CreateFood();
+            _foodServiceMock.Setup(c => c.GetFood(food.Id)).ReturnsAsync(food);
+            _foodServiceMock.Setup(c => c.DeleteFood(food));
+
+            await _foodsController.DeleteFood(food.Id);
+
+            _foodServiceMock.Verify(mock => mock.DeleteFood(food), Times.Once);
         }
 
         private Food CreateFood()
