@@ -23,6 +23,10 @@ export class RestaurantService {
     return this.httpClient.post<IRestaurant>(this.baseUrl + "create", restaurant);
   }
   
+  updateRestaurantById(id:number):Observable<IRestaurant>{
+    return this.httpClient.put<IRestaurant>(this.baseUrl + '', id);
+  }
+
   deleteRestaurantById(id:number):Observable<IRestaurant> {
     return this.httpClient.delete<IRestaurant>(this.baseUrl + id);
   }

@@ -3,6 +3,7 @@
     <img src="/assets/images/logo1.jpg" style="max-height: 70px;" alt="myview" routerLink="/" class="logo" />
     <h5 class="my-0 ml-md-2 font-weight-normal">Catering Service</h5>
 </div>
+
   <nav class="my-2 my-md-0 mr-md-3 text-uppercase" style="font-size: larger;">
     <a class="p-2" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
     <a class="p-2" routerLink="/foodShops" routerLinkActive="active">FoodShops</a>
@@ -11,6 +12,7 @@
     <a class="p-2" routerLink="/meals" routerLinkActive="active">Meals</a>
     <a class="p-2" routerLink="/contact" routerLinkActive="active">Contact</a>
   </nav>
+  
  <div class="d-flex align-items-center">
    <a routerLink='/basket' class="position-relative">
       <i class="fa fa-shopping-cart fa-2x mr-5 text-dark"></i>
@@ -28,6 +30,9 @@
         <a routerLink="/basket" class="dropdown-item d-flex align-items-center py-2">
             <i class="fa fa-shopping-cart mr-3"></i> View Basket
           </a>
+        <a routerLink="/orders" class="dropdown-item d-flex align-items-center py-2">
+          <i class="fa fa-history mr-3"></i> View Orders
+        </a>
         <div class="dropdown-menu dropdown-menu-right" style="cursor: pointer;" role="menu" [ngClass]="{show:toggleFlag}">
           <div class="dropdown-divider"></div>
           <a (click)="logout()" class="dropdown-item d-flex align-items-center py-2">

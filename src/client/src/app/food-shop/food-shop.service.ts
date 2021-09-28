@@ -16,12 +16,16 @@ export class FoodShopService {
      return this.httpClient.get<Array<IFoodShop>>(this.baseUrl + 'getAll');
   }
   
-   getFoodShopById(id:number):Observable<IFoodShop> {
+  getFoodShopById(id:number):Observable<IFoodShop> {
     return this.httpClient.get<IFoodShop>(this.baseUrl + id);
   }
-
+  
   addFoodShop(foodShop:IFoodShop):Observable<IFoodShop>{
     return this.httpClient.post<IFoodShop>(this.baseUrl + 'create', foodShop);
+  }
+
+  updateFoodShopById(id:number):Observable<IFoodShop> {
+    return this.httpClient.put<IFoodShop>(this.baseUrl + '', id);
   }
 
   deleteFoodShopById(id:number):Observable<IFoodShop> {

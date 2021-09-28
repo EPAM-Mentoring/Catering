@@ -5,10 +5,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TextInputComponent } from './components/text-input/text-input.component';
 import { RouterModule } from '@angular/router';
 import { OrderTotalsComponent } from './components/order-totals/order-totals.component';
+import { BasketSummaryComponent } from './components/basket-summary/basket-summary.component';
+
 @NgModule({
   declarations: [
     TextInputComponent,
-    OrderTotalsComponent
+    OrderTotalsComponent,
+    BasketSummaryComponent
   ],
   imports: [
     CommonModule,
@@ -20,7 +23,8 @@ import { OrderTotalsComponent } from './components/order-totals/order-totals.com
    ReactiveFormsModule,
     CarouselModule,
     TextInputComponent,
-    OrderTotalsComponent
+    OrderTotalsComponent,
+    BasketSummaryComponent
   ]
 })
 

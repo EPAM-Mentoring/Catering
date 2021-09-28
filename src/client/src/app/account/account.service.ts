@@ -12,12 +12,13 @@ import { environment } from 'src/environments/environment';
 
 export class AccountService {
   baseUrl = environment.apiUrl;
- 
+  
+  isAdmin : boolean;
   private currentUserSource = new ReplaySubject<IUser>(1);
   currentUser$ = this.currentUserSource.asObservable();
 
   constructor(private http: HttpClient, private router: Router) { }
-
+  
   loadCurrentUser(token: string) {
     if (token === null) {
       this.currentUserSource.next(null);
@@ -31,6 +32,7 @@ export class AccountService {
         if (user) {
           localStorage.setItem('token', user.token);
           this.currentUserSource.next(user);
+          this.isAdmin = user.email === 'admin@test.com';
         }
       })
     );
@@ -62,6 +64,7 @@ export class AccountService {
     localStorage.removeItem('token');
     this.currentUserSource.next(null);
     this.router.navigateByUrl('/');
+    this.isAdmin = false;
   }
 
   checkEmailExists(email: string) {

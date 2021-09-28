@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Basket, IBasket, IBasketItem, IBasketTotals } from '../shared/models/basket';
 import { IFood } from '../shared/models/food';
+import { IMeal } from '../shared/models/meal';
 
 @Injectable({
   providedIn: 'root'
@@ -121,7 +122,16 @@ export class BasketService {
     }
   }
   
-
+  private mapMealItemToBasketItem(item: IMeal, quantity: number): IBasketItem {
+    return {
+      id: item?.id,
+      foodName: item?.mealName,
+      price: item?.price,
+      pictureUrl: item?.pictureUrl,
+      quantity
+    }
+  }
+  
   private calculateTotals() {
     const basket = this.getCurrentBasketValue();
     const shipping = 0;

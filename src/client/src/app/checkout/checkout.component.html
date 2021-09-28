@@ -1,3 +1,15 @@
 <div class="container mt-5">
-    <h1>Only authorised users should be able to see this</h1>
+    <div class="row">
+        <div class="col-8">
+            <app-order-totals>
+                *ngIf="(basketTotals$ | async)"
+                [shippingPrice]="(basketTotals$ | async).shipping"
+                [subtotal]="(basketTotals$ | async).subtotal"
+                [total]="(basketTotals$ | async).total"
+            </app-order-totals>
+            <button type="button" class="btn btn-primary" (click)="openPaymentService()">Pay via</button>
+        </div>
+    </div>
 </div>
+    
+    

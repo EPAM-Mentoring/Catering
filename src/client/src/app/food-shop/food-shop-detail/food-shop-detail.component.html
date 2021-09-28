@@ -1,0 +1,16 @@
+<div class="container mt-5">
+    <div class="row" *ngFor="let foodShop of foodShops" style="margin: 20px">
+        <div class="col-6">
+            <img src="{{foodShop.pictureUrl}}" alt="{{foodShop.name}}" class="custom-img w-100">
+        </div>
+        <div class="col-6">
+            <h3>{{foodShop.name}}</h3>
+            <p style="font-size: 2em;">{{foodShop.openTime}}</p>
+            <p style="font-size: 2em;">{{foodShop.closedTime}}</p>
+            <div class="row mt-5">
+              <div class="col-12 ml-3">
+              </div>
+            </div>
+        </div>
+    </div>
+</div>

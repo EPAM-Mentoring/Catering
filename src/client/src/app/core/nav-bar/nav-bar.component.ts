@@ -15,8 +15,8 @@ export class NavBarComponent implements OnInit {
   public toggleFlag = false;
 
   currentUser$!: Observable<IUser>;
-
-  constructor(private accountService: AccountService, private basketService: BasketService) { }
+  
+  constructor(public accountService: AccountService, private basketService: BasketService) { }
   
   ngOnInit(): void {
     this.currentUser$ = this.accountService.currentUser$;
