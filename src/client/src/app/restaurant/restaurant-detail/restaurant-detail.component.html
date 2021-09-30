@@ -5,8 +5,14 @@
         </div>
         <div class="col-6">
             <h3>{{restaurant.name}}</h3>
+            <p style="font-size: 2em;">Working hours from Monday to Sunday</p>
             <p style="font-size: 2em;">{{restaurant.openTime}}</p>
             <p style="font-size: 2em;">{{restaurant.closedTime}}</p>
+
+            <div class="d-flex justify-content-start align-items-center">
+                 <button (click)="bookRestaurant(restaurant.id)" class="btn btn-outline-primary btn-lg">Book Restaurant</button>
+            </div>
+            
             <div class="row mt-5">
               <div class="col-12 ml-3">
               </div>

@@ -15,13 +15,13 @@ export class CheckoutComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
+  
   openPaymentService() {
     this.basket.basketTotal$.subscribe((value) => {
       let orderId = 1;
       let amount = value.total;
-      let serviceId = 1;
-
+      let serviceId = 3;
+      
       this.url.searchParams.append('orderId', orderId.toString());
       this.url.searchParams.append('amount', amount.toString());
       this.url.searchParams.append('serviceId', serviceId.toString());

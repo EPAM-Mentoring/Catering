@@ -11,7 +11,7 @@ export class CheckoutService {
    baseUrl = environment.apiUrl;
 
    constructor(private http: HttpClient) { }
-
+   
    createOrder(order: IOrderToCreate) {
      return this.http.post(this.baseUrl + 'orders', order);
    }
