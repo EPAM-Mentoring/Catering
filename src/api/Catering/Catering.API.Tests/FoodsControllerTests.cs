@@ -83,7 +83,7 @@ namespace Catering.API.Tests
 
             var result = await _foodsController.UpdateFood(food.Id, foodUpdateDto);
 
-            Assert.IsType<OkResult>(result);
+            Assert.IsType<OkObjectResult>(result);
         }
 
         [Fact]
