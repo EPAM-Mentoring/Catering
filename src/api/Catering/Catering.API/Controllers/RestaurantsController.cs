@@ -55,6 +55,17 @@ namespace Catering.API.Controllers
             return CreatedAtRoute("GetRestaurant", new { id = toReturn.Id }, toReturn);
         }
 
+        [HttpPut("{id}")]
+        [Authorize("Admin")]
+        public async Task<IActionResult> UpdateRestaurant(int id, RestaurantUpdateDto updateDto)
+        {
+            var restaurant = await _service.GetRestaurant(id);
+            _mapper.Map(updateDto, restaurant);
+
+            await _service.UpdateRestaurant(restaurant);
+            return Ok();
+        }
+
         [HttpDelete("{id}")]
         [Authorize("Admin")]
         public async Task<IActionResult> DeleteRestaurant(int id)

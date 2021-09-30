@@ -46,7 +46,6 @@ namespace Catering.DAL.Configuration
 
             builder
                 .ToTable("Meals");
-
         }
     }
 }

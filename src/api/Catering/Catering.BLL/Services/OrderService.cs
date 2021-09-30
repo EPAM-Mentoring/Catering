@@ -1,7 +1,10 @@
 ﻿using Catering.BLL.Interfaces;
 using Catering.DAL;
 using Catering.DAL.DbContexts;
+using Catering.DAL.Entities.Basket;
+using Catering.DAL.Entities.FoodShops;
 using Catering.DAL.Entities.Order;
+using Catering.DAL.Specification;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,11 +16,13 @@ namespace Catering.BLL.Services
     public class OrderService: BaseService, IOrderService
     {
         private readonly IRepository<Order> _repository;
+        private readonly IRepository<CustomerBasket> _basketRepository;
 
         public OrderService(IRepository<Order> repository,
-            IUnitOfWork unitOfWork) : base(unitOfWork)
+            IUnitOfWork unitOfWork, IRepository<CustomerBasket> basketRepository) : base(unitOfWork)
         {
             _repository = repository;
+            _basketRepository = basketRepository;
         }
 
         public async Task AddOrder(Order order)
@@ -26,24 +31,44 @@ namespace Catering.BLL.Services
             await UnitOfWork.SaveChangeAsync();
         }
 
-        public async Task<Order> GetOrder(int orderId)
+        public async Task<Order> CreateOrderAsync(string buyerEmail, int basketId)
         {
-            return await _repository.GetAsync(orderId);
-        }
+            var basket = await _basketRepository.GetAsync(basketId);
 
-        public async Task<IEnumerable<Order>> GetOrders()
-        {
-            return await _repository.GetListAsync();
-        }
+            var items = new List<OrderItem>();
 
-        public async Task OrderIsPaid(int orderId, bool isPaid)
-        {
-            var order = await _repository.GetAsync(orderId);
+            foreach(var item in basket.Items)
+            {
+                var foodItem = await UnitOfWork.Repository<Food>().GetAsync(item.Id);
+                var itemOrdered = new ProductItemOrdered(foodItem.Id, foodItem.FoodName, foodItem.PictureUrl);
+                var orderItem = new OrderItem(itemOrdered, foodItem.Price, item.Quantity);
+                items.Add(orderItem);
+            }
 
-            order.IsPaid = isPaid;
+            var subTotal = items.Sum(item => item.Price * item.Quantity);
 
-            _repository.Update(order);
+            var order = new Order(items, buyerEmail, subTotal);
+
+            _repository.Add(order);
+
             await UnitOfWork.SaveChangeAsync();
+
+            return order;
         }
+
+        public async Task<Order> GetOrderByIdAsync(int id, string buyerEmail)
+        {
+            var spec = new OrderSpecification(id, buyerEmail);
+
+            return await UnitOfWork.Repository<Order>().GetEntityWithSpec(spec);
+        }
+
+        public async Task<IReadOnlyList<Order>> GetOrdersForUserAsync(string buyerEmail)
+        {
+            var spec = new OrderSpecification(buyerEmail);
+
+            return await UnitOfWork.Repository<Order>().ListAsync(spec);
+        }
+
     }
 }

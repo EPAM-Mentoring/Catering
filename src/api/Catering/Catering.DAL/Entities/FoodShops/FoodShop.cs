@@ -16,7 +16,10 @@ namespace Catering.DAL.Entities.FoodShops
         public ICollection<Food> Foods { get; set; }
             = new List<Food>();
 
-        public ICollection<Building> Buildings { get; set; }
-            = new List<Building>();
+        public Building Building { get; set; }
+
+        public DateTimeOffset OpenTime { get; set; }
+
+        public DateTimeOffset ClosedTime { get; set; }
     }
 }

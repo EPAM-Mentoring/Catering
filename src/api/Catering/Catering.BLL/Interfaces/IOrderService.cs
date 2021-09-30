@@ -9,12 +9,10 @@ namespace Catering.BLL.Interfaces
 {
     public interface IOrderService
     {
-        public Task<IEnumerable<Order>> GetOrders();
+        Task<Order> CreateOrderAsync(string buyerEmail, int basketId);
 
-        public Task OrderIsPaid(int orderId, bool isPaid);
+        Task<IReadOnlyList<Order>> GetOrdersForUserAsync(string buyerEmail);
 
-        public Task<Order> GetOrder(int orderId);
-
-        public Task AddOrder(Order order);
+        Task<Order> GetOrderByIdAsync(int id, string buyerEmail);
     }
 }

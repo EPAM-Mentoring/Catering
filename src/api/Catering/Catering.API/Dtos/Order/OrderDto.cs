@@ -7,12 +7,6 @@ namespace Catering.API.Dtos.Order
 {
     public class OrderDto
     {
-        public int Id { get; set; }
-
-        public string PersonId { get; set; }
-
-        public bool IsPaid { get; set; }
-
-        public ICollection<OrderItemDto> OrderItems { get; set; }
+        public int BasketId { get; set; }
     }
 }

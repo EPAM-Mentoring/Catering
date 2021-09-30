@@ -2,6 +2,7 @@
 using Catering.DAL;
 using Catering.DAL.Entities.Bookings;
 using Catering.DAL.Entities.Restaurnt;
+using Catering.DAL.Specification;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,24 +21,29 @@ namespace Catering.BLL.Services
             _repository = repository;
         }
 
-        public async Task CreateBooking(Booking booking)
+        public async Task<Booking> CreateBooking(string customerEmail)
         {
+            var items = new List<BookingItem>();
+
+            var booking = new Booking(items, customerEmail);
             _repository.Add(booking);
+
             await UnitOfWork.SaveChangeAsync();
+            return booking;
         }
 
-        public async  Task<Booking> GetAsync(int bookingId)
+        public async Task<Booking> GetBookingByIdAsync(int id, string customerEmail)
         {
-            return await _repository.GetAsync(bookingId);
+            var spec = new BookingSpecification(id, customerEmail);
+
+            return await UnitOfWork.Repository<Booking>().GetEntityWithSpec(spec);
         }
 
-        public async Task IsAvaliable(int bookingId, bool isAvaliable)
+        public async Task<IReadOnlyList<Booking>> GetBookingsForUserAsync(string customerEmail)
         {
-            var booking = await _repository.GetAsync(bookingId);
-            booking.IsAviable = isAvaliable;
+            var spec = new BookingSpecification(customerEmail);
 
-            _repository.Update(booking);
-            await UnitOfWork.SaveChangeAsync();
+            return await UnitOfWork.Repository<Booking>().ListAsync(spec);
         }
     }
 }

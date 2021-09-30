@@ -2,14 +2,10 @@
 {
     public  class OrderItemDto
     {
-        public int FoodId { get; set; }
-
-        public int MealId { get; set; }
-
-        public decimal MealPrice { get; set; }
-
-        public decimal FoodPrice { get; set; }
-
+        public int ProductId { get; set; }
+        public string ProductName { get; set; }
+        public string PictureUrl { get; set; }
+        public decimal Price { get; set; }
         public int Quantity { get; set; }
     }
 }

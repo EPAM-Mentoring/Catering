@@ -39,9 +39,7 @@ namespace Catering.API.Extensions
                         ValidateAudience = false
                     };
                 });
-
             return services;
-           
         }
     }
 }

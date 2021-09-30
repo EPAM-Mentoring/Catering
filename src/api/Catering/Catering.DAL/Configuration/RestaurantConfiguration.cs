@@ -1,4 +1,5 @@
-﻿using Catering.DAL.Entities.Restaurnt;
+﻿using Catering.DAL.Entities.Buildings;
+using Catering.DAL.Entities.Restaurnt;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -24,6 +25,7 @@ namespace Catering.DAL.Configuration
                 .Property(m => m.Name)
                 .IsRequired()
                 .HasMaxLength(50);
+
             builder
                 .Property(m => m.PictureUrl)
                 .IsRequired();
@@ -35,6 +37,11 @@ namespace Catering.DAL.Configuration
             builder
                 .Property(m => m.ClosedTime)
                 .IsRequired();
+
+            builder
+                .HasOne(a => a.Building)
+                .WithOne(b => b.Restaurant)
+                .HasForeignKey<Building>(b => b.RestaurantId);
 
             builder
                 .ToTable("Restaurants");

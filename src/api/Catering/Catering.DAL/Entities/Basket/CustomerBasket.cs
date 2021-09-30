@@ -8,7 +8,7 @@ namespace Catering.DAL.Entities.Basket
 {
     public class CustomerBasket : BaseEntity
     {
-        public ICollection<BasketItem> Items { get; set; }
-            = new List<BasketItem>();
+        public List<BasketItem> Items { get; set; } = new List<BasketItem>();
+        public decimal ShippingPrice { get; set; }
     }
 }

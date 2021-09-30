@@ -1,5 +1,6 @@
 ﻿using Catering.DAL.DbContexts;
 using Catering.DAL.Entities;
+using Catering.DAL.Specification;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Catering.DAL
 {
-    public class Repository<T> : IRepository<T> where T : class
+    public class Repository<T> : IRepository<T> where T : BaseEntity
     {
         private readonly CateringDbContext _dbContext;
 
@@ -45,6 +46,23 @@ namespace Catering.DAL
         public async Task<IEnumerable<T>> GetListAsync()
         {
             return await DbSet.ToListAsync();
+        }
+
+        public async Task<T> GetEntityWithSpec(ISpecification<T> spec)
+        {
+            return await ApplySpecification(spec).FirstOrDefaultAsync();
+        }
+
+        public async Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec)
+        {
+            var query = ApplySpecification(spec);
+
+            return await query.ToListAsync();
+        }
+
+        private IQueryable<T> ApplySpecification(ISpecification<T> spec)
+        {
+            return SpecificationEvaluator<T>.GetQuery(_dbContext.Set<T>().AsQueryable(), spec);
         }
     }
 }

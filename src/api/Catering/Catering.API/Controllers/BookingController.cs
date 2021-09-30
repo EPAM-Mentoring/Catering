@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
 using Catering.API.Dtos;
+using Catering.API.Dtos.Booking;
+using Catering.API.Errors;
+using Catering.API.Extensions;
 using Catering.BLL.Contracts.Booking;
 using Catering.BLL.Interfaces;
 using Catering.DAL.Entities.Bookings;
@@ -22,26 +25,37 @@ namespace Catering.API.Controllers
             _service = service;
             _mapper = mapper;
         }
-
-        [HttpGet("{id}", Name = "GetBooking")]
-        public async Task<IActionResult> GetBooking(int id)
+        
+        [HttpPost]
+        public async Task<ActionResult<Booking>> CreateBooking()
         {
-            var bookingEntity = await _service.GetAsync(id);
+            var email = HttpContext.User.RetrieveEmailFromPrincipal();
 
-            return Ok(_mapper.Map<Booking>(bookingEntity));
+            var booking = await _service.CreateBooking(email);
+
+            if(booking == null)  return BadRequest(new ApiResponse(400, "Problem creating Booking"));
+
+            return booking;
         }
 
-        [Authorize]
-        [HttpPost("")]
-        public IActionResult CreateBooking([FromBody] BookingDto bookingDto)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<BookingDto>>> GetBookingsForUser()
         {
-            var bookingEntity = _mapper.Map<Booking>(bookingDto);
+            var email = HttpContext.User.RetrieveEmailFromPrincipal();
+            var bookings = await _service.GetBookingsForUserAsync(email);
 
-            _service.CreateBooking(bookingEntity);
+            return Ok(_mapper.Map<IEnumerable<Booking>, IEnumerable<BookingToReturnDto>>(bookings));
+        }
 
-            var toReturn = _mapper.Map<BookingRequestDto>(bookingEntity);
+        [HttpGet("{id}")]
+        public async Task<ActionResult<BookingToReturnDto>> GetBookingForUser(int id)
+        {
+            var email = HttpContext.User.RetrieveEmailFromPrincipal();
+            var booking = await _service.GetBookingByIdAsync(id, email);
 
-            return CreatedAtRoute("GetBooking", new { bookingId = toReturn.BookingId }, toReturn);
+            if (booking == null) return NotFound(new ApiResponse(404));
+
+            return _mapper.Map<Booking, BookingToReturnDto>(booking);
         }
     }
 }

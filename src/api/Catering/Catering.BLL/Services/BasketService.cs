@@ -26,15 +26,16 @@ namespace Catering.BLL.Services
         }
 
         public async Task<CustomerBasket> UpdateBasketAsync(CustomerBasket basket)
-        {
+        { 
             _repository.Update(basket);
+
             try
             {
-                await UnitOfWork.SaveChangeAsync();
+                  await UnitOfWork.SaveChangeAsync();
             }
-            catch (DbUpdateConcurrencyException e)
+            catch (DbUpdateConcurrencyException ex)
             {
-
+                    
             }
 
             return basket;

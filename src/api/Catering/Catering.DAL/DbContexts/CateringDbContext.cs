@@ -23,7 +23,9 @@ namespace Catering.DAL.DbContexts
         public DbSet<Meal> Meals { get; set; }
         public DbSet<Restaurant> Restaurants { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Booking> Bookings { get; set; }
+        public DbSet<BookingItem> BookingItems { get; set; }
         public DbSet<Building> Buildings { get; set; }
         public DbSet<CustomerBasket> CustomerBaskets { get; set; }
         public DbSet<BasketItem> BasketItems { get; set; }
@@ -37,8 +39,10 @@ namespace Catering.DAL.DbContexts
             builder.ApplyConfiguration(new MealConfiguration());
             builder.ApplyConfiguration(new FoodConfiguration());
             builder.ApplyConfiguration(new BuildingConfiguration());
-            builder.ApplyConfiguration(new BasketItemConfiguration());
-            builder.ApplyConfiguration(new CustomerBasketConfiguration());
+            builder.ApplyConfiguration(new OrderItemConfiguration());
+            builder.ApplyConfiguration(new OrderConfiguration());
+            builder.ApplyConfiguration(new BookingConfiguration());
+            builder.ApplyConfiguration(new BookingItemConfiguration());
         }
     }
 }

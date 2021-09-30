@@ -41,6 +41,7 @@ namespace Catering.API.Controllers
         [Authorize("Admin")]
         public async Task<ActionResult<FoodDto>> CreateFood(int shopId, FoodCreateDto createDto)
         {
+            if (!ModelState.IsValid) return BadRequest();
             var foodEntity =  _mapper.Map<Food>(createDto);
             await _service.AddFood(shopId, foodEntity);
 
@@ -52,11 +53,16 @@ namespace Catering.API.Controllers
         [Authorize("Admin")]
         public async Task<IActionResult> UpdateFood(int id, FoodUpdateDto createDto)
         {
+            if (!ModelState.IsValid) return BadRequest();
+
             var food = await _service.GetFood(id);
+
+            if (food == null) return BadRequest();
+
             _mapper.Map(createDto, food);
 
            await _service.UpdateFood(food);
-           return Ok();
+           return Ok(createDto);
         }
 
         [HttpDelete("{id}")]

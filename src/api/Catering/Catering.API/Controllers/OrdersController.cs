@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Catering.API.Dtos.Order;
+using Catering.API.Errors;
+using Catering.API.Extensions;
 using Catering.API.Integrations;
 using Catering.BLL.Contracts.Payment;
 using Catering.BLL.Interfaces;
@@ -16,57 +18,46 @@ namespace Catering.API.Controllers
     [Authorize]
     public class OrdersController : BaseApiController
     {
-        private readonly IOrderService _service;
+        private readonly IOrderService _orderService;
         private readonly IMapper _mapper;
-        private readonly IPaymentService _paymentService;
-
-        public OrdersController(IOrderService service, IMapper mapper, IPaymentService paymentService)
+        public OrdersController(IOrderService orderService, IMapper mapper)
         {
-            _service = service;
             _mapper = mapper;
-            _paymentService = paymentService;
+            _orderService = orderService;
         }
-
-        [HttpGet("PaidStatus")]
-        public async Task<IActionResult> PaidStatus([FromQuery] int orderId, [FromQuery] bool isPaid)
-        {
-            await _service.OrderIsPaid(orderId, isPaid);
-
-            return Ok();
-        }
-
-        [HttpGet("{orderId}", Name = "GetOrder")]
-        public  async Task<IActionResult> GetOrder(int orderId)
-        {
-            var orderFromRepo = await _service.GetOrder(orderId);
-
-            if (orderFromRepo == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(_mapper.Map<OrderDto>(orderFromRepo));
-        }
-
 
         [HttpPost]
-        public IActionResult CreateOrder([FromBody] OrderDto order)
+        public async Task<ActionResult<Order>> CreateOrder(OrderDto orderDto)
         {
-            var orderEntity = _mapper.Map<Order>(order);
-            _service.AddOrder(orderEntity);
+            var email = HttpContext.User.RetrieveEmailFromPrincipal();
 
-            var payment = new PaymentRequest()
-            {
-                PersonId = orderEntity.PersonId,
-                OrderId = orderEntity.Id,
-                Amount = orderEntity.Total()
-            };
+            var order = await _orderService.CreateOrderAsync(email, orderDto.BasketId);
 
-             _paymentService.CreatePayment(payment);
+            if (order == null) return BadRequest(new ApiResponse(400, "Problem creating order"));
 
-            var toReturn = _mapper.Map<OrderDto>(orderEntity);
+            return Ok(order);
+        }
 
-            return CreatedAtRoute("GetOrder", new { orderId = toReturn.Id }, toReturn);
+        [HttpGet]
+        public async Task<ActionResult<IReadOnlyList<OrderDto>>> GetOrdersForUser()
+        {
+            var email = User.RetrieveEmailFromPrincipal();
+
+            var orders = await _orderService.GetOrdersForUserAsync(email);
+
+            return Ok(_mapper.Map<IReadOnlyList<OrderToReturnDto>>(orders));
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<OrderToReturnDto>> GetOrderByIdForUser(int id)
+        {
+            var email = User.RetrieveEmailFromPrincipal();
+
+            var order = await _orderService.GetOrderByIdAsync(id, email);
+
+            if (order == null) return NotFound(new ApiResponse(404));
+
+            return _mapper.Map<OrderToReturnDto>(order);
         }
     }
 }

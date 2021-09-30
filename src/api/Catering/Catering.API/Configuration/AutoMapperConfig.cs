@@ -26,11 +26,12 @@ namespace Catering.API.Configuration
             CreateMap<Meal, MealDto>().ReverseMap();
             CreateMap<MealCreateDto, Meal>().ReverseMap();
             CreateMap<MealUpdateDto, Meal>().ReverseMap();
-            CreateMap<OrderDto, Order>().ReverseMap();
             CreateMap<Restaurant, RestaurantDto>().ReverseMap();
             CreateMap<RestaurantCreateDto, Restaurant>().ReverseMap();
             CreateMap<BasketItemDto, BasketItem>();
             CreateMap<CustomerBasketDto, CustomerBasket>();
+            CreateMap<Order, OrderToReturnDto>();
+            CreateMap<OrderItem, OrderItemDto>();
             CreateMap<UserDto, User>()
                 .ForMember(u => u.UserName, opt => opt.MapFrom(ur => ur.Email));
         }

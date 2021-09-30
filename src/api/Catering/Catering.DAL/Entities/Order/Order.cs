@@ -8,13 +8,31 @@ namespace Catering.DAL.Entities.Order
 {
     public class Order : BaseEntity
     {
-        public string PersonId { get; set; }
+        public Order()
+        {
+        }
 
-        public bool IsPaid { get; set; }
+        public Order(IReadOnlyList<OrderItem> orderItems, string buyerEmail,
+            decimal subtotal)
+        {
+            BuyerEmail = buyerEmail;
+            OrderItems = orderItems;
+            Subtotal = subtotal;
+        }
 
-        public virtual ICollection<OrderItem> OrdersItems { get; set; }
-           = new List<OrderItem>();
+        public string BuyerEmail { get; set; }
 
-        public decimal Total() => OrdersItems.Sum(_ => _.FoodPrice * _.Quantity * _.MealPrice);
+        public DateTimeOffset OrderDate { get; set; } = DateTimeOffset.Now;
+
+        public IReadOnlyList<OrderItem> OrderItems { get; set; }
+
+        public decimal Subtotal { get; set; }
+
+        public OrderStatus Status { get; set; } = OrderStatus.Pending;
+
+        public decimal GetTotal()
+        {
+            return Subtotal;
+        }
     }
 }

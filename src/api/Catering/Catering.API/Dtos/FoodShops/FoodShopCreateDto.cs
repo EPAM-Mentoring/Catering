@@ -8,6 +8,11 @@ namespace Catering.API.Dtos
     public class FoodShopCreateDto
     {
         public string Name { get; set; }
-        public string PictureUrl { get; set; } 
+
+        public string PictureUrl { get; set; }
+
+        public DateTimeOffset OpenTime { get; set; }
+
+        public DateTimeOffset ClosedTime { get; set; }
     }
 }

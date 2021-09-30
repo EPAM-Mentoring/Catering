@@ -57,13 +57,15 @@ namespace Catering.API.Controllers
         [Authorize("Admin")]
         public async Task<IActionResult> UpdateMeal(int id, MealUpdateDto createDto)
         {
+            if (!ModelState.IsValid) return BadRequest();
+
             var meal = await _service.GetMeal(id);
             
             _mapper.Map(createDto, meal);
 
             await _service.UpdateMeal(meal);
 
-            return Ok();
+            return Ok(createDto);
         }
 
         [HttpDelete("{id}")]

@@ -1,13 +1,12 @@
 ﻿using Catering.DAL.Entities.FoodShops;
 using Catering.DAL.Entities.Restaurnt;
+using System;
 
 namespace Catering.DAL.Entities.Buildings
 {
     public class Building : BaseEntity
     {
-        public string Name { get; set; }
-
-        public string StreetAddress { get; set; }
+        public string Street { get; set; }
 
         public Restaurant Restaurant { get; set; }
         public int RestaurantId { get; set; }

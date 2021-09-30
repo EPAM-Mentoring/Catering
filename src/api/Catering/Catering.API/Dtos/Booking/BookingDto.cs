@@ -3,16 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Catering.API.Dtos
+namespace Catering.API.Dtos.Booking
 {
     public class BookingDto
     {
         public int RestaurantId { get; set; }
-
-        public string PersonId { get; set; }
-
-        public DateTimeOffset StartTime { get; set; }
-
-        public DateTimeOffset EndTime { get; set; }
     }
 }

@@ -9,15 +9,23 @@ namespace Catering.DAL.Entities.Bookings
 {
     public class Booking : BaseEntity
     {
-        public Restaurant Restaurant { get; }
-        public int RestaurantId { get; set; }
+        public Booking()
+        {
 
-        public string PersonId { get; set; }
+        }
 
-        public bool IsAviable { get; set; }
+        public Booking(IReadOnlyList<BookingItem> bookingItems, string customerEmail)
+        {
+            CustomerEmail = customerEmail;
+            BookingItems = bookingItems;
+        }
 
-        public DateTimeOffset StartTime { get; set; }
+        public IReadOnlyList<BookingItem> BookingItems { get; set; } 
 
-        public DateTimeOffset EndTime { get; set; }
+        public BookingStatus Status { get; set; } = BookingStatus.BookingPending;
+
+        public string CustomerEmail { get; set; }
+
+        public DateTimeOffset BookingDate { get; set; } = DateTimeOffset.Now;
     }
 }

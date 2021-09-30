@@ -5,28 +5,19 @@ namespace Catering.DAL.Entities.Order
 {
     public class OrderItem : BaseEntity
     {
-        public virtual Food Food { get; }
-
-        public virtual Meal Meal { get;  }
-
-        public decimal MealPrice { get; }
-
-        public decimal FoodPrice { get;  }
-
-        public int Quantity { get; }
-
         public OrderItem()
         {
-
         }
 
-        public OrderItem(Food food, Meal meal, int quantity)
+        public OrderItem(ProductItemOrdered itemOrdered, decimal price, int quantity)
         {
-            Food = food;
-            Meal = meal;
-            MealPrice = meal.Price;
-            FoodPrice = meal.Price;
+            ItemOrdered = itemOrdered;
+            Price = price;
             Quantity = quantity;
         }
+
+        public ProductItemOrdered ItemOrdered { get; set; }
+        public decimal Price { get; set; }
+        public int Quantity { get; set; }
     }
 }

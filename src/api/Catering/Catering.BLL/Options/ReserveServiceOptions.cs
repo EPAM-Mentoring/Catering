@@ -9,6 +9,6 @@ namespace Catering.BLL.Options
     {
         public const string Section = "ReserveClient";
         public string Url { get; set; }
-        public string Action { get; set; }
+        public string urlForBuild { get; set; }
     }
 }

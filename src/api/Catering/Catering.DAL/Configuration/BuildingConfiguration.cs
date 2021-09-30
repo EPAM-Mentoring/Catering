@@ -21,19 +21,8 @@ namespace Catering.DAL.Configuration
                 .UseIdentityColumn();
 
             builder
-                .Property(m => m.Name)
-                .IsRequired()
+                .Property(m => m.Street)
                 .HasMaxLength(50);
-
-            builder
-                .HasOne(m => m.Restaurant)
-                .WithMany(a => a.Buildings)
-                .HasForeignKey(m => m.RestaurantId);
-
-            builder
-                .HasOne(m => m.FoodShop)
-                .WithMany(a => a.Buildings)
-                .HasForeignKey(m => m.FoodShopId);
 
             builder
                 .ToTable("Buildings");

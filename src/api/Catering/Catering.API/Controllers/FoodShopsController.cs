@@ -42,6 +42,17 @@ namespace Catering.API.Controllers
             return Ok(_mapper.Map<FoodShopDto>(shopFromRepo));
         }
 
+        [HttpPut("{id}")]
+        [Authorize("Admin")]
+        public async Task<IActionResult> UpdateFoodShop(int id, FoodShopUpdateDto updateDto)
+        {
+            var foodShop = await _service.GetFoodShop(id);
+            _mapper.Map(updateDto, foodShop);
+
+            await _service.UpdateFoodShop(foodShop);
+            return Ok();
+        }
+
         [HttpPost("create")]
         [Authorize("Admin")]
         public async Task<ActionResult<FoodShopDto>> CreateFoodShop(FoodShopCreateDto createDto)
