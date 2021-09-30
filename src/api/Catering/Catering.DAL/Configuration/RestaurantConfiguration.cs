@@ -1,4 +1,5 @@
-﻿using Catering.DAL.Entities.Buildings;
+﻿using Catering.Common.Constants;
+using Catering.DAL.Entities.Buildings;
 using Catering.DAL.Entities.Restaurnt;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -31,11 +32,24 @@ namespace Catering.DAL.Configuration
                 .IsRequired();
 
             builder
+                .Property(m => m.StreetAddress)
+                .IsRequired();
+
+            builder
+                .Property(m => m.IsAvailableForBooking)
+                .IsRequired();
+
+            builder
+                .Property(m => m.BookingPricePerDay)
+                .IsRequired()
+                .HasColumnType(ConstantValues.PriceDecimalType);
+
+            builder
                 .Property(m => m.OpenTime)
                 .IsRequired();
 
             builder
-                .Property(m => m.ClosedTime)
+                .Property(m => m.CloseTime)
                 .IsRequired();
 
             builder

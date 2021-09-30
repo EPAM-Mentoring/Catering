@@ -43,7 +43,6 @@ namespace Catering.API.Controllers
         }
 
         [HttpPost("create/{restaurantId}")]
-        [Authorize("Admin")]
         public async Task<ActionResult<MealDto>> CreateMeal(int restaurantId, MealCreateDto createDto)
         {
             var mealEntity = _mapper.Map<Meal>(createDto);
@@ -54,7 +53,6 @@ namespace Catering.API.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize("Admin")]
         public async Task<IActionResult> UpdateMeal(int id, MealUpdateDto createDto)
         {
             if (!ModelState.IsValid) return BadRequest();
@@ -69,7 +67,6 @@ namespace Catering.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize("Admin")]
         public async Task<IActionResult> DeleteMeal(int id)
         {
             var meal = await _service.GetMeal(id);

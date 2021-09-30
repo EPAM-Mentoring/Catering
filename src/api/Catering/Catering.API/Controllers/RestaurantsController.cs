@@ -44,7 +44,6 @@ namespace Catering.API.Controllers
         }
 
         [HttpPost("create")]
-        [Authorize("Admin")]
         public async Task<ActionResult<RestaurantDto>> CreateRestaurant(RestaurantCreateDto createDto)
         {
             var restEntity = _mapper.Map<Restaurant>(createDto);
@@ -56,7 +55,6 @@ namespace Catering.API.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize("Admin")]
         public async Task<IActionResult> UpdateRestaurant(int id, RestaurantUpdateDto updateDto)
         {
             var restaurant = await _service.GetRestaurant(id);
@@ -67,7 +65,6 @@ namespace Catering.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize("Admin")]
         public async Task<IActionResult> DeleteRestaurant(int id)
         {
             var restFromRepo = await _service.GetRestaurant(id);

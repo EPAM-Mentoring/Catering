@@ -13,8 +13,10 @@ namespace Catering.API.Dtos
 
         public string PictureUrl { get; set; }
 
-        public DateTimeOffset OpenTime { get; set; }
+        public string StreetAddress { get; set; }
 
-        public DateTimeOffset ClosedTime { get; set; }
+        public TimeSpan OpenTime { get; set; }
+
+        public TimeSpan CloseTime { get; set; }
     }
 }

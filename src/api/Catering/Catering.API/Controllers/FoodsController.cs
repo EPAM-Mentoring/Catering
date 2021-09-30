@@ -38,7 +38,6 @@ namespace Catering.API.Controllers
         }
 
         [HttpPost("create/{shopId}")]
-        [Authorize("Admin")]
         public async Task<ActionResult<FoodDto>> CreateFood(int shopId, FoodCreateDto createDto)
         {
             if (!ModelState.IsValid) return BadRequest();
@@ -50,11 +49,8 @@ namespace Catering.API.Controllers
         }
         
         [HttpPut("{id}")]
-        [Authorize("Admin")]
         public async Task<IActionResult> UpdateFood(int id, FoodUpdateDto createDto)
         {
-            if (!ModelState.IsValid) return BadRequest();
-
             var food = await _service.GetFood(id);
 
             if (food == null) return BadRequest();
@@ -66,7 +62,6 @@ namespace Catering.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize("Admin")]
         public async Task<ActionResult> DeleteFood(int id)
         {
             var food = await _service.GetFood(id);

@@ -31,11 +31,15 @@ namespace Catering.DAL.Configuration
                 .IsRequired();
 
             builder
+                .Property(m => m.StreetAddress)
+                .IsRequired();
+
+            builder
                 .Property(m => m.OpenTime)
                 .IsRequired();
 
             builder
-                .Property(m => m.ClosedTime)
+                .Property(m => m.CloseTime)
                 .IsRequired();
 
             builder

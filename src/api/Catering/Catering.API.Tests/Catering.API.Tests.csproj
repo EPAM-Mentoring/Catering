@@ -21,7 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Catering.API\Catering.API.csproj" />
+    <ProjectReference Include="..\Catering.API\Catering.API.csproj" />
+    <ProjectReference Include="..\Catering.BLL\Catering.BLL.csproj" />
   </ItemGroup>
 
 </Project>

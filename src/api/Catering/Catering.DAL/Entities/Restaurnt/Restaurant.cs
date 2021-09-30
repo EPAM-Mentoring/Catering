@@ -13,9 +13,15 @@ namespace Catering.DAL.Entities.Restaurnt
 
         public string PictureUrl { get; set; }
 
-        public DateTimeOffset OpenTime { get; set; }
+        public string StreetAddress { get; set; }
 
-        public DateTimeOffset ClosedTime { get; set; }
+        public bool IsAvailableForBooking { get; set; }
+
+        public decimal BookingPricePerDay { get; set; }
+
+        public TimeSpan OpenTime { get; set; }
+
+        public TimeSpan CloseTime { get; set; }
 
         public ICollection<Meal> Meals { get; set; }
              = new List<Meal>();
