@@ -71,7 +71,6 @@ namespace Catering.API
               .AddEntityFrameworkStores<CateringDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddCors();
             services.AddAuth(Configuration);
             services.AddSwaggerDocumentation();
 
