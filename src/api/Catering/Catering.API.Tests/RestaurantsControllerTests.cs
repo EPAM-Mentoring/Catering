@@ -18,6 +18,7 @@ namespace Catering.API.Tests
     {
         private readonly RestaurantsController _restaurantsController;
         private readonly Mock<IRestaurantService> _restaurantServiceMock;
+        private readonly Mock<IMealService> _mealService;
         private readonly Mock<IMapper> _mapperMock;
 
         public RestaurantsControllerTests()
@@ -40,6 +41,34 @@ namespace Catering.API.Tests
             var result = await _restaurantsController.GetRestaurants();
 
             Assert.IsType<ActionResult<IEnumerable<RestaurantDto>>>(result);
+        }
+
+        [Fact]
+        public async void GetAll_ShouldReturnOk_WhenDoesNotExistAnyRestaurant()
+        {
+            var restaurants = new List<Restaurant>();
+            var dtoExpected = MapModelToRestaurantListDto(restaurants);
+
+            _restaurantServiceMock.Setup(c => c.GetRestaurants()).ReturnsAsync(restaurants);
+            _mapperMock.Setup(m => m.Map<IEnumerable<RestaurantDto>>(It.IsAny<List<Restaurant>>())).Returns(dtoExpected);
+
+            var result = await _restaurantsController.GetRestaurants();
+
+            Assert.IsType<ActionResult<IEnumerable<RestaurantDto>>>(result);
+        }
+
+        [Fact]
+        public async void GetAll_ShouldCallGetAllFromService_OnlyOnce()
+        {
+            var restaurants = CreateRestauarntList();
+            var dtoExpected = MapModelToRestaurantListDto(restaurants);
+
+            _restaurantServiceMock.Setup(c => c.GetRestaurants()).ReturnsAsync(restaurants);
+            _mapperMock.Setup(m => m.Map<IEnumerable<RestaurantDto>>(It.IsAny<List<Restaurant>>())).Returns(dtoExpected);
+
+            await _restaurantsController.GetRestaurants();
+
+            _restaurantServiceMock.Verify(mock => mock.GetRestaurants(), Times.Once);
         }
 
         [Fact]
@@ -67,6 +96,20 @@ namespace Catering.API.Tests
         }
 
         [Fact]
+        public async void GetById_ShouldCallGetByIdFromService_OnlyOnce()
+        {
+            var restaurant = CreateRestaurant();
+            var dtoExpected = MapModelToRestaurantDto(restaurant);
+
+            _restaurantServiceMock.Setup(c => c.GetRestaurant(2)).ReturnsAsync(restaurant);
+            _mapperMock.Setup(m => m.Map<RestaurantDto>(It.IsAny<Restaurant>())).Returns(dtoExpected);
+
+            await _restaurantsController.GetRestaurant(2);
+
+            _restaurantServiceMock.Verify(mock => mock.GetRestaurant(2), Times.Once);
+        }
+
+        [Fact]
         public async void Add_ShouldReturnOk_WhenRestaurantIsAdded()
         {
             var restaurant = CreateRestaurant();
@@ -80,6 +123,36 @@ namespace Catering.API.Tests
             var result = await _restaurantsController.CreateRestaurant(restaurantCreateDto);
 
             Assert.IsType<ActionResult<RestaurantDto>>(result);
+        }
+
+        [Fact]
+        public async void Update_ShouldReturnOk_WhenRestaurantIsUpdatedCorrectly()
+        {
+            var restaurant = CreateRestaurant();
+            var restaurantUpdateDto = new RestaurantUpdateDto() { Name = restaurant.Name, PictureUrl ="Test 2" };
+
+            _mapperMock.Setup(m => m.Map<Restaurant>(It.IsAny<RestaurantUpdateDto>())).Returns(restaurant);
+            _restaurantServiceMock.Setup(c => c.GetRestaurant(restaurant.Id)).ReturnsAsync(restaurant);
+            _restaurantServiceMock.Setup(c => c.UpdateRestaurant(restaurant));
+
+            var result = await _restaurantsController.UpdateRestaurant(restaurant.Id, restaurantUpdateDto);
+
+            Assert.IsType<OkResult>(result);
+        }
+        
+        [Fact]
+        public async void Update_ShouldCallUpdateFromService_OnlyOnce()
+        {
+            var restaurant = CreateRestaurant();
+            var restaurantUpdateDto = new RestaurantUpdateDto() { Name = restaurant.Name, PictureUrl = "Test 2" };
+
+            _mapperMock.Setup(m => m.Map<Restaurant>(It.IsAny<RestaurantUpdateDto>())).Returns(restaurant);
+            _restaurantServiceMock.Setup(c => c.GetRestaurant(restaurant.Id)).ReturnsAsync(restaurant);
+            _restaurantServiceMock.Setup(c => c.UpdateRestaurant(restaurant));
+
+            await _restaurantsController.UpdateRestaurant(restaurant.Id, restaurantUpdateDto);
+
+            _restaurantServiceMock.Verify(mock => mock.UpdateRestaurant(restaurant), Times.Once);
         }
 
         [Fact]
@@ -103,6 +176,30 @@ namespace Catering.API.Tests
             var result = await _restaurantsController.DeleteRestaurant(restaurant.Id);
 
             Assert.IsType<NotFoundResult>(result);
+        }
+
+        [Fact]
+        public async void Remove_ShouldReturnBadRequest_WhenResultIsFalse()
+        {
+            var restaurant = CreateRestaurant();
+            _restaurantServiceMock.Setup(c => c.GetRestaurant(restaurant.Id)).ReturnsAsync(restaurant);
+            _restaurantServiceMock.Setup(c => c.DeleteRestaurant(restaurant));
+
+            var result = await _restaurantsController.DeleteRestaurant(restaurant.Id);
+
+            Assert.IsType<NoContentResult>(result);
+        }
+
+        [Fact]
+        public async void Remove_ShouldCallRemoveFromService_OnlyOnce()
+        {
+            var restaurant = CreateRestaurant();
+            _restaurantServiceMock.Setup(c => c.GetRestaurant(restaurant.Id)).ReturnsAsync(restaurant);
+            _restaurantServiceMock.Setup(c => c.DeleteRestaurant(restaurant));
+
+            await _restaurantsController.DeleteRestaurant(restaurant.Id);
+
+            _restaurantServiceMock.Verify(mock => mock.DeleteRestaurant(restaurant), Times.Once);
         }
 
         private Restaurant CreateRestaurant()

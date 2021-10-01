@@ -41,6 +41,33 @@ namespace Catering.API.Tests
         }
 
         [Fact]
+        public async void GetAll_ShouldReturnOk_WhenDoesNotExistAnyMeal()
+        {
+            var meals = new List<Meal>();
+            var dtoExpected = MapModelToMealListDto(meals);
+
+            _mealServiceMock.Setup(c => c.GetMeals()).ReturnsAsync(meals);
+            _mapperMock.Setup(m => m.Map<IEnumerable<MealDto>>(It.IsAny<List<Meal>>())).Returns(dtoExpected);
+
+            var result = await _mealsController.GetMeals();
+            Assert.IsType<ActionResult<IEnumerable<MealDto>>>(result);
+        }
+
+        [Fact]
+        public async void GetAll_ShouldCallGetAllFromService_OnlyOnce()
+        {
+            var meals = CreateMealList();
+            var dtoExpected = MapModelToMealListDto(meals);
+
+            _mealServiceMock.Setup(c => c.GetMeals()).ReturnsAsync(meals);
+            _mapperMock.Setup(m => m.Map<IEnumerable<MealDto>>(It.IsAny<List<Meal>>())).Returns(dtoExpected);
+
+            await _mealsController.GetMeals();
+
+            _mealServiceMock.Verify(mock => mock.GetMeals(), Times.Once);
+        }
+
+        [Fact]
         public async void GetById_ShouldReturnOk_WhenMealExist()
         {
             var meal = CreateMeal();
@@ -52,6 +79,20 @@ namespace Catering.API.Tests
             var result = await _mealsController.GetMeal(2);
 
             Assert.IsType<ActionResult<MealDto>>(result);
+        }
+
+        [Fact]
+        public async void GetById_ShouldCallGetByIdFromService_OnlyOnce()
+        {
+            var meal = CreateMeal();
+            var dtoExpected = MapModelToMealDto(meal);
+
+            _mealServiceMock.Setup(c => c.GetMeal(2)).ReturnsAsync(meal);
+            _mapperMock.Setup(m => m.Map<MealDto>(It.IsAny<Meal>())).Returns(dtoExpected);
+
+            await _mealsController.GetMeal(2);
+
+            _mealServiceMock.Verify(mock => mock.GetMeal(2), Times.Once);
         }
 
         [Fact]
@@ -107,6 +148,18 @@ namespace Catering.API.Tests
             var result = await _mealsController.DeleteMeal(meal.Id);
 
             Assert.IsType<NotFoundResult>(result);
+        }
+
+        [Fact]
+        public async void Remove_ShouldCallRemoveFromService_OnlyOnce()
+        {
+            var meal = CreateMeal();
+            _mealServiceMock.Setup(c => c.GetMeal(meal.Id)).ReturnsAsync(meal);
+            _mealServiceMock.Setup(c => c.DeleteMeal(meal));
+
+            await _mealsController.DeleteMeal(meal.Id);
+
+            _mealServiceMock.Verify(mock => mock.DeleteMeal(meal), Times.Once);
         }
 
         private Meal CreateMeal()
@@ -180,7 +233,7 @@ namespace Catering.API.Tests
         {
             var listMeals = new List<MealDto>();
 
-            foreach(var item in meals)
+            foreach (var item in meals)
             {
                 var meal = new MealDto()
                 {
@@ -195,7 +248,5 @@ namespace Catering.API.Tests
             }
             return listMeals;
         }
-
     }
 }
- 
