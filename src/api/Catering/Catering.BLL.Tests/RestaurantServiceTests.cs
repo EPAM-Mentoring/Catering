@@ -49,6 +49,17 @@ namespace Catering.BLL.Tests
         }
 
         [Fact]
+        public async void GetAll_ShouldCallGetAllFromRepository_OnlyOnce()
+        {
+            _restaurantRepositoryMock.Setup(c =>
+                c.GetListAsync()).ReturnsAsync((List<Restaurant>)null);
+
+            await _restaurantService.GetRestaurants();
+
+            _restaurantRepositoryMock.Verify(mock => mock.GetListAsync(), Times.Once);
+        }
+
+        [Fact]
         public async void GetById_ShouldReturnRestaurant_WhenRestaurantExist()
         {
             var restaurant = CreateRestaurant();
@@ -93,6 +104,22 @@ namespace Catering.BLL.Tests
             var result = _restaurantService.AddRestaurant(restaurant);
 
             Assert.NotNull(result);
+        }
+
+        [Fact]
+        public async void Add_ShouldCallAddFromRepository_OnlyOnce()
+        {
+            var restaurant = CreateRestaurant();
+
+            _restaurantRepositoryMock.Setup(c => c.Add(restaurant));
+
+            _restaurantRepositoryMock.Setup(c =>
+                    c.GetListAsync())
+                .ReturnsAsync(new List<Restaurant>());
+
+            await _restaurantService.AddRestaurant(restaurant);
+
+            _restaurantRepositoryMock.Verify(mock => mock.Add(restaurant), Times.Once);
         }
 
         [Fact]
