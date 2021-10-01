@@ -22,6 +22,11 @@ namespace Catering.API.Controllers
         public async Task<IActionResult> GetBasket(int id)
         {
             var basketEntity = await _service.GetBasketAsync(id);
+            if(basketEntity == null)
+            {
+                return NotFound();
+            }
+
             return Ok(basketEntity);
         }
 
@@ -29,6 +34,11 @@ namespace Catering.API.Controllers
         public async Task<ActionResult<CustomerBasket>> UpdateBasket([FromBody]CustomerBasketDto basket)
         {
             var customerBasket = _mapper.Map<CustomerBasket>(basket);
+            if(customerBasket == null)
+            {
+                return BadRequest();
+            }
+
             var custBasket = await _service.UpdateBasketAsync(customerBasket);
             return Ok(custBasket);
         }
