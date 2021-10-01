@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { from, Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { IFoodShop } from '../shared/models/foodShop';
 
 @Injectable({
@@ -8,7 +9,7 @@ import { IFoodShop } from '../shared/models/foodShop';
 })
 
 export class FoodShopService {
-  baseUrl = 'https://localhost:5001/api/foodShops/';
+  baseUrl = environment.apiUrl + 'foodShops/';
   
   constructor(private httpClient: HttpClient) { }
   

@@ -1,13 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { IRestaurant } from '../shared/models/restaurant';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RestaurantService {
-  baseUrl = 'https://localhost:5001/api/restaurants/';
+  baseUrl = environment.apiUrl + 'restaurants/';
   
   constructor(private httpClient: HttpClient) { }
   
