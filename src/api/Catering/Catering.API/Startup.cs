@@ -43,7 +43,15 @@ namespace Catering.API
             var jwtSettings = Configuration.GetSection("Jwt").Get<JwtSettings>();
             services.AddAutoMapper(typeof(Startup));
             services.AddControllers().AddNewtonsoftJson();
-            
+
+            services.AddCors(options => {
+                 options.AddDefaultPolicy(builder => {
+                      builder.WithOrigins()
+                          .AllowAnyHeader()
+                          .AllowAnyMethod();
+                      });
+                 });
+
             services.AddDbContext<CateringDbContext>(options => 
                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -66,14 +74,6 @@ namespace Catering.API
             services.AddCors();
             services.AddAuth(Configuration);
             services.AddSwaggerDocumentation();
-
-            /* services.AddCors(options =>
-            {
-                options.AddPolicy("CorsPolicy", policy =>
-                {
-                    policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
-                });
-            }); */
 
             services.AddMvc()
               .AddNewtonsoftJson(options =>
@@ -103,13 +103,8 @@ namespace Catering.API
             app.UseRouting();
 
             app.UseStaticFiles();
-            app.UseCors(builder => builder
-            //.AllowAnyOrigin()
-             .WithOrigins("https://catering-frontend.azurewebsites.net", "http://localhost:4200", "https://localhost:5001/api/notification", "https://localhost:5001")
-             .AllowAnyMethod()
-             .AllowAnyHeader()
-             .AllowCredentials());
-            //app.UseCors("CorsPolicy");
+
+            app.UseCors();
 
             app.UseAuthentication();
 
