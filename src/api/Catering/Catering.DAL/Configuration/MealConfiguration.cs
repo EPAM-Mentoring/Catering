@@ -25,6 +25,7 @@ namespace Catering.DAL.Configuration
                 .Property(m => m.MealName)
                 .IsRequired()
                 .HasMaxLength(50);
+
             builder
                 .Property(m => m.Description)
                 .IsRequired()

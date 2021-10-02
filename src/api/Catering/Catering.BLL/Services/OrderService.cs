@@ -25,13 +25,7 @@ namespace Catering.BLL.Services
             _basketRepository = basketRepository;
         }
 
-        public async Task AddOrder(Order order)
-        {
-            _repository.Add(order);
-            await UnitOfWork.SaveChangeAsync();
-        }
-
-        public async Task<Order> CreateOrderAsync(string buyerEmail, int basketId)
+        public async Task<Order> CreateOrderAsync(string buyerEmail, int delieveryMethodId, int basketId, Address shippingAddress)
         {
             var basket = await _basketRepository.GetAsync(basketId);
 
@@ -45,15 +39,22 @@ namespace Catering.BLL.Services
                 items.Add(orderItem);
             }
 
-            var subTotal = items.Sum(item => item.Price * item.Quantity);
+            var deliveryMethod = await UnitOfWork.Repository<DeliveryMethod>().GetAsync(delieveryMethodId);
 
-            var order = new Order(items, buyerEmail, subTotal);
+            var subtotal = items.Sum(item => item.Price * item.Quantity);
+
+            var order = new Order(items, buyerEmail, shippingAddress, deliveryMethod, subtotal);
 
             _repository.Add(order);
 
             await UnitOfWork.SaveChangeAsync();
 
             return order;
+        }
+
+        public async Task<IReadOnlyList<DeliveryMethod>> GetDeliveryMethodsAsync()
+        {
+            return await UnitOfWork.Repository<DeliveryMethod>().ListAllAsync();
         }
 
         public async Task<Order> GetOrderByIdAsync(int id, string buyerEmail)
@@ -69,6 +70,8 @@ namespace Catering.BLL.Services
 
             return await UnitOfWork.Repository<Order>().ListAsync(spec);
         }
+
+        
 
     }
 }

@@ -11,6 +11,10 @@ namespace Catering.API.Dtos
         [Required]
         public int  Id { get; set; }
 
+        public int? DeliveryMethodId { get; set; }
+
         public List<BasketItemDto> Items { get; set; }
+
+        public decimal ShippingPrice { get; set; }
     }
 }

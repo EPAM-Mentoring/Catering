@@ -44,14 +44,6 @@ namespace Catering.API
             services.AddAutoMapper(typeof(Startup));
             services.AddControllers().AddNewtonsoftJson();
 
-            services.AddCors(options => {
-                 options.AddDefaultPolicy(builder => {
-                      builder.WithOrigins()
-                          .AllowAnyHeader()
-                          .AllowAnyMethod();
-                      });
-                 });
-
             services.AddDbContext<CateringDbContext>(options => 
                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -72,6 +64,14 @@ namespace Catering.API
                 .AddDefaultTokenProviders();
 
             services.AddAuth(Configuration);
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", builder => builder.WithOrigins("https://catering-frontend.azurewebsites.net", "http://localhost:4200")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials()
+                    .SetIsOriginAllowed((host) => true));
+            });
             services.AddSwaggerDocumentation();
 
             services.AddMvc()
@@ -103,7 +103,7 @@ namespace Catering.API
 
             app.UseStaticFiles();
 
-            app.UseCors();
+            app.UseCors("CorsPolicy");
 
             app.UseAuthentication();
 

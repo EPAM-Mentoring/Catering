@@ -22,10 +22,8 @@ namespace Catering.DAL.Entities.Bookings
 
         public IReadOnlyList<BookingItem> BookingItems { get; set; } 
 
-        public BookingStatus Status { get; set; } = BookingStatus.BookingPending;
-
         public string CustomerEmail { get; set; }
 
-        public DateTimeOffset BookingDate { get; set; } = DateTimeOffset.Now;
+        public DateTime BookingDate { get; set; } = DateTime.Now;
     }
 }

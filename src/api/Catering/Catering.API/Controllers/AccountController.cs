@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Catering.API.Dtos.Auth;
+using Catering.API.Dtos.Order;
 using Catering.API.Errors;
 using Catering.API.Extensions;
 using Catering.BLL.Interfaces;
@@ -90,6 +91,30 @@ namespace Catering.API.Controllers
         public async Task<ActionResult<bool>> CheckEmailExistsAsync([FromQuery] string email)
         {
             return await _userManager.FindByEmailAsync(email) != null;
+        }
+
+        [Authorize]
+        [HttpGet("address")]
+        public async Task<ActionResult<AddressDto>> GetUserAddress()
+        {
+            var user = await _userManager.FindByEmailWithAddressAsync(User);
+
+            return _mapper.Map<AddressDto>(user.Address);
+        }
+
+        [Authorize]
+        [HttpPut("address")]
+        public async Task<ActionResult<AddressDto>> UpdateUserAddress(AddressDto address)
+        {
+            var user = await _userManager.FindByEmailWithAddressAsync(User);
+
+            user.Address = _mapper.Map<Address>(address);
+
+            var result = await _userManager.UpdateAsync(user);
+
+            if (result.Succeeded) return Ok(_mapper.Map<AddressDto>(user.Address));
+
+            return BadRequest("Problem updating the user");
         }
     }
 }

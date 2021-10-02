@@ -31,7 +31,9 @@ namespace Catering.API.Controllers
         {
             var email = HttpContext.User.RetrieveEmailFromPrincipal();
 
-            var order = await _orderService.CreateOrderAsync(email, orderDto.BasketId);
+            var address = _mapper.Map<AddressDto, Address>(orderDto.ShipToAddress);
+
+            var order = await _orderService.CreateOrderAsync(email, orderDto.DeliveryMethodId, orderDto.BasketId, address);
 
             if (order == null) return BadRequest(new ApiResponse(400, "Problem creating order"));
 
@@ -58,6 +60,12 @@ namespace Catering.API.Controllers
             if (order == null) return NotFound(new ApiResponse(404));
 
             return _mapper.Map<OrderToReturnDto>(order);
+        }
+
+        [HttpGet("deliveryMethods")]
+        public async Task<ActionResult<IReadOnlyList<DeliveryMethod>>> GetDeliveryMethods()
+        {
+            return Ok(await _orderService.GetDeliveryMethodsAsync());
         }
     }
 }

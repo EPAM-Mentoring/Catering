@@ -4,14 +4,16 @@ using Catering.DAL.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Catering.DAL.Migrations
 {
     [DbContext(typeof(CateringDbContext))]
-    partial class CateringDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211002043622_AddressConfigMigration")]
+    partial class AddressConfigMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -19,7 +21,7 @@ namespace Catering.DAL.Migrations
                 .HasAnnotation("ProductVersion", "5.0.8")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Catering.DAL.Entities.Auth.Address", b =>
+            modelBuilder.Entity("Catering.DAL.Entities.Auth.AuthAddress", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -52,7 +54,7 @@ namespace Catering.DAL.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Address");
+                    b.ToTable("AuthAddress");
                 });
 
             modelBuilder.Entity("Catering.DAL.Entities.Auth.Role", b =>
@@ -593,11 +595,11 @@ namespace Catering.DAL.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Catering.DAL.Entities.Auth.Address", b =>
+            modelBuilder.Entity("Catering.DAL.Entities.Auth.AuthAddress", b =>
                 {
                     b.HasOne("Catering.DAL.Entities.Auth.User", "AppUser")
-                        .WithOne("Address")
-                        .HasForeignKey("Catering.DAL.Entities.Auth.Address", "UserId")
+                        .WithOne("AuthAddress")
+                        .HasForeignKey("Catering.DAL.Entities.Auth.AuthAddress", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -681,7 +683,7 @@ namespace Catering.DAL.Migrations
                         .WithMany()
                         .HasForeignKey("DeliveryMethodId");
 
-                    b.OwnsOne("Catering.DAL.Entities.Order.Address", "ShipToAddress", b1 =>
+                    b.OwnsOne("Catering.DAL.Entities.Order.CustomerAddress", "ShipToAddress", b1 =>
                         {
                             b1.Property<int>("OrderId")
                                 .ValueGeneratedOnAdd()
@@ -817,7 +819,7 @@ namespace Catering.DAL.Migrations
 
             modelBuilder.Entity("Catering.DAL.Entities.Auth.User", b =>
                 {
-                    b.Navigation("Address");
+                    b.Navigation("AuthAddress");
                 });
 
             modelBuilder.Entity("Catering.DAL.Entities.Basket.CustomerBasket", b =>

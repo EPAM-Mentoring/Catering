@@ -11,10 +11,8 @@ namespace Catering.API.Dtos.Booking
 
         public string CustomerEmail { get; set; }
 
-        public DateTimeOffset BookingDate { get; set; }
+        public DateTime BookingDate { get; set; }
 
         public ICollection<BookingItemDto> BookingItems { get; set; }
-
-        public string Status { get; set; }
     }
 }

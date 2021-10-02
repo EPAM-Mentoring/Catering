@@ -29,6 +29,7 @@ namespace Catering.DAL.DbContexts
         public DbSet<Building> Buildings { get; set; }
         public DbSet<CustomerBasket> CustomerBaskets { get; set; }
         public DbSet<BasketItem> BasketItems { get; set; }
+        public DbSet<DeliveryMethod> DeliveryMethods { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -43,6 +44,7 @@ namespace Catering.DAL.DbContexts
             builder.ApplyConfiguration(new OrderConfiguration());
             builder.ApplyConfiguration(new BookingConfiguration());
             builder.ApplyConfiguration(new BookingItemConfiguration());
+            builder.ApplyConfiguration(new DeliveryMethodConfiguration());
         }
     }
 }

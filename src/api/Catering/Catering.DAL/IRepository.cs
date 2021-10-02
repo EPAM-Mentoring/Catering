@@ -17,6 +17,8 @@ namespace Catering.DAL
 
         Task<IEnumerable<T>> GetListAsync();
 
+        Task<IReadOnlyList<T>> ListAllAsync();
+
         Task<T> GetEntityWithSpec(ISpecification<T> spec);
 
         Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec);

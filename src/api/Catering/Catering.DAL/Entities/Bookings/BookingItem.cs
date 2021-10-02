@@ -9,15 +9,15 @@ namespace Catering.DAL.Entities.Bookings
 
         }
 
-        public BookingItem(RestaurantBooked restaurantBooked, DateTimeOffset openTime, DateTimeOffset closedTime)
+        public BookingItem(RestaurantBooked restaurantBooked, TimeSpan openTime, TimeSpan closedTime)
         {
 
         }
 
         public RestaurantBooked ResBooked { get; set; }
 
-        public DateTimeOffset OpenTime { get; set; }
+        public TimeSpan OpenTime { get; set; }
 
-        public DateTimeOffset ClosedTime { get; set; }
+        public TimeSpan ClosedTime { get; set; }
     }
 }

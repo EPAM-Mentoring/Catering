@@ -13,8 +13,8 @@ namespace Catering.API.Dtos.Booking
 
         public string PictureUrl { get; set; }
 
-        public DateTimeOffset OpenTime { get; set; }
+        public TimeSpan OpenTime { get; set; }
 
-        public DateTimeOffset ClosedTime { get; set; }
+        public TimeSpan ClosedTime { get; set; }
     }
 }

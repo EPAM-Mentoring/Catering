@@ -18,7 +18,6 @@ namespace Catering.API.Tests
     {
         private readonly RestaurantsController _restaurantsController;
         private readonly Mock<IRestaurantService> _restaurantServiceMock;
-        private readonly Mock<IMealService> _mealService;
         private readonly Mock<IMapper> _mapperMock;
 
         public RestaurantsControllerTests()

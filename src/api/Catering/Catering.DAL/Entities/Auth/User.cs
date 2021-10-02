@@ -10,5 +10,7 @@ namespace Catering.DAL.Entities.Auth
     public class User : IdentityUser<int>
     {
         public string DisplayName { get; set; }
+
+        public Address Address { get; set; }
     }
 }

@@ -9,10 +9,6 @@ namespace Catering.API.Dtos.Buildings
     {
         public int Id { get; set; }
 
-        public string Street { get; set; }
-
-        public DateTimeOffset OpensAt { get; set; }
-
-        public DateTimeOffset CloseAt { get; set; }
+        public string StreetAddress { get; set; }
     }
 }

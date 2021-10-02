@@ -20,11 +20,6 @@ namespace Catering.DAL.Configuration
                 .Property(m => m.Id)
                 .UseIdentityColumn();
 
-            builder
-                .Property(m => m.Status)
-                .HasConversion(
-                   o => o.ToString(),
-                   o => (BookingStatus) Enum.Parse(typeof(BookingStatus), o));
 
             builder.HasMany(o => o.BookingItems).WithOne().OnDelete(DeleteBehavior.Cascade);
 
