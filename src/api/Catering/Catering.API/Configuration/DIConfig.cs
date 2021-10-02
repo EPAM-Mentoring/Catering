@@ -1,4 +1,5 @@
 ﻿using Catering.API.Integrations;
+using Catering.API.Security;
 using Catering.BLL.Interfaces;
 using Catering.BLL.Services;
 using Catering.DAL;
@@ -18,7 +19,7 @@ namespace Catering.API.Configuration
         public static IServiceCollection ResolveDependencies(this IServiceCollection services)
         {
             services.AddScoped<CateringDbContext>();
-
+            services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IRepository<Building>, Repository<Building>>();
             services.AddScoped<IRepository<Booking>, Repository<Booking>>();
             services.AddScoped<IRepository<Food>, Repository<Food>>();
@@ -44,8 +45,6 @@ namespace Catering.API.Configuration
             services.AddScoped<IBookingService, BookingService>();
 
             services.AddScoped<IBuildingService, BuildingService>();
-
-            services.AddScoped<ITokenService, TokenService>();
 
             services.AddScoped<IBasketService, BasketService>();
 

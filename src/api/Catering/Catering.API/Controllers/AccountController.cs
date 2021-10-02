@@ -3,7 +3,7 @@ using Catering.API.Dtos.Auth;
 using Catering.API.Dtos.Order;
 using Catering.API.Errors;
 using Catering.API.Extensions;
-using Catering.BLL.Interfaces;
+using Catering.API.Security;
 using Catering.DAL.Entities.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
