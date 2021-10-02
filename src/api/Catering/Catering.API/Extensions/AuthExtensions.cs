@@ -1,4 +1,5 @@
-﻿using Catering.DAL.DbContexts;
+﻿using Catering.API.Settings;
+using Catering.DAL.DbContexts;
 using Catering.DAL.Entities.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -14,8 +15,7 @@ namespace Catering.API.Extensions
     public static class AuthExtensions
     {
         public static IServiceCollection AddAuth(
-           this IServiceCollection services,
-           IConfiguration config)
+           this IServiceCollection services, JwtSettings jwtSettings)
         {
             services
                 .AddAuthorization(options =>
@@ -30,16 +30,25 @@ namespace Catering.API.Extensions
                 })
                 .AddJwtBearer(options =>
                 {
+                    options.RequireHttpsMetadata = false;
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Token:Key"])),
-                        ValidIssuer = config["Token:Issuer"],
-                        ValidateIssuer = true,
-                        ValidateAudience = false
+                        ValidIssuer = jwtSettings.Issuer,
+                        ValidAudience = jwtSettings.Issuer,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret)),
+                        ClockSkew = TimeSpan.Zero
                     };
                 });
             return services;
+        }
+
+        public static IApplicationBuilder UseAuth(this IApplicationBuilder app)
+        {
+            app.UseAuthentication();
+
+            app.UseAuthorization();
+
+            return app;
         }
     }
 }

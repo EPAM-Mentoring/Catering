@@ -29,18 +29,20 @@ using System.Collections.Generic;
 namespace Catering.API
 {
     public class Startup
-    { 
-        private readonly IConfiguration Configuration;
-
-        public Startup(IConfiguration config)
+    {
+        public Startup(IConfiguration configuration)
         {
-            Configuration = config;
+            Configuration = configuration;
         }
+
+        public IConfiguration Configuration { get; }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<JwtSettings>(Configuration.GetSection("Jwt"));
             var jwtSettings = Configuration.GetSection("Jwt").Get<JwtSettings>();
+
             services.AddAutoMapper(typeof(Startup));
             services.AddControllers().AddNewtonsoftJson();
 
@@ -63,7 +65,8 @@ namespace Catering.API
               .AddEntityFrameworkStores<CateringDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddAuth(Configuration);
+            services.AddAuth(jwtSettings);
+
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy", builder => builder.WithOrigins("https://catering-frontend.azurewebsites.net", "http://localhost:4200")
@@ -105,9 +108,7 @@ namespace Catering.API
 
             app.UseCors("CorsPolicy");
 
-            app.UseAuthentication();
-
-            app.UseAuthorization();
+            app.UseAuth();
 
             app.UseSwaggerDocumentation();
 
