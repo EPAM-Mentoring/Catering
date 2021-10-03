@@ -38,17 +38,7 @@ namespace Catering.API.Tests
 
             var result = await _basketController.GetBasket(2);
 
-            Assert.IsType<OkObjectResult>(result);
-        }
-
-        [Fact]
-        public async void GetById_ShouldReturnNotFound_WhenCustomerBasketDoesNotExist()
-        {
-            _basketServiceMock.Setup(c => c.GetBasketAsync(2)).ReturnsAsync((CustomerBasket)null);
-
-            var result = await _basketController.GetBasket(2);
-
-            Assert.IsType<NotFoundResult>(result);
+            Assert.IsType<ActionResult<CustomerBasket>>(result);
         }
 
         [Fact]
