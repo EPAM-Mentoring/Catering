@@ -3,5 +3,5 @@ export interface IFoodShop {
     name: string;
     pictureUrl: string;
     openTime: Date;
-    closedTime: Date;
+    closeTime: Date;
 }

@@ -10,12 +10,12 @@ export class BookingsService {
   baseUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
-
+  
   getBookingsForUser() {
-    return this.http.get(this.baseUrl + 'bookings');
+    return this.http.get(this.baseUrl + 'booking');
   }
 
   getBookingsDetailed(id: number) {
-    return this.http.get(this.baseUrl + 'bookings/' + id);
+    return this.http.get(this.baseUrl + 'booking/' + id);
   }
 }

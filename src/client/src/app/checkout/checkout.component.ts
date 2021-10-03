@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { Observable } from 'rxjs';
+import { AccountService } from '../account/account.service';
 import { BasketService } from '../basket/basket.service';
+import { IAddress } from '../shared/models/address';
+import { IBasketTotals } from '../shared/models/basket';
 
 @Component({
   selector: 'app-checkout',
@@ -7,27 +13,50 @@ import { BasketService } from '../basket/basket.service';
   styleUrls: ['./checkout.component.scss']
 })
 export class CheckoutComponent implements OnInit {
-  public url = new URL(
-    'https://smartcity-citizenaccount-frontend.azurewebsites.net/payment/request'
-  );
+  checkoutForm: FormGroup;
+  basketTotals$: Observable<IBasketTotals>;
 
-  constructor(private basket: BasketService) { }
+  constructor(private fb: FormBuilder, private toastr: ToastrService, private accountService: AccountService, private basketService: BasketService) { }
 
   ngOnInit(): void {
+    this.createCheckoutForm();
+    this.getAddressForm();
+    this.basketTotals$ = this.basketService.basketTotal$;
   }
   
-  openPaymentService() {
-    this.basket.basketTotal$.subscribe((value) => {
-      let orderId = 1;
-      let amount = value.total;
-      let serviceId = 3;
-      
-      this.url.searchParams.append('orderId', orderId.toString());
-      this.url.searchParams.append('amount', amount.toString());
-      this.url.searchParams.append('serviceId', serviceId.toString());
-
-      window.open(this.url.toString(), '_blank').focus();
+   saveUserAddress() {
+    this.accountService.updateUserAddress(this.checkoutForm.get('addressForm').value)
+        .subscribe((address: IAddress) => {
+          this.toastr.success('Address updated successfully');
+          this.checkoutForm.get('addressForm').reset(address);
+        }, error => {
+          this.toastr.error(error.message);
+          console.log(error);
+        });
+  }
+  
+   createCheckoutForm() {
+    this.checkoutForm = this.fb.group({
+      addressForm: this.fb.group({
+        firstName: [null, Validators.required],
+        lastName: [null, Validators.required],
+        street: [null, Validators.required],
+        city: [null, Validators.required],
+        state: [null, Validators.required],
+        zipCode: [null, Validators.required],
+      }),
+      deliveryForm: this.fb.group({
+        deliveryMethod: [null, Validators.required]
+      })
     });
+  }
+
+  getAddressForm() {
+    this.accountService.getUserAddress().subscribe(address => {
+      if (address) {
+        this.checkoutForm.get('addressForm').patchValue(address);
+      }
+    }, error => console.log(error));
   }
 
 }

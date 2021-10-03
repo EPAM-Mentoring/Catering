@@ -21,7 +21,7 @@
     </p>
     <h2>Try to make payment again</h2>
   </div>
-
+  
   <button
     *ngIf="order"
     routerLink="/orders/{{ order?.id }}"
@@ -32,4 +32,13 @@
   <button *ngIf="!order" routerLink="/orders" class="btn btn-outline-success">
     View your orders
   </button>
+
+  <div class="col-4">
+            <app-order-totals
+                *ngIf="(basketTotals$ | async)"
+                [shippingPrice]="(basketTotals$ | async).shipping"
+                [subtotal]="(basketTotals$ | async).subtotal"
+                [total]="(basketTotals$ | async).total"
+            ></app-order-totals>
+  </div>
 </div>

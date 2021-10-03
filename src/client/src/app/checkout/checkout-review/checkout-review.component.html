@@ -1,0 +1,26 @@
+<div class="container mt-5">
+<div class="mt-4">
+    <app-basket-summary 
+        [isBasket]=false
+        [items]="(basket$ | async).items"
+        ></app-basket-summary>
+</div>
+
+<div class="float-none d-flex justify-content-between flex-column flex-lg-row mb-5">
+    <button class="btn btn-outline-primary" routerLink="/checkout/delivery">
+        <i class="fa fa-angle-left"></i> Back to delivery
+    </button>
+    <button class="btn btn-primary" (click)="openPaymentService()">
+        Go to Payment <i class="fa fa-angle-right"></i>
+    </button>
+</div>
+
+<div class="col-4">
+    <app-order-totals
+         *ngIf="(basketTotals$ | async)"
+         [shippingPrice]="(basketTotals$ | async).shipping"
+         [subtotal]="(basketTotals$ | async).subtotal"
+         [total]="(basketTotals$ | async).total"
+     ></app-order-totals>
+    </div>
+</div>

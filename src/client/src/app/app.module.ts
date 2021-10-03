@@ -18,10 +18,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
 import { JwtInterceptor } from './core/interceptors/jwt.interceptor';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
-import { CheckoutComponent } from './checkout/checkout.component';
-import { OrdersComponent } from './orders/orders.component';
-import { OrderDetailedComponent } from './orders/order-detailed/order-detailed.component';
 import { BookingsComponent } from './bookings/bookings.component';
+
 
 @NgModule({
   declarations: [
