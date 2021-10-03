@@ -1,5 +1,4 @@
 ﻿using Catering.API.Integrations;
-using Catering.API.Security;
 using Catering.BLL.Interfaces;
 using Catering.BLL.Services;
 using Catering.DAL;

@@ -1,8 +1,6 @@
 using AutoMapper;
 using Catering.API.Configuration;
 using Catering.API.Extensions;
-using Catering.API.Integrations;
-using Catering.API.Settings;
 using Catering.BLL.Interfaces;
 using Catering.BLL.Options;
 using Catering.BLL.Services;
@@ -35,14 +33,15 @@ namespace Catering.API
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        private readonly IConfiguration Configuration;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<JwtSettings>(Configuration.GetSection("Jwt"));
-            var jwtSettings = Configuration.GetSection("Jwt").Get<JwtSettings>();
+            //services.Configure<JwtSettings>(Configuration.GetSection("Jwt"));
+            //var jwtSettings = Configuration.GetSection("Jwt").Get<JwtSettings>();
 
+            //services.AddAuth(jwtSettings);
             services.AddAutoMapper(typeof(Startup));
             services.AddControllers().AddNewtonsoftJson();
 
@@ -52,20 +51,19 @@ namespace Catering.API
             services.AddHttpClient();
             services.AddScoped<IWebApiClient, WebApiClient>();
             services.ResolveDependencies();
+            services.AddAuth(Configuration);
             services.Configure<PaymentServiceOptions>(Configuration.GetSection(PaymentServiceOptions.Section));
             services.Configure<ReserveServiceOptions>(Configuration.GetSection(ReserveServiceOptions.Section));
-            services.AddIdentity<User, Role>(options =>
-            {
-                options.Password.RequiredLength = 8;
-                options.Password.RequireNonAlphanumeric = true;
-                options.Password.RequireUppercase = true;
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1d);
-                options.Lockout.MaxFailedAccessAttempts = 5;
-            })
-              .AddEntityFrameworkStores<CateringDbContext>()
-                .AddDefaultTokenProviders();
-
-            services.AddAuth(jwtSettings);
+            //services.AddIdentity<User, Role>(options =>
+            //{
+            //    options.Password.RequiredLength = 8;
+            //    options.Password.RequireNonAlphanumeric = true;
+            //    options.Password.RequireUppercase = true;
+            //    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1d);
+            //    options.Lockout.MaxFailedAccessAttempts = 5;
+            //})
+            //  .AddEntityFrameworkStores<CateringDbContext>()
+            //    .AddDefaultTokenProviders();
 
             services.AddCors(options =>
             {

@@ -1,4 +1,4 @@
-﻿using Catering.API.Settings;
+﻿
 using Catering.DAL.DbContexts;
 using Catering.DAL.Entities.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -15,28 +15,30 @@ namespace Catering.API.Extensions
     public static class AuthExtensions
     {
         public static IServiceCollection AddAuth(
-           this IServiceCollection services, JwtSettings jwtSettings)
+           this IServiceCollection services, IConfiguration config)
         {
+            var builder = services.AddIdentityCore<User>();
+
+            builder = new IdentityBuilder(builder.UserType, builder.Services);
+            builder.AddEntityFrameworkStores<CateringDbContext>();
+
+            builder.AddSignInManager<SignInManager<User>>();
+
             services
                 .AddAuthorization(options =>
                 {
                     options.AddPolicy("Admin", policy => policy.RequireUserName("admin@test.com"));
                 })
-                .AddAuthentication(options =>
-                {
-                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
-                    options.RequireHttpsMetadata = false;
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
-                        ValidIssuer = jwtSettings.Issuer,
-                        ValidAudience = jwtSettings.Issuer,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret)),
-                        ClockSkew = TimeSpan.Zero
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Token:Key"])),
+                        ValidIssuer = config["Token:Issuer"],
+                        ValidateIssuer = true,
+                        ValidateAudience = false
                     };
                 });
             return services;

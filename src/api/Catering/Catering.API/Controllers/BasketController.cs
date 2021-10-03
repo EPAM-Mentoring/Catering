@@ -19,13 +19,9 @@ namespace Catering.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetBasket(int id)
+        public async Task<ActionResult<CustomerBasket>> GetBasket(int id)
         {
             var basketEntity = await _service.GetBasketAsync(id);
-            if(basketEntity == null)
-            {
-                return NotFound();
-            }
 
             return Ok(basketEntity);
         }
