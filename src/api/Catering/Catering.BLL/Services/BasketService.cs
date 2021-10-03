@@ -14,7 +14,7 @@ namespace Catering.BLL.Services
     {
         private IRepository<CustomerBasket> _repository;
 
-        public BasketService(IUnitOfWork unitOfWork, 
+        public BasketService(IUnitOfWork unitOfWork,
             IRepository<CustomerBasket> repository) : base(unitOfWork)
         {
             _repository = repository;
@@ -26,16 +26,16 @@ namespace Catering.BLL.Services
         }
 
         public async Task<CustomerBasket> UpdateBasketAsync(CustomerBasket basket)
-        { 
+        {
             _repository.Update(basket);
 
             try
             {
-                  await UnitOfWork.SaveChangeAsync();
+                await UnitOfWork.SaveChangeAsync();
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                    
+
             }
 
             return basket;
@@ -47,4 +47,5 @@ namespace Catering.BLL.Services
             await UnitOfWork.SaveChangeAsync();
         }
     }
+
 }
