@@ -18,7 +18,7 @@ namespace Catering.DAL.Entities.Auth
         public string ZipCode { get; set; }
 
         [Required]
-        public int UserId { get; set; }
-        public User AppUser { get; set; }
+        public string UserId { get; set; }
+        public User User { get; set; }
     }
 }

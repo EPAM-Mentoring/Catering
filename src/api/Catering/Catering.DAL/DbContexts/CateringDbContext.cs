@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Catering.DAL.DbContexts 
 {
-    public class CateringDbContext : IdentityDbContext<User, Role, int>
+    public class CateringDbContext : IdentityDbContext<User>
     {
         public CateringDbContext(DbContextOptions<CateringDbContext> options) : base(options)
         {
@@ -35,6 +35,7 @@ namespace Catering.DAL.DbContexts
         {
             base.OnModelCreating(builder);
 
+            builder.ApplyConfiguration(new UserConfiguration());
             builder.ApplyConfiguration(new RestaurantConfiguration());
             builder.ApplyConfiguration(new FoodShopConfiguration());
             builder.ApplyConfiguration(new MealConfiguration());

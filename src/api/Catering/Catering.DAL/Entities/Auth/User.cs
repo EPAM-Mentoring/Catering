@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Catering.DAL.Entities.Auth
 {
-    public class User : IdentityUser<int>
+    public class User : IdentityUser
     {
         public string DisplayName { get; set; }
 
