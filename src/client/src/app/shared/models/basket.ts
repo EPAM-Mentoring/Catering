@@ -5,6 +5,7 @@ export interface IBasket {
     deliveryMethodId?: number;
     shippingPrice?: number;
     items: IBasketItem[];
+    mealItems: IBasketMealItem[];
 }
 
 export interface IBasketItem {
@@ -15,9 +16,18 @@ export interface IBasketItem {
     pictureUrl: string;
 }
 
+export interface IBasketMealItem {
+    id: number;
+    mealName: string;
+    mealPrice: number;
+    mealQuantity: number;
+    mealPictureUrl: string;
+}
+
 export class Basket implements IBasket {
      id = Number(uuidv4());
     items: IBasketItem[] = [];
+    mealItems: IBasketMealItem[] =  [];
 }
 
 export interface IBasketTotals {

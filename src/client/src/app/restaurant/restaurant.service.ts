@@ -40,8 +40,12 @@ export class RestaurantService {
   deleteRestaurantById(id:number):Observable<IRestaurant> {
     return this.httpClient.delete<IRestaurant>(this.baseUrl + id);
   }
-
-   createBooking(booking: IBookingToCreate) {
+  
+  createBooking(booking: IBookingToCreate) {
      return this.httpClient.post(this.bookUrl, booking);
+  }
+
+  updateRestaurantStatus(id: number) {
+    return this.httpClient.post(this.baseUrl + '', id);
   }
 }

@@ -28,10 +28,11 @@ export class RestaurantDetailComponent implements OnInit {
       this.restaurants.push(restaurant);
     }, error => console.log(error));
   }
-
+  
   async bookRestaurant(id: number) {
     this.restaurantService.getRestaurantById(id).subscribe((restaurant) => {
       try {
+        this.restaurantService.updateRestaurantStatus(id);
         const booked = this.createBooking(restaurant);
         const navigationExtras: NavigationExtras = { state: booked };
         this.router.navigate(['booking', 'success'],  navigationExtras);

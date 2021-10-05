@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { Basket, IBasket, IBasketItem, IBasketTotals } from '../shared/models/basket';
+import { Basket, IBasket, IBasketItem, IBasketMealItem, IBasketTotals } from '../shared/models/basket';
 import { IDeliveryMethod } from '../shared/models/deliveryMethod';
 import { IFood } from '../shared/models/food';
 import { IMeal } from '../shared/models/meal';
@@ -89,10 +89,28 @@ export class BasketService {
     return items;
   }
   
+  private addOrUpdateMealItem(items: IBasketMealItem[], itemToAdd: IBasketMealItem, quantity: number): IBasketMealItem[] {
+    const index = items.findIndex(i => i.id === itemToAdd.id);
+    if (index === -1) {
+      itemToAdd.mealQuantity = quantity;
+      items.push(itemToAdd);
+    } else {
+      items[index].mealQuantity += quantity;
+    }
+    return items;
+  }
+
   incrementItemQuantity(item: IBasketItem) {
     const basket = this.getCurrentBasketValue();
     const foundItemIndex = basket.items.findIndex(x => x.id === item.id);
     basket.items[foundItemIndex].quantity++;
+    this.setBasket(basket);
+  }
+  
+  incrementMealItemQuantity(item: IBasketMealItem) {
+    const basket = this.getCurrentBasketValue();
+    const foundItemIndex = basket.mealItems.findIndex(x => x.id === item.id);
+    basket.mealItems[foundItemIndex].mealQuantity++;
     this.setBasket(basket);
   }
 
@@ -107,11 +125,34 @@ export class BasketService {
     }
   }
 
+  decrementMealItemQuantity(item: IBasketMealItem) {
+    const basket = this.getCurrentBasketValue();
+    const foundItemIndex = basket.mealItems.findIndex(x => x.id === item.id);
+    if (basket.mealItems[foundItemIndex].mealQuantity > 1) {
+      basket.mealItems[foundItemIndex].mealQuantity--;
+      this.setBasket(basket);
+    } else {
+      this.removeMealItemFromBasket(item);
+    }
+  }
+
   removeItemFromBasket(item: IBasketItem) {
     const basket = this.getCurrentBasketValue();
     if (basket.items.some(x => x.id === item.id)) {
       basket.items = basket.items.filter(i => i.id !== item.id);
       if (basket.items.length > 0) {
+        this.setBasket(basket);
+      } else {
+        this.deleteBasket(basket); 
+      }
+    }
+  }
+   
+  removeMealItemFromBasket(item: IBasketMealItem) {
+    const basket = this.getCurrentBasketValue();
+    if (basket.mealItems.some(x => x.id === item.id)) {
+      basket.mealItems = basket.mealItems.filter(i => i.id !== item.id);
+      if (basket.mealItems.length > 0) {
         this.setBasket(basket);
       } else {
         this.deleteBasket(basket); 
@@ -168,4 +209,13 @@ export class BasketService {
     const total = subtotal + shipping;
     this.basketTotalSource.next({shipping, total, subtotal});
   }
+
+   private mealCalculateTotals() {
+    const basket = this.getCurrentBasketValue();
+    const shipping = this.shipping;
+    const subtotal = basket.mealItems.reduce((a, b) => (b.mealPrice * b.mealQuantity) + a, 0);
+    const total = subtotal + shipping;
+    this.basketTotalSource.next({shipping, total, subtotal});
+  }
+
 }
