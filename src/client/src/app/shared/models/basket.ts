@@ -25,9 +25,9 @@ export interface IBasketMealItem {
 }
 
 export class Basket implements IBasket {
-     id = Number(uuidv4());
-    items: IBasketItem[] = [];
-    mealItems: IBasketMealItem[] =  [];
+     id = 5
+     items: IBasketItem[] = [];
+     mealItems: IBasketMealItem[] =  [];
 }
 
 export interface IBasketTotals {
