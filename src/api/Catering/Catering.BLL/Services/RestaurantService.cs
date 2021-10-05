@@ -47,5 +47,11 @@ namespace Catering.BLL.Services
             _repository.Update(restaurant);
             await UnitOfWork.SaveChangeAsync();
         }
+
+        public async Task UpdateRestaurantStatus(Restaurant restaurant)
+        {
+            restaurant.IsAvailableForBooking = false;
+            await UnitOfWork.SaveChangeAsync();
+        }
     }
 }

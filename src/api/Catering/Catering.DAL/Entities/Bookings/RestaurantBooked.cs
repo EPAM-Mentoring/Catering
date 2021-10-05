@@ -9,7 +9,9 @@
 
         public RestaurantBooked(int restaurantBookedId, string restaurantName, string pictureUrl)
         {
-
+            RestaurantBookedId = restaurantBookedId;
+            RestaurantName = restaurantName;
+            PictureUrl = pictureUrl;
         }
 
         public int RestaurantBookedId { get; set; }

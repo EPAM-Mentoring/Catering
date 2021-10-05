@@ -28,7 +28,7 @@ namespace Catering.BLL.Services
         public async Task<CustomerBasket> UpdateBasketAsync(CustomerBasket basket)
         {
             _repository.Update(basket);
-
+           
             try
             {
                 await UnitOfWork.SaveChangeAsync();

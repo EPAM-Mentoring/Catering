@@ -15,20 +15,31 @@ namespace Catering.BLL.Services
     {
         private readonly IRepository<Booking> _repository;
 
-        public BookingService(IRepository<Booking> repository, 
+        public BookingService(IRepository<Booking> repository,
               IUnitOfWork unitOfWork) : base(unitOfWork)
         {
             _repository = repository;
         }
 
-        public async Task<Booking> CreateBooking(string customerEmail)
+        public async Task<Booking> CreateBooking(string customerEmail, int restaurantId)
         {
+            //var bookingOrder = await _bookingOrderRepository.GetAsync(bookingOrderId);
+            var res = await UnitOfWork.Repository<Restaurant>().GetAsync(restaurantId);
             var items = new List<BookingItem>();
+            
+            /*foreach(var item in bookingOrder.Items)
+            {
+                var restaurantItem = await UnitOfWork.Repository<Restaurant>().GetAsync(item.Id);
+                var itemBooked = new RestaurantBooked(restaurantItem.Id, restaurantItem.Name, restaurantItem.PictureUrl);
+                var bookingItem = new BookingItem(itemBooked, restaurantItem.OpenTime, restaurantItem.CloseTime);
+                items.Add(bookingItem);
+            } */
 
             var booking = new Booking(items, customerEmail);
             _repository.Add(booking);
 
             await UnitOfWork.SaveChangeAsync();
+
             return booking;
         }
 

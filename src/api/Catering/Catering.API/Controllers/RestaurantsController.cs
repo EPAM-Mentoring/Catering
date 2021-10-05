@@ -77,6 +77,21 @@ namespace Catering.API.Controllers
             await _service.DeleteRestaurant(restFromRepo);
             return NoContent();
         }
+
+        [HttpPost("{id}")]
+        public async Task<IActionResult> ChangeRestaurantStatus(int id)
+        {
+            var restaurant = await _service.GetRestaurant(id);
+
+            if(restaurant == null)
+            {
+                return NotFound();
+            }
+
+            await _service.UpdateRestaurantStatus(restaurant);
+
+            return Ok();
+        }
     }
 
 }

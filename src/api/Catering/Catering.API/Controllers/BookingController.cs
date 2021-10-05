@@ -27,11 +27,11 @@ namespace Catering.API.Controllers
         }
         
         [HttpPost]
-        public async Task<ActionResult<Booking>> CreateBooking()
+        public async Task<ActionResult<Booking>> CreateBooking(BookingDto bookingDto)
         {
             var email = HttpContext.User.RetrieveEmailFromPrincipal();
 
-            var booking = await _service.CreateBooking(email);
+            var booking = await _service.CreateBooking(email, bookingDto.RestaurantId);
 
             if(booking == null)  return BadRequest(new ApiResponse(400, "Problem creating Booking"));
 

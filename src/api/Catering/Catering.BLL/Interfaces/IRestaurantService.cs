@@ -18,5 +18,7 @@ namespace Catering.BLL.Interfaces
         public Task DeleteRestaurant(Restaurant restaurant);
 
         public Task UpdateRestaurant(Restaurant restaurant);
+
+        public Task UpdateRestaurantStatus(Restaurant restaurant);
     }
 }

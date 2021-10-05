@@ -9,7 +9,7 @@ namespace Catering.BLL.Interfaces
 {
     public interface IBookingService 
     {
-        public Task<Booking> CreateBooking(string customerEmail);
+        public Task<Booking> CreateBooking(string customerEmail, int restaurantId);
 
         public Task<IReadOnlyList<Booking>> GetBookingsForUserAsync(string customerEmail);
 
