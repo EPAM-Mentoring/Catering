@@ -14,8 +14,8 @@ export class BookingsService {
   getBookingsForUser() {
     return this.http.get(this.baseUrl + 'booking');
   }
-
-  getBookingsDetailed(id: number) {
+  
+  getBookingsDetailed(id: string) {
     return this.http.get(this.baseUrl + 'booking/' + id);
   }
 }

@@ -42,7 +42,7 @@ export class CheckoutDeliveryComponent implements OnInit {
         .patchValue(basket.deliveryMethodId.toString());
     }
   }
-
+  
   setShippingPrice(deliveryMethod: IDeliveryMethod) {
     this.basketService.setShippingPrice(deliveryMethod);
   }

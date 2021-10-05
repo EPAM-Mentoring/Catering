@@ -5,10 +5,10 @@
         </div>
         <div class="col-6">
             <h3>{{restaurant.name}}</h3>
-            <p style="font-size: 2em;">Working hours from Monday to Sunday</p>
-            <p style="font-size: 2em;">{{restaurant.openTime}}</p>
-            <p style="font-size: 2em;">{{restaurant.closeTime}}</p>
-
+            <p style="font-size: 2em;">Address: {{restaurant.streetAddress}}</p>
+            <p style="font-size: 2em;">Opening Hours</p>
+            <p style="font-size: 2em;">{{restaurant.openTime}} - {{restaurant.closeTime}}</p>
+            
             <div *ngIf="restaurant.isAvailableForBooking">
              <div><i class="fa fa-check-circle fa-5x" style="color: green"></i></div>
               <div>
@@ -19,13 +19,13 @@
                 </div>
              </div>
         </div>
-
+        
            <div *ngIf="!restaurant.isAvailableForBooking">
             <div>
              <i class="fa fa-window-close fa-5x" style="color: red"></i> </div>
              <p class="mb-4">Our Restaurant has been booked for today </p>
             </div>
-
+        
             <div class="row mt-5">
               <div class="col-12 ml-3">
               </div>

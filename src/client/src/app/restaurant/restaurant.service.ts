@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { IBookingToCreate } from '../shared/models/booking';
 import { IRestaurant } from '../shared/models/restaurant';
 
 @Injectable({
@@ -9,10 +10,18 @@ import { IRestaurant } from '../shared/models/restaurant';
 })
 export class RestaurantService {
   baseUrl = environment.apiUrl + 'restaurants/';
+  bookUrl = environment.apiUrl + 'booking';
+  private restaurantSource = new BehaviorSubject<IRestaurant>(null);
   
+  restaurants: IRestaurant[] = [];
+
   constructor(private httpClient: HttpClient) { }
   
-  getRestaurants():Observable<Array<IRestaurant>> {
+  getCurrentRestaurantValue(): IRestaurant {
+    return this.restaurantSource.getValue();
+  }
+
+  getRestaurants(): Observable<Array<IRestaurant>> {
      return this.httpClient.get<Array<IRestaurant>>(this.baseUrl + "getAll");
   }
 
@@ -30,5 +39,9 @@ export class RestaurantService {
 
   deleteRestaurantById(id:number):Observable<IRestaurant> {
     return this.httpClient.delete<IRestaurant>(this.baseUrl + id);
+  }
+
+   createBooking(booking: IBookingToCreate) {
+     return this.httpClient.post(this.bookUrl, booking);
   }
 }

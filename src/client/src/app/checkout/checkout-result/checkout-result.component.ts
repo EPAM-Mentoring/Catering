@@ -24,7 +24,7 @@ export class CheckoutResultComponent implements OnInit {
     }
     this.success = this.activeRoute.snapshot.params['success'];
     console.log('sucess : ', this.success);
-
+    
     if (this.success) {
       console.log("order: ", this.order);
       if (this.order != null && this.order != undefined) {

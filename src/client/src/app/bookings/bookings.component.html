@@ -1,1 +1,20 @@
-<p>bookings works!</p>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-hover" style="cursor: pointer;">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Booking</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let booking of bookings" > 
+                        <th># {{booking.id}}</th>
+                        <td>{{booking.bookingDate | date: 'medium'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
