@@ -21,23 +21,45 @@ namespace Catering.API.Configuration
         public AutoMapperConfig()
         {
             CreateMap<AddressDto, DAL.Entities.Order.Address>();
+
             CreateMap<DAL.Entities.Auth.Address, AddressDto>().ReverseMap();
+
             CreateMap<FoodShop, FoodShopDto>().ReverseMap();
+
             CreateMap<FoodShopCreateDto, FoodShop>().ReverseMap();
+
             CreateMap<Food, FoodDto>().ReverseMap();
+
             CreateMap<FoodCreateDto, Food>().ReverseMap() ;
+
             CreateMap<FoodUpdateDto, Food>().ReverseMap();
+
             CreateMap<Meal, MealDto>().ReverseMap();
+
             CreateMap<MealCreateDto, Meal>().ReverseMap();
+
             CreateMap<MealUpdateDto, Meal>().ReverseMap();
+
             CreateMap<Restaurant, RestaurantDto>().ReverseMap();
+
             CreateMap<RestaurantCreateDto, Restaurant>().ReverseMap();
+
             CreateMap<BasketItemDto, BasketItem>();
+
+            CreateMap<MealBasketItemDto, MealBasketItem>();
+
             CreateMap<CustomerBasketDto, CustomerBasket>();
+
             CreateMap<Order, OrderToReturnDto>();
+
             CreateMap<OrderItem, OrderItemDto>();
+
+            CreateMap<MealOrderItem, MealOrderItemDto>();
+
             CreateMap<Booking, BookingToReturnDto>();
+
             CreateMap<BookingItem, BookingItemDto>();
+
             CreateMap<UserDto, User>()
                 .ForMember(u => u.UserName, opt => opt.MapFrom(ur => ur.Email));
         }

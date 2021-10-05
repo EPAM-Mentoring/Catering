@@ -4,6 +4,7 @@ using Catering.DAL.DbContexts;
 using Catering.DAL.Entities.Basket;
 using Catering.DAL.Entities.FoodShops;
 using Catering.DAL.Entities.Order;
+using Catering.DAL.Entities.Restaurnt;
 using Catering.DAL.Specification;
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,8 @@ namespace Catering.BLL.Services
 
             var items = new List<OrderItem>();
 
+            var mealItems = new List<MealOrderItem>();
+
             foreach(var item in basket.Items)
             {
                 var foodItem = await UnitOfWork.Repository<Food>().GetAsync(item.Id);
@@ -39,11 +42,19 @@ namespace Catering.BLL.Services
                 items.Add(orderItem);
             }
 
+            foreach(var item in basket.MealItems)
+            {
+                var mealItem = await UnitOfWork.Repository<Meal>().GetAsync(item.Id);
+                var mealItemOrdered = new MealItemOrdered(mealItem.Id, mealItem.MealName, mealItem.PictureUrl);
+                var mealOrderItem = new MealOrderItem(mealItemOrdered, mealItem.Price, item.MealQuantity);
+                mealItems.Add(mealOrderItem);
+            }
+
             var deliveryMethod = await UnitOfWork.Repository<DeliveryMethod>().GetAsync(delieveryMethodId);
 
             var subtotal = items.Sum(item => item.Price * item.Quantity);
 
-            var order = new Order(items, buyerEmail, shippingAddress, deliveryMethod, subtotal);
+            var order = new Order(items, mealItems,  buyerEmail, shippingAddress, deliveryMethod, subtotal);
 
             _repository.Add(order);
 

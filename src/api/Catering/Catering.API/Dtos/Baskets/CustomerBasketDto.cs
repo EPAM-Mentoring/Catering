@@ -15,6 +15,8 @@ namespace Catering.API.Dtos
 
         public List<BasketItemDto> Items { get; set; }
 
+        public List<MealBasketItemDto> MealItems { get; set; }
+
         public decimal ShippingPrice { get; set; }
     }
 }

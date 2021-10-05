@@ -18,7 +18,7 @@ namespace Catering.API.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         public async Task<ActionResult<CustomerBasket>> GetBasket(int id)
         {
             var basketEntity = await _service.GetBasketAsync(id);

@@ -12,6 +12,8 @@ namespace Catering.DAL.Entities.Basket
       
         public List<BasketItem> Items { get; set; } = new List<BasketItem>();
 
+        public List<MealBasketItem> MealItems { get; set; } = new List<MealBasketItem>();
+
         public decimal ShippingPrice { get; set; }
     }
 }

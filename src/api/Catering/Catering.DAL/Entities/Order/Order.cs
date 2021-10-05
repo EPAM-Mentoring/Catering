@@ -12,11 +12,12 @@ namespace Catering.DAL.Entities.Order
         {
         }
 
-        public Order(IReadOnlyList<OrderItem> orderItems, string buyerEmail, Address shipToAddress, DeliveryMethod deliveryMethod,
+        public Order(IReadOnlyList<OrderItem> orderItems, IReadOnlyList<MealOrderItem> mealOrderItems, string buyerEmail, Address shipToAddress, DeliveryMethod deliveryMethod,
             decimal subtotal)
         {
             BuyerEmail = buyerEmail;
             OrderItems = orderItems;
+            MealOrderItems = mealOrderItems;
             Subtotal = subtotal;
             ShipToAddress = shipToAddress;
             DeliveryMethod = deliveryMethod;
@@ -31,6 +32,8 @@ namespace Catering.DAL.Entities.Order
         public DateTimeOffset OrderDate { get; set; } = DateTimeOffset.Now;
 
         public IReadOnlyList<OrderItem> OrderItems { get; set; }
+
+        public IReadOnlyList<MealOrderItem> MealOrderItems { get; set; }
 
         public decimal Subtotal { get; set; }
 
