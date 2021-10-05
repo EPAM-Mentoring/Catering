@@ -42,6 +42,7 @@ namespace Catering.API.Controllers
             return Ok(_mapper.Map<MealDto>(meal));
         }
 
+        [Authorize("Admin")]
         [HttpPost("create/{restaurantId}")]
         public async Task<ActionResult<MealDto>> CreateMeal(int restaurantId, MealCreateDto createDto)
         {

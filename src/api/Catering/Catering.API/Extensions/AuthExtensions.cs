@@ -20,7 +20,7 @@ namespace Catering.API.Extensions
             var builder = services.AddIdentityCore<User>();
 
             builder = new IdentityBuilder(builder.UserType, builder.Services);
-            builder.AddEntityFrameworkStores<CateringDbContext>();
+            builder.AddEntityFrameworkStores<CateringDbContext>().AddDefaultTokenProviders(); ;
 
             builder.AddSignInManager<SignInManager<User>>();
 

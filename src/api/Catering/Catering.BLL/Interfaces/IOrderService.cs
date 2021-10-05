@@ -16,5 +16,7 @@ namespace Catering.BLL.Interfaces
         Task<Order> GetOrderByIdAsync(int id, string buyerEmail);
 
         Task<IReadOnlyList<DeliveryMethod>> GetDeliveryMethodsAsync();
+
+        Task SetIsPaid(int orderId);
     }
 }

@@ -12,27 +12,35 @@ namespace Catering.API.Extensions
     {
         public static IServiceCollection AddSwaggerDocumentation(this IServiceCollection services)
         {
-            services.AddSwaggerGen(c =>
+            services.AddSwaggerGen(options =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Catering", Version = "v1" });
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = "Catering", Version = "v1" });
 
-                var securitySchema = new OpenApiSecurityScheme
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
-                    Description = "JWT Auth Bearer Scheme",
+                    Description = "JWT containing userid claim",
                     Name = "Authorization",
                     In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.Http,
-                    Scheme = "Bearer",
-                    Reference = new OpenApiReference
-                    {
-                        Type = ReferenceType.SecurityScheme,
-                        Id = "Bearer"
-                    }
-                };
+                    Type = SecuritySchemeType.ApiKey,
+                });
 
-                c.AddSecurityDefinition("Bearer", securitySchema);
-                var securityRequirement = new OpenApiSecurityRequirement { { securitySchema, new[] { "Bearer" } } };
-                c.AddSecurityRequirement(securityRequirement);
+                var security =
+                    new OpenApiSecurityRequirement
+                    {
+                        {
+                            new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Id = "Bearer",
+                                    Type = ReferenceType.SecurityScheme
+                                },
+                                UnresolvedReference = true
+                            },
+                            new List<string>()
+                        }
+                    };
+                options.AddSecurityRequirement(security);
             });
 
             return services;

@@ -67,5 +67,11 @@ namespace Catering.API.Controllers
         {
             return Ok(await _orderService.GetDeliveryMethodsAsync());
         }
+
+        [HttpPost("mark-paid")]
+        public async Task<ActionResult> MarkIsPaid([FromBody] MarkPaidDto markPaidOrder)
+        {
+            return Ok(await _orderService.SetIsPaid(markPaidOrder.OrderId));
+        }
     }
 }
