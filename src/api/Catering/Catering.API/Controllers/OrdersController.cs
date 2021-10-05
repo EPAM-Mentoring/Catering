@@ -71,7 +71,9 @@ namespace Catering.API.Controllers
         [HttpPost("mark-paid")]
         public async Task<ActionResult> MarkIsPaid([FromBody] MarkPaidDto markPaidOrder)
         {
-            return Ok(await _orderService.SetIsPaid(markPaidOrder.OrderId));
+            await _orderService.SetIsPaid(markPaidOrder.OrderId);
+
+            return Ok();
         }
     }
 }

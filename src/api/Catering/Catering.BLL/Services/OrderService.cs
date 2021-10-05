@@ -82,11 +82,15 @@ namespace Catering.BLL.Services
             return await UnitOfWork.Repository<Order>().ListAsync(spec);
         }
 
-        public async Task  SetIsPaid(int orderId)
+        public async Task SetIsPaid(int orderId)
         {
             var order = await _repository.GetAsync(orderId);
-
             order.Status = OrderStatus.PaymentReceived;
+
+             await UnitOfWork.SaveChangeAsync();
+
+            //return result == 1;
         }
+
     }
 }
