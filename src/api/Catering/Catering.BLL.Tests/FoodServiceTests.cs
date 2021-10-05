@@ -33,6 +33,7 @@ namespace Catering.BLL.Tests
             _foodRepositoryMock.Setup(c => c.GetListAsync()).ReturnsAsync(foods);
 
             var result = await _foodService.GetFoods();
+
             Assert.NotNull(result);
             Assert.IsType<List<Food>>(result);
         }
@@ -46,6 +47,17 @@ namespace Catering.BLL.Tests
             var result = await _foodService.GetFoods();
 
             Assert.Null(result);
+        }
+
+        [Fact]
+        public async void GetAll_ShouldCallGetAllFromRepository_OnlyOnce()
+        {
+            _foodRepositoryMock.Setup(c => c.GetListAsync())
+                .ReturnsAsync(new List<Food>());
+
+            await _foodService.GetFoods();
+
+            _foodRepositoryMock.Verify(mock => mock.GetListAsync(), Times.Once);
         }
 
         [Fact]
@@ -98,15 +110,35 @@ namespace Catering.BLL.Tests
         }
 
         [Fact]
+        public async void Add_ShouldCallAddFromRepository_OnlyOnce()
+        {
+            var food = CreateFood();
+
+            _foodRepositoryMock.Setup(c => c.Add(food));
+
+            await _foodService.AddFood(2, food);
+
+            _foodRepositoryMock.Verify(mock => mock.Add(food), Times.Once);
+        }
+
+        [Fact]
         public  void Update_ShouldUpdateFood_WhenDoesNotExist()
         {
             var food = CreateFood();
 
-            _foodRepositoryMock.Setup(c => c.Update(food));
-
             var result = _foodService.UpdateFood(food);
 
             Assert.NotNull(result);
+        }
+
+        [Fact]
+        public async void Update_ShouldCallAddFromRepository_OnlyOnce()
+        {
+            var food = CreateFood();
+
+            await _foodService.UpdateFood(food);
+
+            _foodRepositoryMock.Verify(mock => mock.Update(food), Times.Once);
         }
 
         [Fact]
@@ -119,6 +151,16 @@ namespace Catering.BLL.Tests
             var result =  _foodService.DeleteFood(food);
 
             Assert.NotNull(result);
+        }
+
+        [Fact]
+        public async void Remove_ShouldCallRemoveFromRepository_OnlyOnce()
+        {
+            var food = CreateFood();
+
+            await _foodService.DeleteFood(food);
+
+            _foodRepositoryMock.Verify(mock => mock.Delete(food), Times.Once);
         }
 
         private Food CreateFood()

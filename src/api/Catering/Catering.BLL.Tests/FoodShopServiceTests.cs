@@ -49,6 +49,17 @@ namespace Catering.BLL.Tests
         }
 
         [Fact]
+        public async void GetAll_ShouldCallGetAllFromRepository_OnlyOnce()
+        {
+            _foodShopRepositoryMock.Setup(c =>
+                c.GetListAsync()).ReturnsAsync((List<FoodShop>)null);
+
+            await _foodShopService.GetFoodShops();
+
+            _foodShopRepositoryMock.Verify(mock => mock.GetListAsync(), Times.Once);
+        }
+
+        [Fact]
         public async void GetById_ShouldReturnFoodShop_WhenFoodShopExist()
         {
             var foodShop = CreateFoodShop();
@@ -96,6 +107,22 @@ namespace Catering.BLL.Tests
         }
 
         [Fact]
+        public async void Add_ShouldCallAddFromRepository_OnlyOnce()
+        {
+            var foodShop = CreateFoodShop();
+
+            _foodShopRepositoryMock.Setup(c => c.Add(foodShop));
+
+            _foodShopRepositoryMock.Setup(c =>
+                    c.GetListAsync())
+                .ReturnsAsync(new List<FoodShop>());
+
+            await _foodShopService.AddFoodShop(foodShop);
+
+            _foodShopRepositoryMock.Verify(mock => mock.Add(foodShop), Times.Once);
+        }
+
+        [Fact]
         public void Update_ShouldUpdateFoodShop_WhenDoesExist()
         {
             var foodShop = CreateFoodShop();
@@ -108,6 +135,40 @@ namespace Catering.BLL.Tests
         }
 
         [Fact]
+        public async void Update_ShouldCallUpdateFromRepository_OnlyOnce()
+        {
+            var foodShop = CreateFoodShop();
+
+            _foodShopRepositoryMock.Setup(c => c.GetListAsync())
+                .ReturnsAsync(new List<FoodShop>());
+
+            await _foodShopService.UpdateFoodShop(foodShop);
+
+            _foodShopRepositoryMock.Verify(mock => mock.Update(foodShop), Times.Once);
+        }
+
+        [Fact]
+        public void Remove_ShouldNotRemove_WhenHasRelated()
+        {
+            var foodShop = CreateFoodShop();
+
+            var foods = new List<Food>()
+            {
+                new Food()
+                {
+                    Id = 1,
+                    FoodName = "FoodShop 1",
+                    Description = "Description 1",
+                    FoodShopId = foodShop.Id
+                }
+            };
+
+            var result = _foodShopService.DeleteFoodShop(foodShop);
+
+            Assert.IsAssignableFrom<Task>(result);
+        }
+
+        [Fact]
         public void Remove_ShouldRemoveFoodShop_WhenFoodShopExists()
         {
             var foodShop = CreateFoodShop();
@@ -117,6 +178,16 @@ namespace Catering.BLL.Tests
             var result = _foodShopService.DeleteFoodShop(foodShop);
 
             Assert.NotNull(result);
+        }
+
+        [Fact]
+        public async void Remove_ShouldCallRemoveFromRepository_OnlyOnce()
+        {
+            var foodShop = CreateFoodShop();
+
+            await _foodShopService.DeleteFoodShop(foodShop);
+
+            _foodShopRepositoryMock.Verify(mock => mock.Delete(foodShop), Times.Once);
         }
 
         private FoodShop CreateFoodShop()

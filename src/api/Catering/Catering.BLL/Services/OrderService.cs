@@ -71,7 +71,5 @@ namespace Catering.BLL.Services
             return await UnitOfWork.Repository<Order>().ListAsync(spec);
         }
 
-        
-
     }
 }

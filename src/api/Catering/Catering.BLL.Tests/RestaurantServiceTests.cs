@@ -135,6 +135,40 @@ namespace Catering.BLL.Tests
         }
 
         [Fact]
+        public async void Update_ShouldCallUpdateFromRepository_OnlyOnce()
+        {
+            var restaurant = CreateRestaurant();
+
+            _restaurantRepositoryMock.Setup(c => c.GetListAsync())
+                .ReturnsAsync(new List<Restaurant>());
+
+            await _restaurantService.UpdateRestaurant(restaurant);
+
+            _restaurantRepositoryMock.Verify(mock => mock.Update(restaurant), Times.Once);
+        }
+
+        [Fact]
+        public void Remove_ShouldNotRemove_WhenHasRelated()
+        {
+            var restaurant = CreateRestaurant();
+
+            var meals = new List<Meal>()
+            {
+                new Meal()
+                {
+                    Id = 1,
+                    MealName = "Meal 1",
+                    Description = "Description 1",
+                    RestaurantId = restaurant.Id
+                }
+            };
+
+            var result =  _restaurantService.DeleteRestaurant(restaurant);
+
+            Assert.IsAssignableFrom<Task>(result);
+        }
+
+        [Fact]
         public void Remove_ShouldRemoveRestaurant_WhenRestaurantExists()
         {
             var restaurant = CreateRestaurant();
@@ -144,6 +178,16 @@ namespace Catering.BLL.Tests
             var result = _restaurantService.DeleteRestaurant(restaurant);
 
             Assert.NotNull(result);
+        }
+
+        [Fact]
+        public async void Remove_ShouldCallRemoveFromRepository_OnlyOnce()
+        {
+            var restaurant = CreateRestaurant();
+
+            await _restaurantService.DeleteRestaurant(restaurant);
+
+            _restaurantRepositoryMock.Verify(mock => mock.Delete(restaurant), Times.Once);
         }
 
         private Restaurant CreateRestaurant()

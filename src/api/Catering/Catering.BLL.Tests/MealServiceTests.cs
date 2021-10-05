@@ -49,6 +49,17 @@ namespace Catering.BLL.Tests
         }
 
         [Fact]
+        public async void GetAll_ShouldCallGetAllFromRepository_OnlyOnce()
+        {
+            _mealRepositoryMock.Setup(c => c.GetListAsync())
+                .ReturnsAsync(new List<Meal>());
+
+            await _mealService.GetMeals();
+
+            _mealRepositoryMock.Verify(mock => mock.GetListAsync(), Times.Once);
+        }
+
+        [Fact]
         public async void GetById_ShouldReturnMeal_WhenMealExist()
         {
             var meal = CreateMeal();
@@ -97,6 +108,18 @@ namespace Catering.BLL.Tests
         }
 
         [Fact]
+        public async void Add_ShouldCallAddFromRepository_OnlyOnce()
+        {
+            var meal = CreateMeal();
+
+            _mealRepositoryMock.Setup(c => c.Add(meal));
+
+            await _mealService.AddMeal(1, meal);
+
+            _mealRepositoryMock.Verify(mock => mock.Add(meal), Times.Once);
+        }
+
+        [Fact]
         public void Update_ShouldUpdateFMeal_WhenDoesExist()
         {
             var meal= CreateMeal();
@@ -109,6 +132,16 @@ namespace Catering.BLL.Tests
         }
 
         [Fact]
+        public async void Update_ShouldCallAddFromRepository_OnlyOnce()
+        {
+            var meal = CreateMeal();
+
+            await _mealService.UpdateMeal(meal);
+
+            _mealRepositoryMock.Verify(mock => mock.Update(meal), Times.Once);
+        }
+
+        [Fact]
         public void Remove_ShouldRemoveMeal_WhenMealExists()
         {
             var meal = CreateMeal();
@@ -118,6 +151,17 @@ namespace Catering.BLL.Tests
             var result = _mealService.DeleteMeal(meal);
 
             Assert.NotNull(result);
+        }
+
+
+        [Fact]
+        public async void Remove_ShouldCallRemoveFromRepository_OnlyOnce()
+        {
+            var meal = CreateMeal();
+
+            await _mealService.DeleteMeal(meal);
+
+            _mealRepositoryMock.Verify(mock => mock.Delete(meal), Times.Once);
         }
 
         private Meal CreateMeal()
