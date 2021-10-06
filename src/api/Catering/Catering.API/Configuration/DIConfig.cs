@@ -1,5 +1,4 @@
-﻿using Catering.API.Integrations;
-using Catering.BLL.Interfaces;
+﻿using Catering.BLL.Interfaces;
 using Catering.BLL.Services;
 using Catering.DAL;
 using Catering.DAL.DbContexts;
@@ -48,8 +47,6 @@ namespace Catering.API.Configuration
             services.AddScoped<IFoodShopService, FoodShopService>();
 
             services.AddScoped<IOrderService, OrderService>();
-
-            services.AddScoped<IPaymentService, PaymentService>();
 
             services.AddScoped<IBookingService, BookingService>();
 

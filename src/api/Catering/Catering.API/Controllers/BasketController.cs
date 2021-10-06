@@ -2,11 +2,13 @@
 using Catering.API.Dtos;
 using Catering.BLL.Interfaces;
 using Catering.DAL.Entities.Basket;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace Catering.API.Controllers
 {
+    [Authorize]
     public class BasketController : BaseApiController
     {
         private readonly IBasketService _service;

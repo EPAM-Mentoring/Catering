@@ -9,6 +9,7 @@ using Catering.DAL.DbContexts;
 using Catering.DAL.Entities.Auth;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +24,6 @@ using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 
-
 namespace Catering.API
 {
     public class Startup
@@ -35,13 +35,8 @@ namespace Catering.API
 
         private readonly IConfiguration Configuration;
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.Configure<JwtSettings>(Configuration.GetSection("Jwt"));
-            //var jwtSettings = Configuration.GetSection("Jwt").Get<JwtSettings>();
-
-            //services.AddAuth(jwtSettings);
             services.AddAutoMapper(typeof(Startup));
             services.AddControllers().AddNewtonsoftJson();
 
@@ -52,19 +47,9 @@ namespace Catering.API
             services.AddScoped<IWebApiClient, WebApiClient>();
             services.ResolveDependencies();
             services.AddAuth(Configuration);
-            services.Configure<PaymentServiceOptions>(Configuration.GetSection(PaymentServiceOptions.Section));
+  
             services.Configure<ReserveServiceOptions>(Configuration.GetSection(ReserveServiceOptions.Section));
-            //services.AddIdentity<User, Role>(options =>
-            //{
-            //    options.Password.RequiredLength = 8;
-            //    options.Password.RequireNonAlphanumeric = true;
-            //    options.Password.RequireUppercase = true;
-            //    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1d);
-            //    options.Lockout.MaxFailedAccessAttempts = 5;
-            //})
-            //  .AddEntityFrameworkStores<CateringDbContext>()
-            //    .AddDefaultTokenProviders();
-
+   
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy", builder => builder.WithOrigins("https://catering-frontend.azurewebsites.net", "http://localhost:4200")

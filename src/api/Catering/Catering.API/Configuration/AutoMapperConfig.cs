@@ -2,10 +2,13 @@
 using Catering.API.Dtos;
 using Catering.API.Dtos.Auth;
 using Catering.API.Dtos.Booking;
+using Catering.API.Dtos.Buildings;
 using Catering.API.Dtos.Order;
+using Catering.BLL.Contracts.Reserve;
 using Catering.DAL.Entities.Auth;
 using Catering.DAL.Entities.Basket;
 using Catering.DAL.Entities.Bookings;
+using Catering.DAL.Entities.Buildings;
 using Catering.DAL.Entities.FoodShops;
 using Catering.DAL.Entities.Order;
 using Catering.DAL.Entities.Restaurnt;
@@ -57,6 +60,8 @@ namespace Catering.API.Configuration
             CreateMap<MealOrderItem, MealOrderItemDto>();
 
             CreateMap<Booking, BookingToReturnDto>();
+
+            CreateMap<ReserveResponse, BuildingDto>();
 
             CreateMap<BookingItem, BookingItemDto>();
 

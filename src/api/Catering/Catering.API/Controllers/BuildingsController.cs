@@ -30,8 +30,9 @@ namespace Catering.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var building = await _service.GetById(id);
-            return Ok(_mapper.Map<BuildingDto>(building));
+            var result = await _service.GetById(id);
+
+            return Ok(_mapper.Map<string>(result));
         }
     }
 }

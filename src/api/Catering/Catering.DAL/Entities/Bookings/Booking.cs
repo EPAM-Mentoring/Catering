@@ -20,8 +20,8 @@ namespace Catering.DAL.Entities.Bookings
             BookingItems = bookingItems;
         }
 
-        public IReadOnlyList<BookingItem> BookingItems { get; set; } 
-
+        public IReadOnlyList<BookingItem> BookingItems { get; set; }
+       
         public string CustomerEmail { get; set; }
 
         public DateTime BookingDate { get; set; } = DateTime.Now;

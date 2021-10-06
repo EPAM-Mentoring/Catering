@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Catering.Common\Catering.Common.csproj" />
     <ProjectReference Include="..\Catering.DAL\Catering.DAL.csproj" />
   </ItemGroup>

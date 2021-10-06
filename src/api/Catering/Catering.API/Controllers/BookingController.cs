@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 
 namespace Catering.API.Controllers
 {
+    [Authorize]
     public class BookingController : BaseApiController
     {
         private readonly IBookingService _service;
@@ -39,12 +40,12 @@ namespace Catering.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<BookingDto>>> GetBookingsForUser()
+        public async Task<ActionResult<IReadOnlyList<BookingDto>>> GetBookingsForUser()
         {
             var email = HttpContext.User.RetrieveEmailFromPrincipal();
             var bookings = await _service.GetBookingsForUserAsync(email);
 
-            return Ok(_mapper.Map<IEnumerable<Booking>, IEnumerable<BookingToReturnDto>>(bookings));
+            return Ok(_mapper.Map<IReadOnlyList<Booking>, IReadOnlyList<BookingToReturnDto>>(bookings));
         }
 
         [HttpGet("{id}")]

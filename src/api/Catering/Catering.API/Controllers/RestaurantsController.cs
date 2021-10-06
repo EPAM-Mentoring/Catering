@@ -78,6 +78,7 @@ namespace Catering.API.Controllers
             return NoContent();
         }
 
+        [Authorize("Admin")]
         [HttpPost("{id}")]
         public async Task<IActionResult> ChangeRestaurantStatus(int id)
         {

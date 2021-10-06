@@ -2,7 +2,6 @@
 using Catering.API.Dtos.Order;
 using Catering.API.Errors;
 using Catering.API.Extensions;
-using Catering.API.Integrations;
 using Catering.BLL.Contracts.Payment;
 using Catering.BLL.Interfaces;
 using Catering.DAL.Entities.Order;

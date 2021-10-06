@@ -14,8 +14,9 @@ namespace Catering.BLL.Services
     public class BookingService : BaseService, IBookingService
     {
         private readonly IRepository<Booking> _repository;
+        private readonly IRepository<Restaurant> _restaurantRepo;
 
-        public BookingService(IRepository<Booking> repository,
+        public BookingService(IRepository<Booking> repository, IRepository<Restaurant> restaurantRepo,
               IUnitOfWork unitOfWork) : base(unitOfWork)
         {
             _repository = repository;
@@ -23,17 +24,10 @@ namespace Catering.BLL.Services
 
         public async Task<Booking> CreateBooking(string customerEmail, int restaurantId)
         {
-            //var bookingOrder = await _bookingOrderRepository.GetAsync(bookingOrderId);
-            var res = await UnitOfWork.Repository<Restaurant>().GetAsync(restaurantId);
+            var res = _restaurantRepo.GetAsync(restaurantId);
+            var rest  = await UnitOfWork.Repository<Restaurant>().GetAsync(res.Id);
             var items = new List<BookingItem>();
-            
-            /*foreach(var item in bookingOrder.Items)
-            {
-                var restaurantItem = await UnitOfWork.Repository<Restaurant>().GetAsync(item.Id);
-                var itemBooked = new RestaurantBooked(restaurantItem.Id, restaurantItem.Name, restaurantItem.PictureUrl);
-                var bookingItem = new BookingItem(itemBooked, restaurantItem.OpenTime, restaurantItem.CloseTime);
-                items.Add(bookingItem);
-            } */
+            items.Add(new BookingItem(new RestaurantBooked(rest.Id, rest.Name, rest.PictureUrl), rest.OpenTime, rest.CloseTime));
 
             var booking = new Booking(items, customerEmail);
             _repository.Add(booking);

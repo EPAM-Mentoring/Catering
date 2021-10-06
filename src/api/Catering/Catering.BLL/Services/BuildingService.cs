@@ -12,8 +12,8 @@ using System.Threading.Tasks;
 
 namespace Catering.BLL.Services
 {
-    public class BuildingService : IBuildingService
-    {
+	public class BuildingService : IBuildingService
+	{
 		private ReserveServiceOptions _serviceOptions;
 		private readonly IWebApiClient _webApiClient;
 
@@ -25,18 +25,18 @@ namespace Catering.BLL.Services
 			_serviceOptions = serviceOptions.Value;
 		}
 
-		public async Task<ReserveResponse> GetFreeBuildings()
+		public async Task<IList<ReserveResponse>> GetFreeBuildings()
 		{
-			var uri = new Uri(new Uri(_serviceOptions.Url), _serviceOptions.urlForBuild);
-			var freeBuilds = await _webApiClient.DoEmptyRequest<ReserveResponse>(HttpMethod.Get, uri);
+			var uri = new Uri(new Uri(_serviceOptions.Url), _serviceOptions.ActionUrl);
+			var freeBuilds = await _webApiClient.DoEmptyRequest<IList<ReserveResponse>>(HttpMethod.Get, uri);
 			return freeBuilds;
 		}
 
-		public async Task<ReserveResponse> GetById(int buildingId)
+		public async Task<string> GetById(int buildingId)
 		{
-			var myValue = new ReserveRequest() { BuildingId = buildingId };
-			var uri = new Uri(new Uri(_serviceOptions.Url), _serviceOptions.urlForBuild);
-			var build = await _webApiClient.DoRequest<ReserveRequest, ReserveResponse>(HttpMethod.Get, myValue, uri);
+			var action = string.Format(_serviceOptions.ActionUrlForBuild, buildingId, "TestNameCatering");
+			var uri = new Uri(new Uri(_serviceOptions.Url), action);
+			var build = await _webApiClient.DoEmptyRequest<string>(HttpMethod.Post, uri);
 			return build;
 		}
 	}
