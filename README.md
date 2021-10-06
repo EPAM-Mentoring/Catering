@@ -16,7 +16,7 @@ The Catering application is built according to the classic three-tier architectu
 
 The structure of the database is shown in the figure
 
-![restuml](https://user-images.githubusercontent.com/84620072/129891490-9916d92e-e974-4d80-bdac-dac134911ffc.png)
+![restuml](https://user-images.githubusercontent.com/84620072/136130715-6a3eb029-8f82-4e29-bb58-39ddfe121571.png)
 
 ### Back-end Application Description
 
