@@ -27,9 +27,6 @@
         <a class="dropdown-toggle" style="cursor: pointer" (click)=(showDropDown()) >
           <strong>Welcome {{(currentUser$ | async).displayName}}</strong>  
         </a>
-        <a routerLink="/orders" class="dropdown-item d-flex align-items-center py-2">
-          <i class="fa fa-history mr-3"></i> View Orders
-        </a>
         <a routerLink="/booking" class="dropdown-item d-flex align-items-center py-2">
           <i class="fa fa-history mr-3"></i> View Bookings
         </a>

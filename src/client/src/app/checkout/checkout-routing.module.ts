@@ -5,10 +5,12 @@ import { CheckoutComponent } from './checkout.component';
 import { CheckoutResultComponent } from './checkout-result/checkout-result.component';
 import { CheckoutDeliveryComponent } from './checkout-delivery/checkout-delivery.component';
 import { CheckoutReviewComponent } from './checkout-review/checkout-review.component';
+import { CheckoutSuccessComponent } from './checkout-success/checkout-success.component';
 
 const routes: Routes = [
   {path: 'address', component: CheckoutComponent},
-  {path: 'result/:success', component: CheckoutResultComponent},
+  {path: 'result', component: CheckoutResultComponent},
+  {path: 'success', component: CheckoutSuccessComponent},
   {path: 'delivery', component: CheckoutDeliveryComponent},
   {path: 'review', component: CheckoutReviewComponent}
 ]

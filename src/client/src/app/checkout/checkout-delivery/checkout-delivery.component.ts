@@ -34,7 +34,8 @@ export class CheckoutDeliveryComponent implements OnInit {
        deliveryForm: new FormControl()
     });
   }
-  
+
+
   getDeliveryMethodValue() {
     const basket = this.basketService.getCurrentBasketValue();
     if (basket.deliveryMethodId !== null) {

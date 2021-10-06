@@ -29,7 +29,7 @@ export class CheckoutComponent implements OnInit {
     const basket = this.basketService.getCurrentBasketValue();
     if (basket.deliveryMethodId !== null) {
       this.checkoutForm.get('deliveryForm').get('deliveryMethod')
-        .patchValue(basket.deliveryMethodId.toString());
+        .patchValue(basket?.deliveryMethodId?.toString());
     }
   }
   
@@ -44,7 +44,7 @@ export class CheckoutComponent implements OnInit {
         });
   }
   
-   createCheckoutForm() {
+    createCheckoutForm() {
     this.checkoutForm = this.fb.group({
       addressForm: this.fb.group({
         firstName: [null, Validators.required],

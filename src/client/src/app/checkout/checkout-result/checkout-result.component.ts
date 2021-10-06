@@ -13,8 +13,6 @@ import { IOrder } from 'src/app/shared/models/order';
 
 export class CheckoutResultComponent implements OnInit {
   order: IOrder;
-  public success: boolean = false;
-  basketTotals$: Observable<IBasketTotals>;
 
   constructor(private router: Router, private activeRoute: ActivatedRoute, private basketService: BasketService) {
     const navigation = this.router.getCurrentNavigation();
@@ -22,18 +20,9 @@ export class CheckoutResultComponent implements OnInit {
     if (state) {
       this.order = state as IOrder;
     }
-    this.success = this.activeRoute.snapshot.params['success'];
-    console.log('sucess : ', this.success);
-    
-    if (this.success) {
-      console.log("order: ", this.order);
-      if (this.order != null && this.order != undefined) {
-        this.order.status = 'paid';
-      }
-    }
   }
 
   ngOnInit(): void {
-      this.basketTotals$ = this.basketService.basketTotal$;
+      
   }
 }

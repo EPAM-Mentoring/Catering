@@ -7,10 +7,11 @@ import { CheckoutResultComponent } from './checkout-result/checkout-result.compo
 import { CheckoutDeliveryComponent } from './checkout-delivery/checkout-delivery.component';
 import { CheckoutReviewComponent } from './checkout-review/checkout-review.component';
 import { BasketSummaryModule } from '../shared/components/basket-summary/basket-summary.module';
+import { CheckoutSuccessComponent } from './checkout-success/checkout-success.component';
 
 
 @NgModule({
-  declarations: [CheckoutComponent, CheckoutResultComponent, CheckoutDeliveryComponent, CheckoutReviewComponent],
+  declarations: [CheckoutComponent, CheckoutResultComponent, CheckoutDeliveryComponent, CheckoutReviewComponent, CheckoutSuccessComponent],
   imports: [
     CommonModule,
     CheckoutRoutingModule,
