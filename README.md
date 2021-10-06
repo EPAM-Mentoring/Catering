@@ -6,7 +6,7 @@
 
 The Catering application is built according to the classic three-tier architecture and consists of the following components:
 
-![structure](https://user-images.githubusercontent.com/84620072/130059892-ff4e18e6-0b3b-4f41-9401-235d8a63c9f1.png)
+![restuml](https://user-images.githubusercontent.com/84620072/136130715-6a3eb029-8f82-4e29-bb58-39ddfe121571.png)
 
 - DB is a relational database that stores application state in tables.
 - Back-end Application is a separate .NET application that implements a web service.
