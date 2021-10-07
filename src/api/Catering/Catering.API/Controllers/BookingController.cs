@@ -15,7 +15,6 @@ using System.Threading.Tasks;
 
 namespace Catering.API.Controllers
 {
-    [Authorize]
     public class BookingController : BaseApiController
     {
         private readonly IBookingService _service;

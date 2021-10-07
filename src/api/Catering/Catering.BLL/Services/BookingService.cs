@@ -24,10 +24,10 @@ namespace Catering.BLL.Services
 
         public async Task<Booking> CreateBooking(string customerEmail, int restaurantId)
         {
-            var res = _restaurantRepo.GetAsync(restaurantId);
-            var rest  = await UnitOfWork.Repository<Restaurant>().GetAsync(res.Id);
+            var res = await UnitOfWork.Repository<Restaurant>().GetAsync(restaurantId);
+
             var items = new List<BookingItem>();
-            items.Add(new BookingItem(new RestaurantBooked(rest.Id, rest.Name, rest.PictureUrl), rest.OpenTime, rest.CloseTime));
+            items.Add(new BookingItem(new RestaurantBooked(res.Id, res.Name, res.PictureUrl), res.OpenTime, res.CloseTime));
 
             var booking = new Booking(items, customerEmail);
             _repository.Add(booking);
