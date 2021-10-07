@@ -52,7 +52,7 @@ namespace Catering.API
    
             services.AddCors(options =>
             {
-                options.AddPolicy("CorsPolicy", builder => builder.WithOrigins("https://catering-frontend.azurewebsites.net", "http://localhost:4200")
+                options.AddPolicy("CorsPolicy", builder => builder.AllowAnyOrigin()
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials()
